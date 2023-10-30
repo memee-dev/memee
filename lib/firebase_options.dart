@@ -44,40 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB_dOrY_L09IggdUlrKedJUvosBI9gI73g',
-    appId: '1:458698728419:web:6460d437462ac7f6a536d6',
-    messagingSenderId: '458698728419',
-    projectId: 'my-masjid-4cb75',
-    authDomain: 'my-masjid-4cb75.firebaseapp.com',
-    storageBucket: 'my-masjid-4cb75.appspot.com',
-    measurementId: 'G-E8F8BLNES2',
+    apiKey: 'AIzaSyC3tcjUVP82YKmxA9q7UpQy3uTog9wb-84',
+    appId: '1:999577280350:web:f4bb059ceeb151473f39cf',
+    messagingSenderId: '999577280350',
+    projectId: 'memee-v2',
+    authDomain: 'memee-v2.firebaseapp.com',
+    storageBucket: 'memee-v2.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAohRvBsJznGlbDh-TH6hnhHnyV1sa-wNc',
-    appId: '1:458698728419:android:2c5f26054d1b9c57a536d6',
-    messagingSenderId: '458698728419',
-    projectId: 'my-masjid-4cb75',
-    storageBucket: 'my-masjid-4cb75.appspot.com',
+    apiKey: 'AIzaSyA2YzEd4dWx01dOjIYK-RwshjreC52jgUE',
+    appId: '1:999577280350:android:a13e7e739f616f9e3f39cf',
+    messagingSenderId: '999577280350',
+    projectId: 'memee-v2',
+    storageBucket: 'memee-v2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAis524M4RswnaKgOQsIDMrK9kavJD6uJU',
-    appId: '1:458698728419:ios:02bb498348c00271a536d6',
-    messagingSenderId: '458698728419',
-    projectId: 'my-masjid-4cb75',
-    storageBucket: 'my-masjid-4cb75.appspot.com',
-    iosClientId: '458698728419-nl99hm11chftubupo6gg16odircum66o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.masjidApp',
+    apiKey: 'AIzaSyBqDnV8_JX4y4BL5C9UKMh7ic-R3v84DYA',
+    appId: '1:999577280350:ios:49b2194c5a2d0bb83f39cf',
+    messagingSenderId: '999577280350',
+    projectId: 'memee-v2',
+    storageBucket: 'memee-v2.appspot.com',
+    iosBundleId: 'com.example.memee',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAis524M4RswnaKgOQsIDMrK9kavJD6uJU',
-    appId: '1:458698728419:ios:e7a3e516cdd74449a536d6',
-    messagingSenderId: '458698728419',
-    projectId: 'my-masjid-4cb75',
-    storageBucket: 'my-masjid-4cb75.appspot.com',
-    iosClientId: '458698728419-p98jvdjbn1ieg6a17k7epj1loatcmf25.apps.googleusercontent.com',
-    iosBundleId: 'com.example.masjidApp.RunnerTests',
+    apiKey: 'AIzaSyBqDnV8_JX4y4BL5C9UKMh7ic-R3v84DYA',
+    appId: '1:999577280350:ios:49b2194c5a2d0bb83f39cf',
+    messagingSenderId: '999577280350',
+    projectId: 'memee-v2',
+    storageBucket: 'memee-v2.appspot.com',
+    iosBundleId: 'com.example.memee',
   );
 }
