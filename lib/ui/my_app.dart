@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: BlocBuilder<ThemeCubit, ThemeData>(
-          builder: (_, state) {
+          builder: (_, themeState) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               title: AppStrings.appName,
-              theme: state,
+              theme: themeState,
               routerDelegate: appRouter.routerDelegate,
               routeInformationParser: appRouter.routeInformationParser,
             );
