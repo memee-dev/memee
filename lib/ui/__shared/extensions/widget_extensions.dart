@@ -28,6 +28,10 @@ extension Template on Widget {
         children: [this, SizedBox(height: value)]
       );
 
+  Widget gapTop(double value) => Column(
+      children: [this, SizedBox(height: value)]
+  );
+
   Widget gapRight(double value) => Row(
         children: [this, SizedBox(width: value)],
       );

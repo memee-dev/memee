@@ -6,6 +6,7 @@ class AppButton extends StatelessWidget {
   final String label;
   final Color bgColor;
   final Function() onTap;
+
   const AppButton({
     super.key,
     required this.label,
@@ -30,8 +31,15 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.sp),
         ),
         child: isLoading
-            ? const CircularProgressIndicator.adaptive()
-            : Text(label),
+            ? const CircularProgressIndicator.adaptive(
+                backgroundColor: Colors.white,
+              )
+            : Text(
+                label,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontSize: 16.sp,
+                    ),
+              ),
       ),
     );
   }

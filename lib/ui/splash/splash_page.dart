@@ -6,7 +6,6 @@ import 'package:memee/core/shared/app_strings.dart';
 
 import '../../blocs/auth/auth_cubit.dart';
 import '../landing/landing_page.dart';
-import '../login/login_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -16,9 +15,9 @@ class SplashPage extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthStatus>(
       builder: (context, state) {
         if (state == AuthStatus.unauthenticated) {
-          return LoginPage();
+          return  LandingPage();
         } else if (state == AuthStatus.authenticated) {
-          return const LandingPage();
+          return LandingPage();
         }
         return const Scaffold(
           body: Center(

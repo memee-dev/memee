@@ -14,6 +14,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final HideAndSeekCubit hideAndSeekCubit = locator.get<HideAndSeekCubit>();
+
   LoginPage({super.key});
 
   @override
@@ -22,10 +23,18 @@ class LoginPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            'MEME',
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w900,
+                ),
+          ).paddingE(
+            value: 24,
+          ),
           AppTextField(
             controller: _emailController,
             label: AppStrings.email,
-          ).gapBottom(8.h),
+          ).gapBottom(24.h),
           BlocBuilder<HideAndSeekCubit, bool>(
             bloc: hideAndSeekCubit,
             builder: (_, state) {
@@ -39,7 +48,7 @@ class LoginPage extends StatelessWidget {
                 ),
               );
             },
-          ).gapBottom(16.h),
+          ).gapBottom(24.h),
           BlocConsumer<LoginCubit, LoginStatus>(
             listener: (_, state) {
               if (state == LoginStatus.initial) {
