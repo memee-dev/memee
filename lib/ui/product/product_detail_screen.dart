@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/ui/__shared/widgets/cache_image_widget.dart';
 
 class ProductDescriptionScreen extends StatelessWidget {
-  final Product? product;
+  final ProductEntity? product;
 
-  const ProductDescriptionScreen({super.key, this.product});
+  const ProductDescriptionScreen({
+    super.key,
+    this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${product?.name} Description',
+          '${product?.pName} Description',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -40,39 +45,34 @@ class ProductDescriptionScreen extends StatelessWidget {
               padding: EdgeInsets.all(
                 16.r,
               ),
-              child: Image.asset(
-                product?.imageUrl ?? '',
-                fit: BoxFit.cover,
+              child: CacheImageWidget(
+                imageUrl: product?.image ?? '',
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product?.name ?? '',
+                  product?.pName ?? '',
                   style: Theme.of(context).textTheme.titleLarge,
                 ).paddingV(
                   v: 16.h,
                 ),
                 Text(
-                  product?.shortDescription ?? '',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  product?.fullDescription ?? '',
+                  product?.description ?? '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 8.h),
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        '\$${product?.price.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                        ),
+                        '\$${(product?.details?.first.dPrice ?? '0')}',
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
                       ),
                     ),
                     Row(
@@ -110,47 +110,4 @@ class ProductDescriptionScreen extends StatelessWidget {
   void addToCart(Product product) {}
 
   void navigateToCart() {}
-}
-
-class ShoppingCartScreen extends StatelessWidget {
-  final List<Product> cartItems;
-
-  const ShoppingCartScreen(this.cartItems, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping Cart'),
-      ),
-      body: ListView.builder(
-        itemCount: cartItems.length,
-        itemBuilder: (context, index) {
-          Product product = cartItems[index];
-
-          return ListTile(
-            title: Text(product.name),
-            subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-            trailing: IconButton(
-              icon: const Icon(Icons.remove_circle),
-              onPressed: () {
-                removeFromCart(product);
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add checkout logic here
-        },
-        child: const Icon(Icons.check),
-      ),
-    );
-  }
-
-  void removeFromCart(Product product) {
-    // Remove the product from the cart
-    // You can add any additional logic here, such as updating the total price.
-  }
 }

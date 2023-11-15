@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
-import 'package:memee/ui/product_detail/product_detail_screen.dart';
+import 'package:memee/ui/cart/cart_screen.dart';
+import 'package:memee/ui/product/product_detail_screen.dart';
+import 'package:memee/ui/profile/profile_widget.dart';
 
 import '../../ui/landing/landing_page.dart';
 import '../../ui/login/login_page.dart';
@@ -9,33 +12,53 @@ import '../../ui/splash/splash_page.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: GlobalKey<NavigatorState>(),
-  initialLocation: '/',
+  initialLocation: Routes.root,
   routes: [
     GoRoute(
-      path: '/',
+      path: Routes.root,
       builder: (_, state) => const SplashPage(),
       routes: [
         GoRoute(
-          path: 'login',
+          path: Routes.login,
           builder: (_, state) => LoginPage(),
         ),
         GoRoute(
-          path: 'landing',
+          path: Routes.landing,
           builder: (_, state) => LandingPage(),
         ),
         GoRoute(
-          path: 'productDetails',
+          path: Routes.productDetails,
           builder: (_, state) {
             return ProductDescriptionScreen(
-              product: state.extra as Product,
+              product: state.extra as ProductEntity,
             );
           },
         ),
         GoRoute(
-          path: 'cart',
-          builder: (_, state) => const ShoppingCartScreen([]),
+          path: Routes.shoppingCart,
+          builder: (_, state) => ShoppingCartScreen(
+            state.extra as List<Product>,
+          ),
+        ),
+        GoRoute(
+          path: Routes.profile,
+          builder: (_, state) => const ProfileScreen(),
         ),
       ],
     ),
   ],
 );
+
+mixin Routes {
+  static const shoppingCart = 'shoppingCart';
+  static const productDetails = 'productDetails';
+  static const landing = 'landing';
+  static const login = 'login';
+  static const root = '/';
+  static const allProducts = 'allProducts';
+  static const profile = 'profile';
+
+  static void appGoRouter(BuildContext context, String path, {Object? extra}) {
+    context.push('${Routes.root}$path', extra: extra);
+  }
+}

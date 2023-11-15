@@ -28,7 +28,9 @@ class AppButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: BorderRadius.circular(
+            12.sp,
+          ),
         ),
         child: isLoading
             ? const CircularProgressIndicator.adaptive(

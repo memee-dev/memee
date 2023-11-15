@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/ui/__shared/widgets/cache_image_widget.dart';
 
 class HomeProductItem extends StatelessWidget {
   final String name, description, image;
   final GestureTapCallback? onTap;
   final double? height, width;
+  final bool? carousel;
 
   const HomeProductItem({
     Key? key,
@@ -15,6 +17,7 @@ class HomeProductItem extends StatelessWidget {
     this.width,
     required this.image,
     this.onTap,
+    this.carousel,
   }) : super(key: key);
 
   @override
@@ -22,8 +25,8 @@ class HomeProductItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: height ?? MediaQuery.of(context).size.height * .16.h,
-        width: width ?? MediaQuery.of(context).size.width * .32.w,
+        height: height,
+        width: width,
         margin: EdgeInsets.only(
           right: 12.w,
         ),
@@ -48,11 +51,15 @@ class HomeProductItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              image,
-              height: 36.h,
-              width: 36.w,
-            ),
+            carousel ?? false
+                ? Image.asset(
+                    image,
+                    height: 36.h,
+                    width: 36.w,
+                  )
+                : CacheImageWidget(
+                    imageUrl: image,
+                  ),
             Text(
               name,
               style: Theme.of(context).textTheme.titleLarge,
@@ -62,6 +69,7 @@ class HomeProductItem extends StatelessWidget {
             Text(
               description,
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
