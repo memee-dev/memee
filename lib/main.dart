@@ -10,6 +10,7 @@ import 'ui/my_app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'Memee',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await ScreenUtil.ensureScreenSize();

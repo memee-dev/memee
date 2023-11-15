@@ -11,22 +11,28 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this.db) : super(ProductInitial());
 
-  fetchProducts() {
+  Future<void> fetchProducts() async {
     emit(ProductLoading());
 
-    List<ProductEntity> products = [];
-    final CollectionReference reference =
+    try {
+      final CollectionReference reference =
         db.collection(AppFireStoreCollection.products);
 
-    reference.get().then((value) {
-      if (value.docs.isNotEmpty) {
-        value.docs.map((e) {
-          Map<String, dynamic>? data = e.data() as Map<String, dynamic>;
 
-          products.add(ProductEntity.fromJson(data));
-        }).toList();
-        emit(ProductSuccess(products: products));
-      }
-    });
+    final res = await reference.get();
+    List<ProductEntity> products = [];
+    if (res.docs.isNotEmpty) {
+      res.docs.map((doc) {
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>;
+        products.add(ProductEntity.fromJson(data));
+      }).toList();
+      emit(ProductSuccess(products: products));
+    } else {
+      emit(const ProductFailure(message: 'No data'));
+    }
+    } catch (e) {
+      emit(ProductFailure(message: e.toString()));
+    }
+    
   }
 }
