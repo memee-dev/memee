@@ -4,13 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onChanged;
   final Widget? suffixIcon, prefixIcon;
-  final String? label, hint;
+  final String? label, hint, errorText;
   final String? title;
   final GestureTapCallback? onTap;
   final int? maxLines, minLines;
   final Color? textColor;
+
   final bool? obscureText;
+  final TextInputType? keyboardType;
 
   const AppTextField({
     Key? key,
@@ -26,6 +29,9 @@ class AppTextField extends StatelessWidget {
     this.obscureText,
     this.hint,
     this.prefixIcon,
+    this.keyboardType,
+    this.errorText,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -44,19 +50,23 @@ class AppTextField extends StatelessWidget {
           SizedBox(height: 8.h),
         ],
         TextFormField(
-          onChanged: (val) {},
+          onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.characters,
           controller: controller,
           minLines: minLines,
           maxLines: maxLines ?? 1,
           obscureText: obscureText ?? false,
+          cursorColor: Theme.of(context).colorScheme.primary,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 12.r,
               ),
             ),
+            errorText: errorText,
+            errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.red,
+                ),
             labelText: label,
             hintText: hint,
             suffixIcon: suffixIcon,
@@ -65,7 +75,7 @@ class AppTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
           ),
           validator: validator,
-          keyboardType: TextInputType.text,
+          keyboardType: keyboardType ?? TextInputType.text,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],

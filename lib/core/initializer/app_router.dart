@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
+import 'package:memee/ui/address/saved_address.dart';
 import 'package:memee/ui/cart/cart_screen.dart';
 import 'package:memee/ui/product/product_detail_screen.dart';
 import 'package:memee/ui/profile/profile_widget.dart';
@@ -44,6 +45,10 @@ final GoRouter appRouter = GoRouter(
           path: Routes.profile,
           builder: (_, state) => const ProfileScreen(),
         ),
+        GoRoute(
+          path: Routes.savedAddress,
+          builder: (_, state) => SavedAddress(),
+        ),
       ],
     ),
   ],
@@ -57,6 +62,7 @@ mixin Routes {
   static const root = '/';
   static const allProducts = 'allProducts';
   static const profile = 'profile';
+  static const savedAddress = 'savedAddress';
 
   static void appGoRouter(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);

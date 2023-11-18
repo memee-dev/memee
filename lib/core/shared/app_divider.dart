@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppDivider extends StatelessWidget {
-  const AppDivider({super.key});
+  final double? height;
+
+  const AppDivider({super.key, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class AppDivider extends StatelessWidget {
       child: Divider(
         color: Theme.of(context).colorScheme.primary,
         thickness: 2.sp,
-        height: 4.h,
+        height: (height ?? 4).h,
       ),
     );
   }

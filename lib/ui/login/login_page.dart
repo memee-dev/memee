@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/login/login_state.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/ui/__shared/widgets/otp_field.dart';
+
 import '../../blocs/hide_and_seek/hide_and_seek_cubit.dart';
 import '../../blocs/login/login_cubit.dart';
 import '../__shared/widgets/app_button.dart';
@@ -11,15 +14,16 @@ import '../__shared/widgets/app_textfield.dart';
 import '../__shared/widgets/utils.dart';
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
   final HideAndSeekCubit hideAndSeekCubit = locator.get<HideAndSeekCubit>();
+  final otpController = TextEditingController();
 
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -31,48 +35,84 @@ class LoginPage extends StatelessWidget {
           ).paddingE(
             value: 24,
           ),
-          AppTextField(
-            controller: _emailController,
-            label: AppStrings.email,
-          ).gapBottom(24.h),
-          BlocBuilder<HideAndSeekCubit, bool>(
-            bloc: hideAndSeekCubit,
-            builder: (_, state) {
-              return AppTextField(
-                controller: _passwordController,
-                label: AppStrings.password,
-                obscureText: state,
-                suffixIcon: IconButton(
-                  onPressed: () => hideAndSeekCubit.change(),
-                  icon: Icon(!state ? Icons.visibility : Icons.visibility_off),
+          Row(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 16.h,
                 ),
-              );
-            },
-          ).gapBottom(24.h),
-          BlocConsumer<LoginCubit, LoginStatus>(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    12.sp,
+                  ),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.secondary.withOpacity(
+                          0.5,
+                        ),
+                  ),
+                ),
+                child: Text(
+                  '+ 91',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ).gapRight(
+                16.w,
+              ),
+              Expanded(
+                child: AppTextField(
+                  controller: _mobileController,
+                  label: AppStrings.number,
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ],
+          ).gapBottom(
+            16.h,
+          ),
+          BlocConsumer<LoginCubit, LoginState>(
             listener: (_, state) {
-              if (state == LoginStatus.initial) {
-                _emailController.text = '';
-                _passwordController.text = '';
-              }
-              if (state == LoginStatus.failure) {
-                snackBar(context, 'Login Error');
+              if (state is LoginInitial) {
+                _mobileController.text = '';
+              } else if (state is LoginFailure) {
+                snackBar(context, state.message);
+              } else if (state is OtpSuccess) {
+                snackBar(context, state.message ?? '');
               }
             },
             builder: (_, state) {
               bool isLoading = false;
-              if (state == LoginStatus.loading) {
+              if (state is LoginLoading) {
                 isLoading = true;
               }
 
-              return AppButton(
-                isLoading: isLoading,
-                label: AppStrings.login,
-                onTap: () =>
-                    locator.get<LoginCubit>().loginWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        ),
+              return Column(
+                children: [
+                  if (state is OtpSuccess) ...[
+                    OtpField(
+                      otpController: otpController,
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+                  AppButton(
+                    isLoading: isLoading,
+                    label: AppStrings.login,
+                    onTap: () {
+                      if (state is OtpSuccess) {
+                        locator.get<LoginCubit>().loginWithPhoneNumber(
+                            otp: otpController.text,
+                            verificationId: state.verificationId ?? '');
+                      } else {
+                        locator
+                            .get<LoginCubit>()
+                            .verifyPhoneNumber('+91${_mobileController.text}');
+                      }
+
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                ],
               );
             },
           )

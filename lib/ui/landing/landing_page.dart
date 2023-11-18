@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/ui/home/home_widget.dart';
 import 'package:memee/ui/home/widgets/bottom_navigation_bar.dart';
 import 'package:memee/ui/home/widgets/location_appbar.dart';
@@ -35,6 +36,7 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       appBar: LocationAppbar(
         indexCubit: indexCubit,
+        onTap: () => Routes.appGoRouter(context, Routes.savedAddress),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(

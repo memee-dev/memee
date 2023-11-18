@@ -4,6 +4,7 @@ mixin AppStrings {
   static const String login = 'Login';
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String number = 'Mobile Number';
   static const String chickenBenefits =
       '''A few key health benefits of eating chicken include:
 Providing vitamins and minerals involved in brain function.

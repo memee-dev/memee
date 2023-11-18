@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/core/shared/app_divider.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 
@@ -8,6 +11,7 @@ class SavedAddressesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final address = locator.get<UserCubit>().address;
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title: Row(
@@ -40,7 +44,7 @@ class SavedAddressesSection extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  'No. 1, New Bangaru Naidu Colony,K.K. Nagar (West), Chennai - 600078',
+                  '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
                   maxLines: 2,
                   style: Theme.of(context).textTheme.bodySmall,
                 ).paddingV(
@@ -55,7 +59,7 @@ class SavedAddressesSection extends StatelessWidget {
         ],
       ),
       trailing: TextButton(
-        onPressed: () {},
+        onPressed: () => Routes.appGoRouter(context, Routes.savedAddress),
         child: Text(
           'Edit',
           style: Theme.of(context).textTheme.bodyLarge,

@@ -9,7 +9,7 @@ dynamic snackBar(
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(label),
-        duration: duration ?? const Duration(seconds: 1),
+        duration: duration ?? const Duration(seconds: 2),
         action: action,
       ),
     );
