@@ -21,4 +21,53 @@ Improving skin health. ...
 Reducing the risk of diabetes. ''';
   static const String carrotContent =
       'Carrots are full of benefits—they may promote healthy vision, balance your blood sugar, help with weight management, lower your risk of cancer, regulate blood pressure, reduce heart disease, improve immunity, and boost brain health';
+
+  static const String name = 'Name';
+  static const String userName = 'User Name';
+  static const String phoneNumber = 'Phone Number';
+  static const String address = 'Address';
+  static const String addresses = 'Addresses';
+  static const String area = 'Area';
+  static const String defaultt = 'Default';
+  static const String pinCode = 'Pincode';
+  static const String city = 'City';
+  static const String landmark = 'Landmark';
+  static const String no = 'Flat/Door No';
+  static const String street = 'Street';
+  static const String aadhar = 'Aadhar';
+  static const String type = 'Type';
+  static const String verified = 'Verified';
+  static const String notVerified = 'Not Verified';
+  static const String search = 'Search';
+
+  static const String add = 'Add';
+  static const String edit = 'Edit';
+
+  static const String home = 'Home';
+  static const String orders = 'Orders';
+  static const String products = 'Products';
+  static const String product = 'Product';
+  static const String categories = 'Categories';
+  static const String category = 'Category';
+  static const String users = 'Users';
+  static const String user = 'User';
+  static const String admins = 'Admins';
+  static const String admin = 'Admin';
+  static const String de = 'Delivery Executives';
+  static const String dl = 'Driving Licence';
+
+  static const String export = 'Export';
+  static const String import = 'Import';
+
+  static const String active = 'Active';
+  static const String disabled = 'Disabled';
+
+  static const String alert = 'Alert!!!';
+  static const String areYouSure = 'Are you sure?';
+  static const String cancel = 'Cancel';
+  static const String save = 'Save';
+  static const String continuee = 'Continue';
+
+  //excel
+  static const List<String> categoriesTitle = ['ID', 'Name'];
 }

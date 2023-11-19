@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/login/login_cubit.dart';
+import 'package:memee/ui/__shared/widgets/app_button.dart';
 import 'package:memee/ui/profile/help_section.dart';
 import 'package:memee/ui/profile/saved_address.dart';
 import 'package:memee/ui/profile/settings_section.dart';
 import 'package:memee/ui/profile/user_information.dart';
+
+import '../../core/initializer/app_di.dart';
+import '../../core/shared/app_strings.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -24,6 +29,13 @@ class ProfileScreen extends StatelessWidget {
           const SettingsSection(),
           SizedBox(height: 24.h),
           const HelpSection(),
+          SizedBox(height: 24.h),
+          AppButton(
+            label: AppStrings.logout,
+            onTap: () {
+              locator.get<LoginCubit>().reset();
+            },
+          ),
         ],
       ),
     );

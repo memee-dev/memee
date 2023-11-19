@@ -7,7 +7,6 @@ import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/otp_field.dart';
 
-import '../../blocs/hide_and_seek/hide_and_seek_cubit.dart';
 import '../../blocs/login/login_cubit.dart';
 import '../__shared/widgets/app_button.dart';
 import '../__shared/widgets/app_textfield.dart';
@@ -15,13 +14,13 @@ import '../__shared/widgets/utils.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _mobileController = TextEditingController();
-  final HideAndSeekCubit hideAndSeekCubit = locator.get<HideAndSeekCubit>();
   final otpController = TextEditingController();
 
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final _loginCubit = locator.get<LoginCubit>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -32,9 +31,7 @@ class LoginPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.w900,
                 ),
-          ).paddingE(
-            value: 24,
-          ),
+          ).paddingE(value: 24),
           Row(
             children: [
               Container(
@@ -44,33 +41,34 @@ class LoginPage extends StatelessWidget {
                   vertical: 16.h,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    12.sp,
-                  ),
+                  borderRadius: BorderRadius.circular(12.sp),
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(
-                          0.5,
-                        ),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.5),
                   ),
                 ),
                 child: Text(
                   '+ 91',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-              ).gapRight(
-                16.w,
-              ),
-              Expanded(
-                child: AppTextField(
-                  controller: _mobileController,
-                  label: AppStrings.number,
-                  keyboardType: TextInputType.number,
-                ),
+              ).gapRight(16.w),
+              BlocBuilder<LoginCubit, LoginState>(
+                bloc: _loginCubit,
+                builder: (context, state) {
+                  return Expanded(
+                    child: AppTextField(
+                      readOnly: state is OtpSuccess,
+                      controller: _mobileController,
+                      label: AppStrings.number,
+                      keyboardType: TextInputType.number,
+                    ),
+                  );
+                },
               ),
             ],
-          ).gapBottom(
-            16.h,
-          ),
+          ).gapBottom(16.h),
           BlocConsumer<LoginCubit, LoginState>(
             listener: (_, state) {
               if (state is LoginInitial) {
@@ -92,26 +90,29 @@ class LoginPage extends StatelessWidget {
                   if (state is OtpSuccess) ...[
                     OtpField(
                       otpController: otpController,
+                      onCompleted: (String? v) {
+                        if (v != null && v.length == 6) {
+                          _loginCubit.loginWithPhoneNumber(
+                              otp: otpController.text,
+                              verificationId: state.verificationId ?? '');
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
                     ),
                     SizedBox(height: 16.h),
                   ],
-                  AppButton(
-                    isLoading: isLoading,
-                    label: AppStrings.login,
-                    onTap: () {
-                      if (state is OtpSuccess) {
-                        locator.get<LoginCubit>().loginWithPhoneNumber(
-                            otp: otpController.text,
-                            verificationId: state.verificationId ?? '');
-                      } else {
-                        locator
-                            .get<LoginCubit>()
+                  if (state is! OtpSuccess &&
+                      state is! LoginSuccess &&
+                      state is! LoginLoading2)
+                    AppButton(
+                      isLoading: isLoading,
+                      label: AppStrings.login,
+                      onTap: () {
+                        _loginCubit
                             .verifyPhoneNumber('+91${_mobileController.text}');
-                      }
-
-                      FocusScope.of(context).unfocus();
-                    },
-                  ),
+                        FocusScope.of(context).unfocus();
+                      },
+                    ),
                 ],
               );
             },

@@ -11,9 +11,9 @@ class AppTextField extends StatelessWidget {
   final GestureTapCallback? onTap;
   final int? maxLines, minLines;
   final Color? textColor;
-
   final bool? obscureText;
   final TextInputType? keyboardType;
+  final bool readOnly;
 
   const AppTextField({
     Key? key,
@@ -32,6 +32,7 @@ class AppTextField extends StatelessWidget {
     this.keyboardType,
     this.errorText,
     this.onChanged,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -50,6 +51,7 @@ class AppTextField extends StatelessWidget {
           SizedBox(height: 8.h),
         ],
         TextFormField(
+          readOnly: readOnly,
           onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
@@ -59,9 +61,7 @@ class AppTextField extends StatelessWidget {
           cursorColor: Theme.of(context).colorScheme.primary,
           decoration: InputDecoration(
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                12.r,
-              ),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             errorText: errorText,
             errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(

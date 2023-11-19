@@ -34,26 +34,26 @@ void blocConfig(GetIt locator) {
     () => ThemeCubit(),
   );
   locator.registerLazySingleton<AuthCubit>(
-    () => AuthCubit(locator()),
-  );
-  locator.registerLazySingleton<UserCubit>(
-    () => UserCubit(locator(), locator()),
+    () => AuthCubit(locator(), locator()),
   );
   locator.registerLazySingleton<LoginCubit>(
     () => LoginCubit(locator(), locator()),
   );
-
+  locator.registerLazySingleton<UserCubit>(
+    () => UserCubit(locator(), locator()),
+  );
   locator.registerFactory<HideAndSeekCubit>(
     () => HideAndSeekCubit(),
   );
   locator.registerFactory<IndexCubit>(
     () => IndexCubit(),
   );
-  locator.registerFactory<ProductCubit>(
-    () => ProductCubit(locator()),
-  );
   locator.registerFactory<FormValidationCubit>(
     () => FormValidationCubit(),
+  );
+
+  locator.registerFactory<ProductCubit>(
+    () => ProductCubit(locator()),
   );
   locator.registerLazySingleton<MapCubit>(
     () => MapCubit(),

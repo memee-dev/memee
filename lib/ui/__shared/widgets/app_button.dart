@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/shared/app_strings.dart';
+
 class AppButton extends StatelessWidget {
   final bool isLoading;
   final String label;
   final Color bgColor;
+  final Color textColor;
   final Function() onTap;
 
   const AppButton({
@@ -12,6 +15,25 @@ class AppButton extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.bgColor = Colors.amber,
+    this.textColor = Colors.black,
+    this.isLoading = false,
+  });
+
+  const AppButton.positive({
+    super.key,
+    this.label = AppStrings.save,
+    required this.onTap,
+    this.bgColor = Colors.amber,
+    this.textColor = const Color.fromRGBO(0, 0, 0, 1),
+    this.isLoading = false,
+  });
+
+  const AppButton.negative({
+    super.key,
+    this.label = AppStrings.cancel,
+    required this.onTap,
+    this.bgColor = Colors.black,
+    this.textColor = Colors.amber,
     this.isLoading = false,
   });
 
@@ -28,9 +50,7 @@ class AppButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(
-            12.sp,
-          ),
+          borderRadius: BorderRadius.circular(8.sp),
         ),
         child: isLoading
             ? const CircularProgressIndicator.adaptive(
@@ -38,9 +58,10 @@ class AppButton extends StatelessWidget {
               )
             : Text(
                 label,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontSize: 16.sp,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: textColor),
               ),
       ),
     );

@@ -4,8 +4,13 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpField extends StatelessWidget {
   final TextEditingController otpController;
+  final Function(String? v) onCompleted;
 
-  const OtpField({super.key, required this.otpController});
+  const OtpField({
+    super.key,
+    required this.otpController,
+    required this.onCompleted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class OtpField extends StatelessWidget {
       ),
       enableActiveFill: true,
       controller: otpController,
-      onCompleted: (v) {},
+      onCompleted: onCompleted,
       onChanged: (value) {},
       beforeTextPaste: (text) {
         return true;

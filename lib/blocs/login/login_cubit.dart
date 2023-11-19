@@ -32,7 +32,7 @@ class LoginCubit extends Cubit<LoginState> {
     required String otp,
     String? verificationId,
   }) async {
-    emit(LoginLoading());
+    emit(LoginLoading2());
 
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
