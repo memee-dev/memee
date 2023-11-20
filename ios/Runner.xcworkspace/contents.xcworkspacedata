@@ -7,17 +7,4 @@
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
-   <Group
-      location = "group:Pods"
-      name = "Pods">
-      <FileRef
-         location = "group:Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig">
-      </FileRef>
-   </Group>
 </Workspace>

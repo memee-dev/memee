@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/default_address_shimmer.dart';
 
@@ -22,11 +23,18 @@ class LocationAppbar extends StatelessWidget implements PreferredSizeWidget {
       child: BlocBuilder<IndexCubit, int>(
         bloc: indexCubit,
         builder: (context, state) {
-          return state == 3
-              ? const Align(
+          return state != 0
+              ? Align(
                   alignment: Alignment.centerLeft,
-                  child: BackButton(),
-                )
+                  child: Text(
+                    state == 1
+                        ? AppStrings.favourite
+                        : state == 2
+                            ? AppStrings.cart
+                            : AppStrings.profile,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ).paddingH(h: 16.w)
               : BlocBuilder<UserCubit, UserState>(
                   bloc: userCubit..getDefaultAddress(),
                   builder: (context, user) {

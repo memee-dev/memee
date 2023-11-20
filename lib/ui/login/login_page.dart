@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
 import 'package:memee/blocs/login/login_state.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/shared/app_strings.dart';
@@ -21,6 +23,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _loginCubit = locator.get<LoginCubit>();
+    final _formCubit = locator.get<FormValidationCubit>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -57,13 +60,25 @@ class LoginPage extends StatelessWidget {
               BlocBuilder<LoginCubit, LoginState>(
                 bloc: _loginCubit,
                 builder: (context, state) {
-                  return Expanded(
-                    child: AppTextField(
-                      readOnly: state is OtpSuccess,
-                      controller: _mobileController,
-                      label: AppStrings.number,
-                      keyboardType: TextInputType.number,
-                    ),
+                  return BlocBuilder<FormValidationCubit, FormValidationState>(
+                    bloc: _formCubit,
+                    builder: (context, formState) {
+                      return Expanded(
+                        child: AppTextField(
+                          readOnly: state is OtpSuccess,
+                          controller: _mobileController,
+                          errorText: formState is MobileNumberError
+                              ? formState.message
+                              : null,
+                          label: AppStrings.number,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            // Limit maximum length to 10
+                          ],
+                          keyboardType: TextInputType.number,
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -108,8 +123,14 @@ class LoginPage extends StatelessWidget {
                       isLoading: isLoading,
                       label: AppStrings.login,
                       onTap: () {
-                        _loginCubit
-                            .verifyPhoneNumber('+91${_mobileController.text}');
+                        if (_mobileController.text.isEmpty ||
+                            _mobileController.text.length < 10) {
+                          _formCubit
+                              .validateMobileNumber(_mobileController.text);
+                        } else {
+                          _loginCubit.verifyPhoneNumber(
+                              '+91${_mobileController.text}');
+                        }
                         FocusScope.of(context).unfocus();
                       },
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextField extends StatelessWidget {
@@ -14,6 +15,8 @@ class AppTextField extends StatelessWidget {
   final bool? obscureText;
   final TextInputType? keyboardType;
   final bool readOnly;
+  final VoidCallback? onEditingComplete;
+  final List<TextInputFormatter>? inputFormatters;
 
   const AppTextField({
     Key? key,
@@ -33,6 +36,8 @@ class AppTextField extends StatelessWidget {
     this.errorText,
     this.onChanged,
     this.readOnly = false,
+    this.inputFormatters,
+    this.onEditingComplete,
   }) : super(key: key);
 
   @override
@@ -57,6 +62,7 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           minLines: minLines,
           maxLines: maxLines ?? 1,
+          inputFormatters: inputFormatters,
           obscureText: obscureText ?? false,
           cursorColor: Theme.of(context).colorScheme.primary,
           decoration: InputDecoration(
@@ -74,6 +80,8 @@ class AppTextField extends StatelessWidget {
             hintStyle: Theme.of(context).textTheme.bodySmall,
             prefixIcon: prefixIcon,
           ),
+          onEditingComplete: onEditingComplete,
+          maxLengthEnforcement: MaxLengthEnforcement.none,
           validator: validator,
           keyboardType: keyboardType ?? TextInputType.text,
           style: Theme.of(context).textTheme.bodyLarge,

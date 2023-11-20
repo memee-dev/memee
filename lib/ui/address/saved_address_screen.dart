@@ -24,11 +24,41 @@ class SavedAddress extends StatelessWidget {
         ),
         leading: const BackButton(),
       ),
+      floatingActionButton: TextButton.icon(
+        icon: const Icon(
+          Icons.add,
+        ),
+        style: ButtonStyle(
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                12.r,
+              ),
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ),
+        onPressed: () {
+          Routes.appGoRouter(context, Routes.addAddress, extra: false);
+        },
+        label: const Text(
+          'Add new Address',
+        ),
+      ).gapBottom(16.h),
       body: BlocBuilder<UserCubit, UserState>(
         bloc: userCubit..getSavedAddress(),
         builder: (context, state) {
-          if (state is UserLoading) {
-            return const DefaultAddressShimmer();
+          if (state is SavedAddressLoading) {
+            return ListView.builder(
+              itemBuilder: (_, i) {
+                return const DefaultAddressShimmer().paddingV(
+                  v: 24.h,
+                );
+              },
+              itemCount: 4,
+            );
           } else if (state is SavedAddressState) {
             return ListView.separated(
               padding: EdgeInsets.symmetric(
@@ -39,14 +69,15 @@ class SavedAddress extends StatelessWidget {
                 return SavedAddressItem(
                   address: state.address[i],
                   onEdit: () {
-                    Routes.appGoRouter(context, Routes.savedAddress);
+                    Routes.appGoRouter(context, Routes.editAddress,
+                        extra: state.address[i]);
                   },
                 );
               },
               separatorBuilder: (_, i) => const AppDivider(height: 1).paddingV(
                 v: 24.h,
               ),
-              itemCount: state is UserLoading ? 4 : state.address.length,
+              itemCount: state.address.length,
             );
           }
 

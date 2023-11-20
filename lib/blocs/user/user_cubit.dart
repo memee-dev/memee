@@ -101,8 +101,47 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  deleteAddress(AddressModel address) async {
+    emit(SavedAddressState(address: const []));
+    emit(SavedAddressLoading());
+    try {
+      User? user = auth.currentUser;
+      CollectionReference reference =
+          db.collection(AppFireStoreCollection.userDev);
+      if (user != null) {
+        DocumentSnapshot userDoc = await db
+            .collection(AppFireStoreCollection.userDev)
+            .doc(user.uid)
+            .get();
+
+        Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+        List<AddressModel> newList = [];
+
+        if (data['address'].isNotEmpty) {
+          List<Map<String, dynamic>> updatedAddressList =
+              List<Map<String, dynamic>>.from(data['address']);
+
+          for (var key in updatedAddressList) {
+            if (key['street'] == address.street) {
+              updatedAddressList.remove(key);
+
+              await reference.doc(user.uid).update({
+                'address': updatedAddressList,
+              });
+              newList.add(AddressModel.fromJson(key));
+              emit(SavedAddressState(address: newList));
+            }
+          }
+        }
+      }
+    } catch (e) {
+      emit(UserUpdateFailure(message: 'Unable to delete address'));
+    }
+  }
+
   getSavedAddress() async {
-    emit(UserLoading());
+    emit(SavedAddressState(address: const []));
+    emit(SavedAddressLoading());
     try {
       User? user = auth.currentUser;
 

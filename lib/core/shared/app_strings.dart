@@ -70,4 +70,21 @@ Reducing the risk of diabetes. ''';
 
   //excel
   static const List<String> categoriesTitle = ['ID', 'Name'];
+
+  static const favourite = 'Favourite';
+  static const cart = 'Cart';
+  static const profile = 'Profile';
+
+  static const confirmationDialog = 'Confirmation';
+  static const confirm = 'Confirm';
+
+  static const setAsDefault =
+      'Do you want to set the selected address as default or edit, kindly choose from the below options';
+  static const editAddress =
+      'Address is already set as default, do you want to edit the address';
+
+  static const setAsDefaultLabel = 'Set as Default';
+  static const editAddressLabel = 'Edit Address';
+  static const deleteConfirmation = 'Are you sure want to delete the address';
+  static const delete = 'Delete';
 }

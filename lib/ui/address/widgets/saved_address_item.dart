@@ -1,24 +1,34 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/initializer/app_router.dart';
+import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/models/user_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/ui/__shared/widgets/confirmation_dialog.dart';
 
 class SavedAddressItem extends StatelessWidget {
   final AddressModel address;
   final String? label;
   final VoidCallback? onEdit;
 
-  const SavedAddressItem({
+  SavedAddressItem({
     super.key,
     required this.address,
     this.onEdit,
     this.label,
   });
 
+  final _userCubit = locator.get<UserCubit>();
+
   @override
   Widget build(BuildContext context) {
     String a =
         '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}';
+
     return Container(
       decoration: address.defaultValue
           ? BoxDecoration(
@@ -33,7 +43,42 @@ class SavedAddressItem extends StatelessWidget {
       child: Stack(
         children: [
           ListTile(
-            contentPadding: EdgeInsets.zero,
+            contentPadding: address.defaultValue
+                ? EdgeInsets.all(
+                    8.r,
+                  )
+                : EdgeInsets.zero,
+            onTap: () {
+              showCupertinoDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return BlocBuilder<UserCubit, UserState>(
+                    bloc: _userCubit,
+                    builder: (context, state) {
+                      return ConfirmationDialog(
+                        description: address.defaultValue
+                            ? AppStrings.setAsDefault
+                            : AppStrings.editAddress,
+                        buttonLabel1: address.defaultValue
+                            ? AppStrings.setAsDefaultLabel
+                            : AppStrings.cancel,
+                        buttonLabel2: AppStrings.editAddressLabel,
+                        onConfirm: () {
+                          Routes.pop(context);
+                        },
+                        onCancel: () {
+                          // Routes.appGoRouter(context, Routes.editAddress,
+                          //     extra: address);
+
+                          Routes.pop(context);
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            },
             title: Row(
               children: [
                 Expanded(
@@ -67,51 +112,73 @@ class SavedAddressItem extends StatelessWidget {
                         v: 4.h,
                       ),
                     ),
+                    SizedBox(width: 8.w),
                   ],
-                )
-                    .gapBottom(
-                      12.h,
-                    )
-                    .paddingH(
-                      h: 8.w,
-                    ),
+                ).paddingH(
+                  h: 8.w,
+                ),
               ],
             ),
-            trailing: TextButton(
-              onPressed: onEdit,
-              child: Text(
-                label ?? 'Edit',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ).paddingV(
+            trailing: const Text('').paddingV(
               v: 8.h,
             ),
           ),
-          address.defaultValue
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    padding: EdgeInsets.all(
-                      6.r,
+          Align(
+            alignment: Alignment.topRight,
+            child: InkWell(
+              onTap: () {
+                showCupertinoDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return BlocBuilder<UserCubit, UserState>(
+                      bloc: _userCubit,
+                      builder: (context, state) {
+                        return ConfirmationDialog(
+                          description: AppStrings.deleteConfirmation,
+                          buttonLabel1: AppStrings.delete,
+                          buttonLabel2: AppStrings.cancel,
+                          onConfirm: () {
+                            Routes.pop(context);
+                            _userCubit.deleteAddress(address);
+                          },
+                          onCancel: () {
+                            // Routes.appGoRouter(context, Routes.editAddress,
+                            //     extra: address);
+
+                            Routes.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 8.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(
+                      12.r,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(
-                          12.r,
-                        ),
-                        topRight: Radius.circular(
-                          12.r,
-                        ),
-                      ),
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    child: Text(
-                      'DEFAULT',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    topRight: Radius.circular(
+                      12.r,
                     ),
                   ),
-                )
-              : const SizedBox.shrink(),
+                  color: address.defaultValue
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.red,
+                ),
+                child: Text(
+                  address.defaultValue ? 'DEFAULT' : 'DELETE',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

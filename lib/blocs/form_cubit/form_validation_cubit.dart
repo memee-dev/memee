@@ -14,7 +14,7 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     if (text.isEmpty) {
       emit(StreetEmpty(message: 'Street cannot be empty')); // ValidationFailure
     } else {
-      emit(StreetEmpty(message: '')); // ValidationFailure
+      emit(FormValidationInitial());
     }
   }
 
@@ -25,7 +25,7 @@ class FormValidationCubit extends Cubit<FormValidationState> {
           message:
               'Please enter house/flat no to proceed')); // ValidationFationFailure
     } else {
-      emit(HouseNoEmpty(message: ''));
+      emit(FormValidationInitial());
     }
   }
 
@@ -35,7 +35,7 @@ class FormValidationCubit extends Cubit<FormValidationState> {
       emit(AreaEmpty(
           message: 'Please enter area to proceed')); // ValidationFationFailure
     } else {
-      emit(AreaEmpty(message: '')); // V
+      emit(FormValidationInitial());
     }
   }
 
@@ -45,7 +45,7 @@ class FormValidationCubit extends Cubit<FormValidationState> {
       emit(CityEmpty(
           message: 'Please enter area to proceed')); // ValidationFationFailure
     } else {
-      emit(CityEmpty(message: '')); // V
+      emit(FormValidationInitial());
     }
   }
 
@@ -56,17 +56,22 @@ class FormValidationCubit extends Cubit<FormValidationState> {
           message:
               'Please enter pin code to proceed')); // ValidationFationFailure
     } else {
-      emit(PinCodeEmpty(message: '')); // Validat
+      emit(FormValidationInitial());
     }
   }
 
-  checkValidation() {
+  validateMobileNumber(String value) {
     emit(FormValidationInitial());
 
-    if (formKey.currentState!.validate()) {
-      emit(FormSubmit(valid: true));
+    if (value.isEmpty) {
+      emit(MobileNumberError(
+          message: 'Mobile number cannot be empty')); // ValidationFationFailure
+    } else if (value.length < 10) {
+      emit(MobileNumberError(
+          message:
+              'Please enter a valid mobile number to proceed')); // ValidationFationFailure
     } else {
-      emit(FormSubmit(valid: false));
+      emit(FormValidationInitial());
     }
   }
 }

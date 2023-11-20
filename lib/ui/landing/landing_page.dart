@@ -28,7 +28,7 @@ class LandingPage extends StatelessWidget {
       width: 200,
       color: Colors.teal,
     ),
-    const ProfileScreen()
+    const ProfileWidget()
   ];
 
   @override

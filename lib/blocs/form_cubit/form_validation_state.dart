@@ -37,6 +37,12 @@ class PinCodeEmpty extends FormValidationState {
   PinCodeEmpty({this.message});
 }
 
+class MobileNumberError extends FormValidationState {
+  final String? message;
+
+  MobileNumberError({this.message});
+}
+
 class FormSubmit extends FormValidationState {
   final bool valid;
 

@@ -27,6 +27,9 @@ class UserDefaultAddressState extends UserState {
   UserDefaultAddressState({required this.address});
 }
 
+class SavedAddressLoading extends UserState {}
+class DeleteAddressLoading extends UserState {}
+
 class SavedAddressState extends UserState {
   final List<AddressModel> address;
 

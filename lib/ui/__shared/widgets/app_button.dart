@@ -8,7 +8,7 @@ class AppButton extends StatelessWidget {
   final String label;
   final Color bgColor;
   final Color textColor;
-  final Function() onTap;
+  final GestureTapCallback? onTap;
 
   const AppButton({
     super.key,
@@ -39,8 +39,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+    return InkWell(
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
