@@ -4,14 +4,16 @@ import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/core/shared/app_divider.dart';
+import 'package:memee/models/user_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 
 class SavedAddressesSection extends StatelessWidget {
-  const SavedAddressesSection({super.key});
+  final AddressModel address;
+
+  const SavedAddressesSection({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
-    final address = locator.get<UserCubit>().address;
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title: Row(
@@ -59,7 +61,7 @@ class SavedAddressesSection extends StatelessWidget {
         ],
       ),
       trailing: TextButton(
-        onPressed: () => Routes.appGoRouter(context, Routes.savedAddress),
+        onPressed: () => Routes.push(context, Routes.savedAddress),
         child: Text(
           'Edit',
           style: Theme.of(context).textTheme.bodyLarge,

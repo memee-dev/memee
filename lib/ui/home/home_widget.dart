@@ -44,35 +44,35 @@ class HomeWidget extends StatelessWidget {
           ).gapBottom(
             16.h,
           ),
-          CarouselSlider.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index, realIndex) {
-              return HomeProductItem(
-                width: MediaQuery.of(context).size.width * 0.64,
-                name: products[index].name,
-                description: products[index].name,
-                image: products[index].imageUrl,
-                carousel: true,
-                onTap: () {
-                  Routes.appGoRouter(context, Routes.shoppingCart,
-                      extra: products);
-                },
-              );
-            },
-            options: CarouselOptions(
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              enlargeCenterPage: true,
-              viewportFraction: 0.8,
-              autoPlay: true,
-              height: 112.h,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-            ),
-          ).gapBottom(
-            16.h,
-          ),
+          // CarouselSlider.builder(
+          //   itemCount: products.length,
+          //   itemBuilder: (context, index, realIndex) {
+          //     return HomeProductItem(
+          //       width: MediaQuery.of(context).size.width * 0.64,
+          //       name: products[index].name,
+          //       description: products[index].name,
+          //       image: products[index].imageUrl,
+          //       carousel: true,
+          //       onTap: () {
+          //         Routes.push(context, Routes.shoppingCart,
+          //             extra: products);
+          //       },
+          //     );
+          //   },
+          //   options: CarouselOptions(
+          //     initialPage: 0,
+          //     enableInfiniteScroll: true,
+          //     enlargeCenterPage: true,
+          //     viewportFraction: 0.8,
+          //     autoPlay: true,
+          //     height: 112.h,
+          //     autoPlayInterval: const Duration(seconds: 3),
+          //     autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          //     autoPlayCurve: Curves.fastOutSlowIn,
+          //   ),
+          // ).gapBottom(
+          //   16.h,
+          // ),
           Row(
             children: [
               Expanded(
@@ -83,8 +83,7 @@ class HomeWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Routes.appGoRouter(context, Routes.allProducts,
-                      extra: products);
+                  Routes.push(context, Routes.allProducts);
                 },
                 child: Text(
                   'View More',
@@ -118,11 +117,13 @@ class HomeWidget extends StatelessWidget {
                   itemBuilder: (_, i) {
                     final e = state.products[i];
                     return HomeProductItem(
-                      name: e.pName ?? '',
+                      name: e.name ?? '',
                       description: e.description  ?? '',
-                      image: e.image ?? '',
+                      image: e.images!.first ,
+                      width: MediaQuery.of(context).size.width.w,
+                      height: 64.h,
                       onTap: () {
-                        Routes.appGoRouter(
+                        Routes.push(
                           context,
                           Routes.productDetails,
                           extra: e,
@@ -141,34 +142,3 @@ class HomeWidget extends StatelessWidget {
     );
   }
 }
-
-List<Product> products = [
-  Product(
-    name: 'Chicken',
-    shortDescription: 'High in Protein',
-    fullDescription: AppStrings.chickenBenefits,
-    price: 19.99,
-    imageUrl: AppAsset.chicken,
-  ),
-  Product(
-    name: 'Broccoli',
-    shortDescription: 'High in protein',
-    fullDescription: AppStrings.broccoliContent,
-    price: 29.99,
-    imageUrl: AppAsset.broccoli,
-  ),
-  Product(
-    name: 'Beef',
-    shortDescription: 'Rich in vitamins',
-    fullDescription: AppStrings.beefContent,
-    price: 29.99,
-    imageUrl: AppAsset.beef,
-  ),
-  Product(
-    name: 'Carrot',
-    shortDescription: 'Good source of iron',
-    fullDescription: AppStrings.carrotContent,
-    price: 29.99,
-    imageUrl: AppAsset.carrot,
-  ),
-];

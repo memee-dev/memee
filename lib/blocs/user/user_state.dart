@@ -8,6 +8,7 @@ abstract class UserState extends Equatable {
 class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
+class DefaultAddressLoading extends UserState {}
 
 class UserUpdateFailure extends UserState {
   final String message;
@@ -26,9 +27,6 @@ class UserDefaultAddressState extends UserState {
 
   UserDefaultAddressState({required this.address});
 }
-
-class SavedAddressLoading extends UserState {}
-class DeleteAddressLoading extends UserState {}
 
 class SavedAddressState extends UserState {
   final List<AddressModel> address;

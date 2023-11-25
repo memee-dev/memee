@@ -58,18 +58,23 @@ class SavedAddressItem extends StatelessWidget {
                     builder: (context, state) {
                       return ConfirmationDialog(
                         description: address.defaultValue
-                            ? AppStrings.setAsDefault
-                            : AppStrings.editAddress,
+                            ? AppStrings.editAddressContent
+                            : AppStrings.setAsDefaultContent,
                         buttonLabel1: address.defaultValue
-                            ? AppStrings.setAsDefaultLabel
-                            : AppStrings.cancel,
-                        buttonLabel2: AppStrings.editAddressLabel,
-                        onConfirm: () {
+                            ? AppStrings.cancel
+                            : AppStrings.setAsDefaultLabel,
+                        buttonLabel2: AppStrings.editAddress,
+                        positiveBtn: () {
+                          if (address.defaultValue) {
+                            Routes.push(context, Routes.editAddress,
+                                extra: address);
+                          }
                           Routes.pop(context);
                         },
-                        onCancel: () {
-                          // Routes.appGoRouter(context, Routes.editAddress,
-                          //     extra: address);
+                        negativeBtn: () {
+                          if (!address.defaultValue) {
+                            _userCubit.setAsDefault(true, address);
+                          }
 
                           Routes.pop(context);
                         },
@@ -126,34 +131,33 @@ class SavedAddressItem extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: InkWell(
-              onTap: () {
-                showCupertinoDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return BlocBuilder<UserCubit, UserState>(
-                      bloc: _userCubit,
-                      builder: (context, state) {
-                        return ConfirmationDialog(
-                          description: AppStrings.deleteConfirmation,
-                          buttonLabel1: AppStrings.delete,
-                          buttonLabel2: AppStrings.cancel,
-                          onConfirm: () {
-                            Routes.pop(context);
-                            _userCubit.deleteAddress(address);
-                          },
-                          onCancel: () {
-                            // Routes.appGoRouter(context, Routes.editAddress,
-                            //     extra: address);
-
-                            Routes.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  },
-                );
-              },
+              onTap: !address.defaultValue
+                  ? () {
+                      showCupertinoDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return BlocBuilder<UserCubit, UserState>(
+                            bloc: _userCubit,
+                            builder: (context, state) {
+                              return ConfirmationDialog(
+                                description: AppStrings.deleteConfirmation,
+                                buttonLabel1: AppStrings.delete,
+                                buttonLabel2: AppStrings.cancel,
+                                positiveBtn: () {
+                                  Routes.pop(context);
+                                },
+                                negativeBtn: () {
+                                  Routes.pop(context);
+                                  _userCubit.deleteAddress(address);
+                                },
+                              );
+                            },
+                          );
+                        },
+                      );
+                    }
+                  : null,
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 12.w,

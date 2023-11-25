@@ -78,13 +78,18 @@ Reducing the risk of diabetes. ''';
   static const confirmationDialog = 'Confirmation';
   static const confirm = 'Confirm';
 
-  static const setAsDefault =
+  static const setAsDefaultContent =
       'Do you want to set the selected address as default or edit, kindly choose from the below options';
-  static const editAddress =
+  static const editAddressContent =
       'Address is already set as default, do you want to edit the address';
 
+  static const addAddress = 'Add Address';
   static const setAsDefaultLabel = 'Set as Default';
-  static const editAddressLabel = 'Edit Address';
+  static const editAddress = 'Edit Address';
   static const deleteConfirmation = 'Are you sure want to delete the address';
   static const delete = 'Delete';
+
+  static const defaultAddressNotSet = 'Default Address is not set, Kindly select a default address to proceed further';
+
+  static const savedAddress = 'Saved Address';
 }

@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
 import 'package:memee/models/user_model.dart';
-import 'package:memee/ui/address/address_edit.dart';
+import 'package:memee/ui/address/address_edit_screen.dart';
 import 'package:memee/ui/address/saved_address_screen.dart';
 import 'package:memee/ui/cart/cart_screen.dart';
 import 'package:memee/ui/product/product_detail_screen.dart';
@@ -33,23 +35,23 @@ final GoRouter appRouter = GoRouter(
           path: Routes.productDetails,
           builder: (_, state) {
             return ProductDescriptionScreen(
-              product: state.extra as ProductEntity,
+              product: state.extra as ProductModel,
             );
           },
         ),
         GoRoute(
           path: Routes.shoppingCart,
           builder: (_, state) => ShoppingCartScreen(
-            state.extra as List<Product>,
+            state.extra as List<ProductModel>,
           ),
         ),
         GoRoute(
           path: Routes.profile,
-          builder: (_, state) => const ProfileWidget(),
+          builder: (_, state) => ProfileWidget(),
         ),
         GoRoute(
           path: Routes.savedAddress,
-          builder: (_, state) => SavedAddress(),
+          builder: (_, state) => const SavedAddressScreen(),
         ),
         GoRoute(
           path: Routes.editAddress,
@@ -59,6 +61,12 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.addAddress,
+          builder: (_, state) => AddressEditScreen(
+            edit: state.extra as bool,
+          ),
+        ),
+        GoRoute(
+          path: Routes.addAddressFirstTimeLogin,
           builder: (_, state) => AddressEditScreen(
             firstTime: state.extra as bool,
           ),
@@ -79,8 +87,9 @@ mixin Routes {
   static const savedAddress = 'savedAddress';
   static const editAddress = 'editAddress';
   static const addAddress = 'addAddress';
+  static const addAddressFirstTimeLogin = 'addAddressFirstTimeLogin';
 
-  static void appGoRouter(BuildContext context, String path, {Object? extra}) {
+  static void push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);
   }
 

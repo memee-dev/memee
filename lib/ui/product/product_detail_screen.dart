@@ -6,7 +6,7 @@ import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/cache_image_widget.dart';
 
 class ProductDescriptionScreen extends StatelessWidget {
-  final ProductEntity? product;
+  final ProductModel? product;
 
   const ProductDescriptionScreen({
     super.key,
@@ -18,7 +18,7 @@ class ProductDescriptionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${product?.pName} Description',
+          ' Description',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -45,15 +45,13 @@ class ProductDescriptionScreen extends StatelessWidget {
               padding: EdgeInsets.all(
                 16.r,
               ),
-              child: CacheImageWidget(
-                imageUrl: product?.image ?? '',
-              ),
+              child: Container(),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product?.pName ?? '',
+                  '',
                   style: Theme.of(context).textTheme.titleLarge,
                 ).paddingV(
                   v: 16.h,
@@ -65,16 +63,16 @@ class ProductDescriptionScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        '\$${(product?.details?.first.dPrice ?? '0')}',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                                ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Text(
+                    //     '\$${(product?.details?.first.dPrice ?? '0')}',
+                    //     style:
+                    //         Theme.of(context).textTheme.titleMedium?.copyWith(
+                    //               fontWeight: FontWeight.bold,
+                    //               color: Colors.green,
+                    //             ),
+                    //   ),
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -107,7 +105,7 @@ class ProductDescriptionScreen extends StatelessWidget {
     );
   }
 
-  void addToCart(Product product) {}
+  void addToCart(ProductModel product) {}
 
   void navigateToCart() {}
 }

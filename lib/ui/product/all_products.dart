@@ -30,24 +30,7 @@ class AllProducts extends StatelessWidget {
                 ),
                 itemBuilder: (_, i) {
                   final e = state.products[i];
-                  return HomeProductItem(
-                    name: e.pName ?? '',
-                    description: e.description ?? '',
-                    image: e.image ?? '',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => ProductDescriptionScreen(
-                            product: e,
-                          ),
-                        ),
-                      );
-                      // context.go(
-                      //   '/productDetails',
-                      //   extra: e,
-                      // );
-                    },
-                  );
+                  return Container();
                 },
                 itemCount: state.products.length,
                 separatorBuilder: (BuildContext context, int index) => SizedBox(

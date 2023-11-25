@@ -11,13 +11,19 @@ class CacheImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      height: height ?? 36.h,
-      width: width ?? 36.w,
-      imageUrl: imageUrl,
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(
+        12.r,
+      ),
+      child: CachedNetworkImage(
+        height: height ?? 36.h,
+        width: width ?? 36.w,
+        imageUrl: imageUrl,
+        fadeInCurve: Curves.ease,
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+            child: CircularProgressIndicator(value: downloadProgress.progress)),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ),
     );
   }
 }

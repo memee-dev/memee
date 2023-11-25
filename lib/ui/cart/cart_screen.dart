@@ -6,7 +6,7 @@ import 'package:memee/ui/__shared/widgets/app_button.dart';
 import 'package:memee/ui/cart/cart_address_widget.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
-  final List<Product> cartItems;
+  final List<ProductModel> cartItems;
 
   const ShoppingCartScreen(this.cartItems, {super.key});
 
@@ -49,7 +49,6 @@ class ShoppingCartScreen extends StatelessWidget {
                   ),
                   child: ListTile(
                     leading: Container(
-
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(
@@ -62,7 +61,7 @@ class ShoppingCartScreen extends StatelessWidget {
                         8.r,
                       ),
                       child: Image.asset(
-                        cartItems[index].imageUrl,
+                        'cartItems[index].imageUrl',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -80,12 +79,12 @@ class ShoppingCartScreen extends StatelessWidget {
                         ).paddingV(
                           v: 4.h,
                         ),
-                        Text(
-                          'Price: \$${cartItems[index].price}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ).gapBottom(
-                          4.h,
-                        ),
+                        // Text(
+                        //   'Price: \$${cartItems[index].price}',
+                        //   style: Theme.of(context).textTheme.bodyLarge,
+                        // ).gapBottom(
+                        //   4.h,
+                        // ),
                       ],
                     ),
                     trailing: Row(
@@ -125,7 +124,7 @@ class ShoppingCartScreen extends StatelessWidget {
     );
   }
 
-  void removeFromCart(Product product) {
+  void removeFromCart(ProductModel product) {
     // Remove the product from the cart
     // You can add any additional logic here, such as updating the total price.
   }

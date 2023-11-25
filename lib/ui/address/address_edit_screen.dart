@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
 import 'package:memee/blocs/hide_and_seek/hide_and_seek_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/initializer/app_router.dart';
+import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/models/user_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/app_button.dart';
@@ -13,35 +16,32 @@ import 'package:memee/ui/address/widgets/set_as_default.dart';
 
 class AddressEditScreen extends StatelessWidget {
   final AddressModel? address;
-  final bool? firstTime;
+  final bool? firstTime, edit;
 
-  AddressEditScreen({super.key, this.address, this.firstTime});
+  AddressEditScreen({super.key, this.address, this.firstTime, this.edit});
 
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
-  late TextEditingController street;
-  late TextEditingController houseNo;
-  late TextEditingController area;
-  late TextEditingController city;
-  late TextEditingController pinCode;
-  late TextEditingController landmark;
+
   final _formValidation = locator.get<FormValidationCubit>();
   final userCubit = locator.get<UserCubit>();
   final hideCubit = locator.get<HideAndSeekCubit>();
 
   @override
   Widget build(BuildContext context) {
-    street = TextEditingController(text: address?.street);
-    houseNo = TextEditingController(text: address?.no);
-    area = TextEditingController(text: address?.area);
-    city = TextEditingController(text: address?.city);
-    pinCode = TextEditingController(text: address?.pincode);
-    landmark = TextEditingController(text: address?.landmark);
+    TextEditingController street = TextEditingController(text: address?.street);
+    TextEditingController houseNo = TextEditingController(text: address?.no);
+    TextEditingController area = TextEditingController(text: address?.area);
+    TextEditingController city = TextEditingController(text: address?.city);
+    TextEditingController pinCode =
+        TextEditingController(text: address?.pincode);
+    TextEditingController landmark =
+        TextEditingController(text: address?.landmark);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Edit Address',
+          edit ?? false ? AppStrings.editAddress : AppStrings.addAddress,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         leading: const BackButton(),
@@ -151,12 +151,13 @@ class AddressEditScreen extends StatelessWidget {
                 return SetAsDefaultWidget(
                   isChecked: address?.defaultValue ?? state,
                   onChanged: (bool? value) {
+                    address?.defaultValue = state;
                     hideCubit.change();
                   },
                 );
               },
             ),
-            BlocBuilder<UserCubit, UserState>(
+            BlocConsumer<UserCubit, UserState>(
               bloc: userCubit,
               builder: (context, state) {
                 return AppButton(
@@ -186,6 +187,12 @@ class AddressEditScreen extends StatelessWidget {
                     }
                   },
                 );
+              },
+              listener: (BuildContext context, UserState state) {
+                if (state is UserUpdateSuccess) {
+                  Routes.pop(context);
+                  userCubit.getSavedAddress();
+                }
               },
             ).paddingV(
               v: 8.h,

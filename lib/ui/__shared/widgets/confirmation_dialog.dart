@@ -6,8 +6,8 @@ import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String? title, buttonLabel1, buttonLabel2, description;
-  final VoidCallback? onConfirm;
-  final VoidCallback? onCancel;
+  final VoidCallback? positiveBtn;
+  final VoidCallback? negativeBtn;
 
   const ConfirmationDialog({
     super.key,
@@ -15,8 +15,8 @@ class ConfirmationDialog extends StatelessWidget {
     this.buttonLabel1,
     this.buttonLabel2,
     this.description,
-    this.onConfirm,
-    this.onCancel,
+    this.positiveBtn,
+    this.negativeBtn,
   });
 
   @override
@@ -34,7 +34,7 @@ class ConfirmationDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         CupertinoDialogAction(
-          onPressed: onConfirm,
+          onPressed: negativeBtn,
           child: Text(
             buttonLabel1 ?? AppStrings.confirm,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -42,15 +42,16 @@ class ConfirmationDialog extends StatelessWidget {
                 ),
           ),
         ),
-        CupertinoDialogAction(
-          onPressed: onCancel,
-          child: Text(
-            buttonLabel2 ?? AppStrings.cancel,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+        if (buttonLabel2 != null)
+          CupertinoDialogAction(
+            onPressed: positiveBtn,
+            child: Text(
+              buttonLabel2 ?? AppStrings.cancel,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
           ),
-        ),
       ],
     );
   }

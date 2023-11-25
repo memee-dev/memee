@@ -47,32 +47,38 @@ class HomeProductItem extends StatelessWidget {
           ],
           color: Theme.of(context).colorScheme.primary,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            carousel ?? false
-                ? Image.asset(
-                    image,
-                    height: 36.h,
-                    width: 36.w,
-                  )
-                : CacheImageWidget(
-                    imageUrl: image,
-                  ),
-            Text(
-              name,
-              style: Theme.of(context).textTheme.titleLarge,
-            ).gapBottom(
-              4.h,
-            ),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
+        child: ListTile(
+          title: carousel ?? false
+              ? Image.asset(
+                  image,
+                  height: height ?? 36.h,
+                  width: width ?? 36.w,
+                )
+              : CacheImageWidget(
+                  imageUrl: image,
+                  height: height ?? 36.h,
+                  width: width ?? 36.w,
+                ),
+          subtitle: Column(
+            children: [
+              Text(
+                name,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.black,
+                    ),
+              ).paddingV(
+                v: 4.h,
+              ),
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
