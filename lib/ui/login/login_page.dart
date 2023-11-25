@@ -3,15 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
+import 'package:memee/blocs/hide_and_seek/toggle_cubit.dart';
 import 'package:memee/blocs/login/login_state.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/shared/app_strings.dart';
+import 'package:memee/models/country_code_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/ui/__shared/widgets/app_phonefield.dart';
 import 'package:memee/ui/__shared/widgets/otp_field.dart';
 
 import '../../blocs/login/login_cubit.dart';
 import '../__shared/widgets/app_button.dart';
-import '../__shared/widgets/app_textfield.dart';
 import '../__shared/widgets/utils.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,6 +26,8 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _loginCubit = locator.get<LoginCubit>();
     final _formCubit = locator.get<FormValidationCubit>();
+    final _toggleCubit = locator.get<ToggleCubit>();
+    CountryCodeModel selectedCountryCode = countryCodes.first;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -35,54 +39,16 @@ class LoginPage extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                 ),
           ).paddingE(value: 24),
-          Row(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 16.h,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.5),
-                  ),
-                ),
-                child: Text(
-                  '+ 91',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ).gapRight(16.w),
-              BlocBuilder<LoginCubit, LoginState>(
-                bloc: _loginCubit,
-                builder: (context, state) {
-                  return BlocBuilder<FormValidationCubit, FormValidationState>(
-                    bloc: _formCubit,
-                    builder: (context, formState) {
-                      return Expanded(
-                        child: AppTextField(
-                          readOnly: state is OtpSuccess,
-                          controller: _mobileController,
-                          errorText: formState is MobileNumberError
-                              ? formState.message
-                              : null,
-                          label: AppStrings.number,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            // Limit maximum length to 10
-                          ],
-                          keyboardType: TextInputType.number,
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
+          AppPhoneField(
+            controller: _mobileController,
+            cubit: _toggleCubit,
+            selectedCountryCode: selectedCountryCode,
+            onChanged: (CountryCodeModel? val) {
+              if (val != null) {
+                selectedCountryCode = val;
+                _toggleCubit.change();
+              }
+            },
           ).gapBottom(16.h),
           BlocConsumer<LoginCubit, LoginState>(
             listener: (_, state) {

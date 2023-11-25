@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
-import 'package:memee/blocs/hide_and_seek/hide_and_seek_cubit.dart';
+import 'package:memee/blocs/hide_and_seek/toggle_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/map_cubit/map_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
@@ -42,8 +42,8 @@ void blocConfig(GetIt locator) {
   locator.registerLazySingleton<UserCubit>(
     () => UserCubit(locator(), locator()),
   );
-  locator.registerFactory<HideAndSeekCubit>(
-    () => HideAndSeekCubit(),
+  locator.registerFactory<ToggleCubit>(
+    () => ToggleCubit(),
   );
   locator.registerFactory<IndexCubit>(
     () => IndexCubit(),

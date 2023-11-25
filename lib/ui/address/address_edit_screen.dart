@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
-import 'package:memee/blocs/hide_and_seek/hide_and_seek_cubit.dart';
+import 'package:memee/blocs/hide_and_seek/toggle_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
@@ -25,7 +25,7 @@ class AddressEditScreen extends StatelessWidget {
 
   final _formValidation = locator.get<FormValidationCubit>();
   final userCubit = locator.get<UserCubit>();
-  final hideCubit = locator.get<HideAndSeekCubit>();
+  final hideCubit = locator.get<ToggleCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,7 @@ class AddressEditScreen extends StatelessWidget {
               controller: landmark,
               label: 'Landmark (Optional)',
             ).gapBottom(12.h),
-            BlocBuilder<HideAndSeekCubit, bool>(
+            BlocBuilder<ToggleCubit, bool>(
               bloc: hideCubit,
               builder: (context, state) {
                 return SetAsDefaultWidget(

@@ -17,28 +17,32 @@ class AppDropDown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(2.sp);
+    final borderRadius = BorderRadius.circular(8.r);
     final padding = EdgeInsets.symmetric(horizontal: 4.w);
     return Container(
-      //padding: padding,
+      height: 52.h,
       decoration: BoxDecoration(
         borderRadius: borderRadius,
         border: Border.all(
-          color: Colors.grey,
+          color: Colors.white70,
           style: BorderStyle.solid,
-          width: 0.2.sp,
+          width: 1.r,
         ),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<T>(
           padding: padding,
           borderRadius: borderRadius,
+          dropdownColor: Colors.black,
           value: value,
           items: items
               .map(
                 (T level) => DropdownMenuItem<T>(
                   value: level,
-                  child: Text('${prefixText ?? ''} $level'),
+                  child: Text(
+                    '${prefixText ?? ''} $level',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               )
               .toList(),
