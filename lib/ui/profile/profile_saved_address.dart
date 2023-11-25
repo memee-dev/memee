@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/user/user_cubit.dart';
-import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/core/shared/app_divider.dart';
 import 'package:memee/models/user_model.dart';

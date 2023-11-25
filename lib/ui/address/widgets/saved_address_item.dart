@@ -66,8 +66,10 @@ class SavedAddressItem extends StatelessWidget {
                         buttonLabel2: AppStrings.editAddress,
                         positiveBtn: () {
                           if (address.defaultValue) {
-                            Routes.push(context, Routes.editAddress,
-                                extra: address);
+                            Routes.push(context, Routes.addEditAddress, extra: {
+                              'address': address,
+                              'edit': true,
+                            });
                           }
                           Routes.pop(context);
                         },

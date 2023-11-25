@@ -1,15 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
-import 'package:memee/models/user_model.dart';
 import 'package:memee/ui/address/address_edit_screen.dart';
 import 'package:memee/ui/address/saved_address_screen.dart';
 import 'package:memee/ui/cart/cart_screen.dart';
 import 'package:memee/ui/product/product_detail_screen.dart';
 import 'package:memee/ui/profile/profile_widget.dart';
+import 'package:memee/ui/profile/user_info/add_user_info_screen.dart';
 
 import '../../ui/landing/landing_page.dart';
 import '../../ui/login/login_page.dart';
@@ -47,28 +44,22 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.profile,
-          builder: (_, state) => ProfileWidget(),
+          builder: (_, state) => const ProfileWidget(),
         ),
         GoRoute(
           path: Routes.savedAddress,
           builder: (_, state) => const SavedAddressScreen(),
         ),
         GoRoute(
-          path: Routes.editAddress,
+          path: Routes.addEditAddress,
           builder: (_, state) => AddressEditScreen(
-            address: state.extra as AddressModel,
+            map: state.extra as Map<String, dynamic>,
           ),
         ),
         GoRoute(
-          path: Routes.addAddress,
-          builder: (_, state) => AddressEditScreen(
-            edit: state.extra as bool,
-          ),
-        ),
-        GoRoute(
-          path: Routes.addAddressFirstTimeLogin,
-          builder: (_, state) => AddressEditScreen(
-            firstTime: state.extra as bool,
+          path: Routes.addUserInfo,
+          builder: (_, state) => AddUserInfoScreen(
+            map: state.extra as Map<String, dynamic>,
           ),
         ),
       ],
@@ -85,15 +76,14 @@ mixin Routes {
   static const allProducts = 'allProducts';
   static const profile = 'profile';
   static const savedAddress = 'savedAddress';
-  static const editAddress = 'editAddress';
-  static const addAddress = 'addAddress';
-  static const addAddressFirstTimeLogin = 'addAddressFirstTimeLogin';
+  static const addEditAddress = 'addEditAddress';
+  static const addUserInfo = 'addUserInfo';
 
-  static void push(BuildContext context, String path, {Object? extra}) {
+  static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);
   }
 
-  static void pop(BuildContext context) {
-    context.pop();
+  static void pop(BuildContext context, {Object? value}) {
+    context.pop([value]);
   }
 }

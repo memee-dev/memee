@@ -43,6 +43,24 @@ class MobileNumberError extends FormValidationState {
   MobileNumberError({this.message});
 }
 
+class UserNameEmpty extends FormValidationState {
+  final String? message;
+
+  UserNameEmpty({this.message});
+}
+
+class NameEmpty extends FormValidationState {
+  final String? message;
+
+  NameEmpty({this.message});
+}
+
+class EmailEmpty extends FormValidationState {
+  final String? message;
+
+  EmailEmpty({this.message});
+}
+
 class FormSubmit extends FormValidationState {
   final bool valid;
 

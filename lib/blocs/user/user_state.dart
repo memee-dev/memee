@@ -22,10 +22,10 @@ class UserUpdateSuccess extends UserState {
   UserUpdateSuccess({required this.message});
 }
 
-class UserDefaultAddressState extends UserState {
-  final AddressModel address;
+class CurrentUserState extends UserState {
+  final UserModel user;
 
-  UserDefaultAddressState({required this.address});
+  CurrentUserState({required this.user});
 }
 
 class SavedAddressState extends UserState {

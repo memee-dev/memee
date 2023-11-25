@@ -60,6 +60,26 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     }
   }
 
+  validateUserName(String text) {
+    emit(FormValidationInitial());
+    if (text.isEmpty) {
+      emit(UserNameEmpty(
+          message: 'Username cannot be empty')); // ValidationFationFailure
+    } else {
+      emit(FormValidationInitial());
+    }
+  }
+
+  validateEmail(String text) {
+    emit(FormValidationInitial());
+    if (text.isEmpty) {
+      emit(EmailEmpty(
+          message: 'Email cannot be empty')); // ValidationFationFailure
+    } else {
+      emit(FormValidationInitial());
+    }
+  }
+
   validateMobileNumber(String value) {
     emit(FormValidationInitial());
 

@@ -36,12 +36,12 @@ class LocationAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ).paddingH(h: 16.w)
               : BlocBuilder<UserCubit, UserState>(
-                  bloc: userCubit..getDefaultAddress(),
+                  bloc: userCubit..getCurrentUserInfo(),
                   builder: (context, user) {
                     if (user is UserLoading) {
                       return const DefaultAddressShimmer();
-                    } else if (user is UserDefaultAddressState) {
-                      final address = user.address;
+                    } else if (user is CurrentUserState) {
+                      final address = user.user.defaultAddress;
                       return InkWell(
                         onTap: onTap,
                         child: ListTile(
@@ -62,7 +62,7 @@ class LocationAppbar extends StatelessWidget implements PreferredSizeWidget {
                             ],
                           ),
                           subtitle: Text(
-                            '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
+                            '${address?.no},${address?.street},${address?.area},${address?.city},${address?.pincode},${address?.landmark}',
                             maxLines: 2,
                             style: Theme.of(context).textTheme.bodySmall,
                           ).paddingV(

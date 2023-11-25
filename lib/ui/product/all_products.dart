@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
-import 'package:memee/ui/home/widgets/product_item.dart';
-import 'package:memee/ui/product/product_detail_screen.dart';
 
 class AllProducts extends StatelessWidget {
   const AllProducts({super.key});

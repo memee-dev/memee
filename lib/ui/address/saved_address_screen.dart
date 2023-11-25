@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,9 +5,7 @@ import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/core/shared/app_divider.dart';
-import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
-import 'package:memee/ui/__shared/widgets/confirmation_dialog.dart';
 import 'package:memee/ui/__shared/widgets/default_address_shimmer.dart';
 import 'package:memee/ui/address/widgets/saved_address_item.dart';
 
@@ -42,7 +39,9 @@ class SavedAddressScreen extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          Routes.push(context, Routes.addAddress, extra: false);
+          Routes.push(context, Routes.addEditAddress, extra: {
+            'edit': false,
+          });
         },
         label: const Text(
           'Add new Address',
@@ -84,8 +83,10 @@ class _SavedAddress extends StatelessWidget {
               return SavedAddressItem(
                 address: state.address[i],
                 onEdit: () {
-                  Routes.push(context, Routes.editAddress,
-                      extra: state.address[i]);
+                  Routes.push(context, Routes.addEditAddress, extra: {
+                    'edit': false,
+                    'address': state.address[i],
+                  });
                 },
               );
             },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
 import 'package:memee/blocs/hide_and_seek/toggle_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
@@ -15,10 +14,12 @@ import 'package:memee/ui/__shared/widgets/app_textfield.dart';
 import 'package:memee/ui/address/widgets/set_as_default.dart';
 
 class AddressEditScreen extends StatelessWidget {
-  final AddressModel? address;
-  final bool? firstTime, edit;
+  final dynamic map;
 
-  AddressEditScreen({super.key, this.address, this.firstTime, this.edit});
+  // final AddressModel? address;
+  // final bool? edit;
+
+  AddressEditScreen({super.key, this.map});
 
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -29,6 +30,7 @@ class AddressEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AddressModel? address = map['address'];
     TextEditingController street = TextEditingController(text: address?.street);
     TextEditingController houseNo = TextEditingController(text: address?.no);
     TextEditingController area = TextEditingController(text: address?.area);
@@ -41,7 +43,7 @@ class AddressEditScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          edit ?? false ? AppStrings.editAddress : AppStrings.addAddress,
+          map['edit'] ?? false ? AppStrings.editAddress : AppStrings.addAddress,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         leading: const BackButton(),
@@ -53,29 +55,6 @@ class AddressEditScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            //MapWidget(),
-            if (firstTime ?? false) ...[
-              BlocBuilder<FormValidationCubit, FormValidationState>(
-                bloc: _formValidation,
-                builder: (context, state) {
-                  return AppTextField(
-                    controller: name,
-                    label: 'User Name',
-                    errorText: state is StreetEmpty ? state.message : null,
-                  ).gapBottom(12.h);
-                },
-              ),
-              BlocBuilder<FormValidationCubit, FormValidationState>(
-                bloc: _formValidation,
-                builder: (context, state) {
-                  return AppTextField(
-                    controller: email,
-                    label: 'Email',
-                    errorText: state is StreetEmpty ? state.message : null,
-                  ).gapBottom(12.h);
-                },
-              ),
-            ],
             BlocBuilder<FormValidationCubit, FormValidationState>(
               bloc: _formValidation,
               builder: (context, state) {
@@ -176,11 +155,11 @@ class AddressEditScreen extends StatelessWidget {
                       _formValidation.validatePinCode(pinCode.text);
                     } else {
                       userCubit.updateUserAddress(
-                        street.text,
-                        houseNo.text,
-                        area.text,
-                        pinCode.text,
-                        city.text,
+                        street: street.text,
+                        houseNo: houseNo.text,
+                        area: area.text,
+                        pinCode: pinCode.text,
+                        city: city.text,
                         landmark: landmark.text,
                         setAsDefault: hideCubit.state,
                       );

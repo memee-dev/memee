@@ -38,7 +38,7 @@ class _Profile extends StatelessWidget {
         const UserInformationWidget(),
         SizedBox(height: 24.h),
         SavedAddressesSection(
-          address: locator.get<UserCubit>().defaultAddress,
+          address: locator.get<UserCubit>().currentUser.defaultAddress!,
         ),
         SizedBox(height: 24.h),
         const SettingsSection(),

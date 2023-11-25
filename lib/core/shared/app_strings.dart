@@ -88,8 +88,13 @@ Reducing the risk of diabetes. ''';
   static const editAddress = 'Edit Address';
   static const deleteConfirmation = 'Are you sure want to delete the address';
   static const delete = 'Delete';
+  static const additionalInformation =
+      'We need some additional information to proceed further';
 
-  static const defaultAddressNotSet = 'Default Address is not set, Kindly select a default address to proceed further';
+  static const defaultAddressNotSet =
+      'Default Address is not set, Kindly select a default address to proceed further';
 
   static const savedAddress = 'Saved Address';
+
+  static const addPersonalInfo = 'Add Personal Info';
 }

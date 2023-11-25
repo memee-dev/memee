@@ -15,10 +15,19 @@ class UserCubit extends Cubit<UserState> {
   UserCubit(this.auth, this.db) : super(UserInitial());
 
   late UserModel currentUser;
-  late AddressModel defaultAddress;
 
-  Future<void> updateUserAddress(String street, houseNo, area, city, pinCode,
-      {String landmark = '', bool setAsDefault = false}) async {
+  Future<void> updateUserAddress({
+    String landmark = '',
+    bool setAsDefault = false,
+    String? name,
+    String? email,
+    String? phone,
+    String? street,
+    String? houseNo,
+    String? area,
+    String? city,
+    String? pinCode,
+  }) async {
     emit(UserLoading());
     try {
       User? user = auth.currentUser;
@@ -53,12 +62,12 @@ class UserCubit extends Cubit<UserState> {
           }
 
           final newData = {
-            'phoneNumber': data['phoneNumber'],
+            'phoneNumber': phone ?? data['phoneNumber'],
             'address': address,
             'verified': data['verified'],
             'active': data['active'],
-            'userName': data['userName'],
-            'email': data['email'],
+            'userName': name ?? data['userName'],
+            'email': email ?? data['email'],
           };
 
           await reference.doc(user.uid).update(newData);
@@ -75,7 +84,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  Future<void> getDefaultAddress() async {
+  Future<void> getCurrentUserInfo() async {
     emit(UserLoading());
     try {
       User? user = auth.currentUser;
@@ -87,17 +96,40 @@ class UserCubit extends Cubit<UserState> {
             .get();
 
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
-
+        List<AddressModel> address = [];
         if (data['address'].isNotEmpty) {
+          address = List<AddressModel>.from(
+              data['address'].map((x) => AddressModel.fromJson(x)));
           for (var key in data['address']) {
             if (key['default']) {
-              defaultAddress = AddressModel.fromJson(key);
-              emit(UserDefaultAddressState(address: defaultAddress));
+              currentUser = UserModel(
+                id: '',
+                address: address,
+                phoneNumber: data['phoneNumber'],
+                verified: data['verified'],
+                userName: data['userName'],
+                active: data['active'],
+                email: data['email'],
+                defaultAddress: AddressModel.fromJson(key),
+              );
+
+              emit(
+                CurrentUserState(user: currentUser),
+              );
             } else {
-              final list = List<AddressModel>.from(
-                  data['address'].map((x) => AddressModel.fromJson(x)));
-              defaultAddress = list.first;
-              emit(UserDefaultAddressState(address: defaultAddress));
+              currentUser = UserModel(
+                id: '',
+                address: address,
+                phoneNumber: data['phoneNumber'],
+                verified: data['verified'],
+                userName: data['userName'],
+                active: data['active'],
+                email: data['email'],
+                defaultAddress: address.first,
+              );
+              emit(
+                CurrentUserState(user: currentUser),
+              );
             }
           }
         }
@@ -150,6 +182,7 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> getSavedAddress() async {
     emit(UserLoading());
+
     try {
       User? user = auth.currentUser;
 
@@ -163,8 +196,23 @@ class UserCubit extends Cubit<UserState> {
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         address = List<AddressModel>.from(
             data['address'].map((x) => AddressModel.fromJson(x)));
+
         if (address.isNotEmpty) {
-          defaultAddress = address.first;
+          if (address.length == 1) {
+            address.first.defaultValue = true;
+          }
+
+          currentUser = UserModel(
+            id: '',
+            address: address,
+            phoneNumber: data['phoneNumber'],
+            verified: data['verified'],
+            userName: data['userName'],
+            active: data['active'],
+            email: data['email'],
+            defaultAddress: address.first,
+          );
+
           emit(SavedAddressState(address: address));
         } else {
           emit(SavedAddressState(address: const []));
@@ -197,7 +245,7 @@ class UserCubit extends Cubit<UserState> {
           for (var element in addressList) {
             if (element['no'] == address.no) {
               element['default'] = value;
-              defaultAddress = AddressModel.fromJson(element);
+              currentUser.defaultAddress = AddressModel.fromJson(element);
             }
 
             if (element['no'] != address.no) {
@@ -216,4 +264,6 @@ class UserCubit extends Cubit<UserState> {
       emit(UserUpdateFailure(message: 'Unable to fetch address'));
     }
   }
+
+  getCurrentUser() {}
 }

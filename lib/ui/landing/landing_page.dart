@@ -32,7 +32,7 @@ class LandingPage extends StatelessWidget {
       width: 200,
       color: Colors.teal,
     ),
-    ProfileWidget()
+    const ProfileWidget()
   ];
 
   @override
@@ -43,19 +43,19 @@ class LandingPage extends StatelessWidget {
         onTap: () => Routes.push(context, Routes.savedAddress),
       ),
       body: BlocListener<UserCubit, UserState>(
-        bloc: _userCubit..getSavedAddress(),
+        bloc: _userCubit..getCurrentUser(),
         listener: (context, state) {
-          if (state is SavedAddressState) {
-            if (state.address.isEmpty) {
+          if (state is CurrentUserState) {
+            if (state.user.email.isEmpty && state.user.userName.isEmpty) {
               showCupertinoDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return ConfirmationDialog(
-                    description: AppStrings.defaultAddressNotSet,
-                    buttonLabel1: AppStrings.savedAddress,
+                    description: AppStrings.additionalInformation,
+                    buttonLabel1: AppStrings.addPersonalInfo,
                     positiveBtn: () {
-                      Routes.push(context, Routes.addAddress, extra: false);
+                      Routes.push(context, Routes.addUserInfo, extra: {''});
 
                       Routes.pop(context);
                     },

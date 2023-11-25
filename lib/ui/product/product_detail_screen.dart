@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/models/product_entity.dart';
 import 'package:memee/models/product_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
-import 'package:memee/ui/__shared/widgets/cache_image_widget.dart';
 
 class ProductDescriptionScreen extends StatelessWidget {
   final ProductModel? product;

@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,9 +5,6 @@ import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
-import 'package:memee/core/shared/app_asset.dart';
-import 'package:memee/core/shared/app_strings.dart';
-import 'package:memee/models/product_model.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/app_textfield.dart';
 import 'package:memee/ui/home/widgets/product_item.dart';
@@ -117,8 +113,8 @@ class HomeWidget extends StatelessWidget {
                   itemBuilder: (_, i) {
                     final e = state.products[i];
                     return HomeProductItem(
-                      name: e.name ?? '',
-                      description: e.description  ?? '',
+                      name: e.name,
+                      description: e.description,
                       image: e.images!.first ,
                       width: MediaQuery.of(context).size.width.w,
                       height: 64.h,
