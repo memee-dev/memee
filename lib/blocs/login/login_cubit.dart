@@ -63,8 +63,6 @@ class LoginCubit extends Cubit<LoginState> {
             'phoneNumber': user.phoneNumber
           });
 
-          print('--------> ${loginUser.toJson()}');
-          //print('--------> ${userDoc.data()}');
 
           await db
               .collection(AppFireStoreCollection.userDev)

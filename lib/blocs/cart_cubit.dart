@@ -79,6 +79,7 @@ class CartCubit extends Cubit<CartState> {
         }
 
         final docRef = await ref.doc(_cartModel.id).get();
+        _cartModel.id = docRef.id;
         if (docRef.exists) {
           await ref.doc(_cartModel.id).update(_cartModel.toJson());
         } else {
@@ -121,14 +122,9 @@ class CartCubit extends Cubit<CartState> {
             .indexWhere((element) => element.productDetails == details);
         if (selectedItemIndex >= 0) {
           _cartModel.selectedItems[selectedItemIndex].units--;
-          final data = await ref.get();
-          if (data.docs.isNotEmpty) {
-            for (var d in data.docs) {
-              print('-----> ${d.data()}');
-            }
-          }
           if (_cartModel.selectedItems[selectedItemIndex].units <= 0) {
             cartItems.remove(_cartModel);
+            /// issue, remove item from firebase
             // await ref
             //     .doc(cartItems[cIndex].id).
           } else {

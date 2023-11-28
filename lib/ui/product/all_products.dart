@@ -27,7 +27,7 @@ class AllProducts extends StatelessWidget {
                   horizontal: 16.w,
                 ),
                 itemBuilder: (_, i) {
-                  final e = state.products[i];
+                  //final e = state.products[i];
                   return Container();
                 },
                 itemCount: state.products.length,

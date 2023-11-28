@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
-import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
-import 'package:memee/ui/__shared/widgets/confirmation_dialog.dart';
 import 'package:memee/ui/__shared/widgets/default_address_shimmer.dart';
 
 class LocationAppbar extends StatelessWidget implements PreferredSizeWidget {
