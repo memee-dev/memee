@@ -123,10 +123,10 @@ class CartCubit extends Cubit<CartState> {
         if (selectedItemIndex >= 0) {
           _cartModel.selectedItems[selectedItemIndex].units--;
           if (_cartModel.selectedItems[selectedItemIndex].units <= 0) {
-            cartItems.remove(_cartModel);
-            /// issue, remove item from firebase
-            // await ref
-            //     .doc(cartItems[cIndex].id).
+            _cartModel.selectedItems.removeAt(selectedItemIndex);
+          }
+          if (_cartModel.selectedItems.isEmpty) {
+            ref.doc(_cartModel.id).delete();
           } else {
             await ref.doc(_cartModel.id).update(_cartModel.toJson());
           }
