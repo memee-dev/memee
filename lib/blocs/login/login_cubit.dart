@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/blocs/login/login_state.dart';
 import 'package:memee/core/shared/app_firestore.dart';
+import 'package:memee/core/shared/app_logger.dart';
 import 'package:memee/models/user_model.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -47,6 +48,7 @@ class LoginCubit extends Cubit<LoginState> {
             .doc(user.uid)
             .get();
 
+
         if (userDoc.exists) {
           loginUser =
               UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
@@ -54,11 +56,16 @@ class LoginCubit extends Cubit<LoginState> {
           loginUser = UserModel.fromJson({
             'userName': '',
             'email': '',
+            'id': user.uid,
             'verified': false,
             'address': [],
             'active': false,
             'phoneNumber': user.phoneNumber
           });
+
+          print('--------> ${loginUser.toJson()}');
+          //print('--------> ${userDoc.data()}');
+
           await db
               .collection(AppFireStoreCollection.userDev)
               .doc(user.uid)
@@ -71,7 +78,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginFailure(message: 'Failed to login, please try again'));
       }
     } catch (e) {
-      emit(LoginFailure(message: e.toString()));
+      log.e(e);
     }
   }
 
@@ -95,7 +102,7 @@ class LoginCubit extends Cubit<LoginState> {
         },
       );
     } catch (e) {
-      emit(LoginFailure(message: e.toString()));
+      log.e(e);
     }
   }
 

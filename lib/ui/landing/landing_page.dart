@@ -43,7 +43,7 @@ class LandingPage extends StatelessWidget {
         onTap: () => Routes.push(context, Routes.savedAddress),
       ),
       body: BlocListener<UserCubit, UserState>(
-        bloc: _userCubit..getCurrentUser(),
+        bloc: _userCubit,
         listener: (context, state) {
           if (state is CurrentUserState) {
             if (state.user.email.isEmpty && state.user.userName.isEmpty) {
@@ -54,12 +54,19 @@ class LandingPage extends StatelessWidget {
                   return ConfirmationDialog(
                     description: AppStrings.additionalInformation,
                     buttonLabel1: AppStrings.addPersonalInfo,
-                    positiveBtn: () {
-                      Routes.push(context, Routes.addUserInfo, extra: {''});
-
+                    positiveBtn: () {},
+                    negativeBtn: () {
                       Routes.pop(context);
+                      Routes.push(
+                        context,
+                        Routes.addUserInfo,
+                        extra: {
+                          'userName': _userCubit.currentUser.userName,
+                          'userEmail': _userCubit.currentUser.email,
+                          'phoneNo': _userCubit.currentUser.phoneNumber,
+                        },
+                      );
                     },
-                    negativeBtn: () {},
                   );
                 },
               );

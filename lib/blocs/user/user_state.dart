@@ -8,6 +8,7 @@ abstract class UserState extends Equatable {
 class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
+class UserInfoLoading extends UserState {}
 class DefaultAddressLoading extends UserState {}
 
 class UserUpdateFailure extends UserState {

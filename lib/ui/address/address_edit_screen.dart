@@ -16,8 +16,6 @@ import 'package:memee/ui/address/widgets/set_as_default.dart';
 class AddressEditScreen extends StatelessWidget {
   final dynamic map;
 
-  // final AddressModel? address;
-  // final bool? edit;
 
   AddressEditScreen({super.key, this.map});
 

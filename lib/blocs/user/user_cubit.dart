@@ -6,6 +6,9 @@ import 'package:memee/core/shared/app_firestore.dart';
 import 'package:memee/core/shared/app_logger.dart';
 import 'package:memee/models/user_model.dart';
 
+import '../../core/initializer/app_di.dart';
+import '../cart_cubit.dart';
+
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
@@ -85,9 +88,10 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> getCurrentUserInfo() async {
-    emit(UserLoading());
+    emit(UserInfoLoading());
     try {
       User? user = auth.currentUser;
+      locator.get<CartCubit>().fetchCartItems();
 
       if (user != null) {
         DocumentSnapshot userDoc = await db
@@ -103,7 +107,7 @@ class UserCubit extends Cubit<UserState> {
           for (var key in data['address']) {
             if (key['default']) {
               currentUser = UserModel(
-                id: '',
+                id: user.uid,
                 address: address,
                 phoneNumber: data['phoneNumber'],
                 verified: data['verified'],
@@ -113,12 +117,10 @@ class UserCubit extends Cubit<UserState> {
                 defaultAddress: AddressModel.fromJson(key),
               );
 
-              emit(
-                CurrentUserState(user: currentUser),
-              );
+              emit(CurrentUserState(user: currentUser));
             } else {
               currentUser = UserModel(
-                id: '',
+                id: user.uid,
                 address: address,
                 phoneNumber: data['phoneNumber'],
                 verified: data['verified'],
@@ -127,11 +129,20 @@ class UserCubit extends Cubit<UserState> {
                 email: data['email'],
                 defaultAddress: address.first,
               );
-              emit(
-                CurrentUserState(user: currentUser),
-              );
+              emit(CurrentUserState(user: currentUser));
             }
           }
+        } else {
+          currentUser = UserModel(
+            id: user.uid,
+            address: address,
+            phoneNumber: data['phoneNumber'],
+            verified: data['verified'],
+            userName: data['userName'],
+            active: data['active'],
+            email: data['email'],
+          );
+          emit(CurrentUserState(user: currentUser));
         }
       }
     } catch (e) {
@@ -203,7 +214,7 @@ class UserCubit extends Cubit<UserState> {
           }
 
           currentUser = UserModel(
-            id: '',
+            id: user.uid,
             address: address,
             phoneNumber: data['phoneNumber'],
             verified: data['verified'],
@@ -264,6 +275,4 @@ class UserCubit extends Cubit<UserState> {
       emit(UserUpdateFailure(message: 'Unable to fetch address'));
     }
   }
-
-  getCurrentUser() {}
 }

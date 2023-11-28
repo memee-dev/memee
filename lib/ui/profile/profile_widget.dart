@@ -30,6 +30,8 @@ class ProfileWidget extends StatelessWidget {
 }
 
 class _Profile extends StatelessWidget {
+  final _cubit = locator.get<UserCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,10 +39,12 @@ class _Profile extends StatelessWidget {
       children: [
         const UserInformationWidget(),
         SizedBox(height: 24.h),
-        SavedAddressesSection(
-          address: locator.get<UserCubit>().currentUser.defaultAddress!,
-        ),
-        SizedBox(height: 24.h),
+        if (_cubit.currentUser.address.isNotEmpty) ...[
+          SavedAddressesSection(
+            address: _cubit.currentUser.defaultAddress!,
+          ),
+          SizedBox(height: 24.h),
+        ],
         const SettingsSection(),
         SizedBox(height: 24.h),
         const HelpSection(),

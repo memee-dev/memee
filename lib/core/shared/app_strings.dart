@@ -97,4 +97,8 @@ Reducing the risk of diabetes. ''';
   static const savedAddress = 'Saved Address';
 
   static const addPersonalInfo = 'Add Personal Info';
+
+  static const rupee = '₹';
+
+  static const totalAmount = 'Total Amount';
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/initializer/app_router.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
 import 'package:memee/ui/__shared/widgets/app_textfield.dart';
+import 'package:memee/ui/home/widgets/category_item.dart';
 import 'package:memee/ui/home/widgets/product_item.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -14,7 +16,7 @@ class HomeWidget extends StatelessWidget {
 
   final TextEditingController controller = TextEditingController();
   final IndexCubit indexCubit = locator.get<IndexCubit>();
-  final IndexCubit carousel = locator.get<IndexCubit>();
+  final _categoryCubit = locator.get<CategoriesCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,40 +37,38 @@ class HomeWidget extends StatelessWidget {
             h: 0,
           ),
           Text(
-            'Popular Items',
+            'Categories',
             style: Theme.of(context).textTheme.titleLarge,
           ).gapBottom(
-            16.h,
+            4.h,
           ),
-          // CarouselSlider.builder(
-          //   itemCount: products.length,
-          //   itemBuilder: (context, index, realIndex) {
-          //     return HomeProductItem(
-          //       width: MediaQuery.of(context).size.width * 0.64,
-          //       name: products[index].name,
-          //       description: products[index].name,
-          //       image: products[index].imageUrl,
-          //       carousel: true,
-          //       onTap: () {
-          //         Routes.push(context, Routes.shoppingCart,
-          //             extra: products);
-          //       },
-          //     );
-          //   },
-          //   options: CarouselOptions(
-          //     initialPage: 0,
-          //     enableInfiniteScroll: true,
-          //     enlargeCenterPage: true,
-          //     viewportFraction: 0.8,
-          //     autoPlay: true,
-          //     height: 112.h,
-          //     autoPlayInterval: const Duration(seconds: 3),
-          //     autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          //     autoPlayCurve: Curves.fastOutSlowIn,
-          //   ),
-          // ).gapBottom(
-          //   16.h,
-          // ),
+          BlocBuilder<CategoriesCubit, CategoriesState>(
+            bloc: _categoryCubit..fetchCategories(),
+            builder: (context, state) {
+              if (state is CategoriesLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is CategoriesResponseState) {
+                return Row(
+                  children: state.categories
+                      .map(
+                        (e) => Expanded(
+                          child: CategoryItem(
+                            imageUrl: e.image,
+                            title: e.name,
+                          ).gapRight(
+                            8.w,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ).paddingV(v: 16.h),
           Row(
             children: [
               Expanded(
@@ -100,12 +100,7 @@ class HomeWidget extends StatelessWidget {
               } else if (state is ProductFailure) {
                 return Text(state.message);
               } else if (state is ProductSuccess) {
-                return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8.w,
-                    mainAxisSpacing: 24.h,
-                  ),
+                return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount:
@@ -113,11 +108,8 @@ class HomeWidget extends StatelessWidget {
                   itemBuilder: (_, i) {
                     final e = state.products[i];
                     return HomeProductItem(
-                      name: e.name,
-                      description: e.description,
-                      image: e.images!.first ,
+                      product: state.products[i],
                       width: MediaQuery.of(context).size.width.w,
-                      height: 64.h,
                       onTap: () {
                         Routes.push(
                           context,
@@ -125,7 +117,7 @@ class HomeWidget extends StatelessWidget {
                           extra: e,
                         );
                       },
-                    );
+                    ).gapBottom(16.h);
                   },
                 );
               }

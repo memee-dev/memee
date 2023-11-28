@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:memee/models/category_model.dart';
 
 class ProductModel {
@@ -20,12 +21,13 @@ class ProductModel {
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
+
     return ProductModel(
       id: map['id'],
       name: map['name'],
       category: CategoryModel.fromMap(map['category']),
       description: map['description'],
-      images: List<String>.from(map['images']),
+      images: map['images'] != null ? List<String>.from(map['images']) : [],
       productDetails: List<ProductDetailsModel>.from(
           map['productDetails'].map((x) => ProductDetailsModel.fromMap(x))),
       active: map['active'],
@@ -39,7 +41,7 @@ class ProductModel {
     map['category'] = category.toJson(addId: true);
     map['description'] = description;
     map['active'] = active;
-    if (images != null && images!.isNotEmpty) {
+    if ((images ?? []).isNotEmpty) {
       map['images'] = List<String>.from(images!.map((x) => x));
     }
     if (productDetails.isNotEmpty) {
@@ -58,13 +60,13 @@ enum ProductType {
   piece,
 }
 
-class ProductDetailsModel {
+class ProductDetailsModel extends Equatable {
   final int price;
   final int discountedPrice;
   final int qty;
   final ProductType type;
 
-  ProductDetailsModel({
+  const ProductDetailsModel({
     required this.price,
     required this.discountedPrice,
     required this.qty,
@@ -98,4 +100,7 @@ class ProductDetailsModel {
       throw ArgumentError('Invalid product type');
     }
   }
+
+  @override
+  List<Object?> get props => [price, discountedPrice, qty, type];
 }

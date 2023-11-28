@@ -18,14 +18,14 @@ import '../__shared/widgets/utils.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController _mobileController = TextEditingController();
   final otpController = TextEditingController();
+  final _loginCubit = locator.get<LoginCubit>();
+  final _formCubit = locator.get<FormValidationCubit>();
+  final _toggleCubit = locator.get<ToggleCubit>();
 
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _loginCubit = locator.get<LoginCubit>();
-    final _formCubit = locator.get<FormValidationCubit>();
-    final _toggleCubit = locator.get<ToggleCubit>();
     CountryCodeModel selectedCountryCode = countryCodes.first;
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -57,6 +57,9 @@ class LoginPage extends StatelessWidget {
                 snackBar(context, state.message);
               } else if (state is OtpSuccess) {
                 snackBar(context, state.message ?? '');
+              } else if (state is LoginSuccess) {
+                otpController.dispose();
+                _mobileController.dispose();
               }
             },
             builder: (_, state) {

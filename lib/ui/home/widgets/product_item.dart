@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
+import 'package:memee/models/product_model.dart';
 import 'package:memee/ui/__shared/widgets/cache_image_widget.dart';
+import 'package:memee/ui/home/widgets/product_item_footer.dart';
 
 class HomeProductItem extends StatelessWidget {
-  final String name, description, image;
+  final ProductModel product;
   final GestureTapCallback? onTap;
   final double? height, width;
   final bool? carousel;
 
   const HomeProductItem({
     Key? key,
-    required this.name,
-    required this.description,
     this.height,
     this.width,
-    required this.image,
+    required this.product,
     this.onTap,
     this.carousel,
   }) : super(key: key);
@@ -30,52 +29,38 @@ class HomeProductItem extends StatelessWidget {
         margin: EdgeInsets.only(
           right: 12.w,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 4.w,
-          vertical: 4.h,
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
             12.r,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurStyle: BlurStyle.outer,
-              blurRadius: 24.r,
-              offset: const Offset(10, 10),
+              color: Colors.white,
             )
           ],
-          color: Theme.of(context).colorScheme.primary,
+          color: Colors.white38,
         ),
         child: ListTile(
-          title: carousel ?? false
-              ? Image.asset(
-                  image,
-                  height: height ?? 36.h,
-                  width: width ?? 36.w,
-                )
-              : CacheImageWidget(
-                  imageUrl: image,
-                  height: height ?? 36.h,
-                  width: width ?? 36.w,
-                ),
+          title: CacheImageWidget(
+            imageUrl: (product.images ?? []).isNotEmpty
+                ? (product.images ?? []).first
+                : '',
+            width: MediaQuery.of(context).size.width,
+          ),
+          contentPadding: EdgeInsets.zero,
           subtitle: Column(
             children: [
-              Text(
-                name,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.black,
-                    ),
-              ).paddingV(
-                v: 4.h,
-              ),
-              Text(
-                description,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.black,
-                ),
+              ProductItemFooter(
+                name: product.name,
+                description: product.description,
+                type: product.productDetails.first.type == ProductType.kg
+                    ? 'Per KG'
+                    : 'Per Piece',
+                normalPrice:
+                    product.productDetails.first.price.toStringAsFixed(2),
+                discountPrice: product.productDetails.first.discountedPrice
+                    .toStringAsFixed(2),
               ),
             ],
           ),

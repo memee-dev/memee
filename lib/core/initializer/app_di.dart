@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:memee/blocs/cart_cubit.dart';
+import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/form_cubit/form_validation_cubit.dart';
 import 'package:memee/blocs/hide_and_seek/toggle_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
@@ -54,6 +56,12 @@ void blocConfig(GetIt locator) {
 
   locator.registerFactory<ProductCubit>(
     () => ProductCubit(locator()),
+  );
+  locator.registerFactory<CategoriesCubit>(
+    () => CategoriesCubit(locator()),
+  );
+  locator.registerLazySingleton<CartCubit>(
+    () => CartCubit(locator(),locator()),
   );
   locator.registerLazySingleton<MapCubit>(
     () => MapCubit(),

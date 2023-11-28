@@ -8,7 +8,9 @@ class AppButton extends StatelessWidget {
   final String label;
   final Color bgColor;
   final Color textColor;
+  final FontWeight? fontWeight;
   final GestureTapCallback? onTap;
+  final double? fontSize;
 
   const AppButton({
     super.key,
@@ -17,6 +19,8 @@ class AppButton extends StatelessWidget {
     this.bgColor = Colors.amber,
     this.textColor = Colors.black,
     this.isLoading = false,
+    this.fontWeight,
+    this.fontSize,
   });
 
   const AppButton.positive({
@@ -26,6 +30,8 @@ class AppButton extends StatelessWidget {
     this.bgColor = Colors.amber,
     this.textColor = const Color.fromRGBO(0, 0, 0, 1),
     this.isLoading = false,
+    this.fontWeight,
+    this.fontSize,
   });
 
   const AppButton.negative({
@@ -35,6 +41,8 @@ class AppButton extends StatelessWidget {
     this.bgColor = Colors.black,
     this.textColor = Colors.amber,
     this.isLoading = false,
+    this.fontWeight,
+    this.fontSize,
   });
 
   @override
@@ -57,10 +65,11 @@ class AppButton extends StatelessWidget {
               )
             : Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: textColor),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: textColor,
+                      fontWeight: fontWeight,
+                      fontSize: fontSize,
+                    ),
               ),
       ),
     );
