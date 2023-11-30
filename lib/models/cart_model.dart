@@ -2,6 +2,8 @@ import 'package:memee/models/product_model.dart';
 
 class CartModel {
   String? id;
+  String? name;
+  String? image;
   final String productId;
   final List<SelectedItemModel> selectedItems;
 
@@ -9,12 +11,16 @@ class CartModel {
     this.id,
     required this.productId,
     required this.selectedItems,
+    this.name,
+    this.image,
   });
 
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
       id: map['id'],
       productId: map['productId'],
+      name: map['name'],
+      image: map['image'],
       selectedItems: List<SelectedItemModel>.from(
           map['selectedItems'].map((x) => SelectedItemModel.fromMap(x))),
     );
@@ -23,6 +29,8 @@ class CartModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['productId'] = productId;
+    map['name'] = name;
+    map['image'] = image;
     if (selectedItems.isNotEmpty) {
       map['selectedItems'] = List<Map<String, dynamic>>.from(
         selectedItems.map((x) => x.toJson()),

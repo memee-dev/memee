@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/cart_cubit.dart';
+import 'package:memee/blocs/cart/cart_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
+import 'package:memee/core/shared/actual_discout_price.dart';
 import 'package:memee/core/shared/app_divider.dart';
 import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/ui/__shared/extensions/widget_extensions.dart';
@@ -66,50 +67,15 @@ class TotalItemPrice extends StatelessWidget {
                                             .textTheme
                                             .bodySmall,
                                       ),
-                                      Text(
-                                        ' x ${e.units} ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
                                     ],
                                   ).gapBottom(8.h),
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${e.productDetails.qty * e.units}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    Text(
-                                      ' *\t ${AppStrings.rupee}${e.productDetails.discountedPrice} \t',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w900,
-                                            color: Colors.amber,
-                                          ),
-                                    ),
-                                    Text(
-                                      '${AppStrings.rupee}${e.productDetails.price}',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w900,
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            decorationThickness: 2,
-                                          ),
-                                    ),
-                                  ],
-                                )
+                                ActualDiscountPrice(
+                                  units: e.units,
+                                  discountedPrice:
+                                      e.productDetails.discountedPrice,
+                                  price: e.productDetails.price,
+                                ),
                               ],
                             );
                           }).toList(),

@@ -38,9 +38,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.shoppingCart,
-          builder: (_, state) => ShoppingCartScreen(
-            state.extra as List<ProductModel>,
-          ),
+          builder: (_, state) => CartScreen(),
         ),
         GoRoute(
           path: Routes.profile,

@@ -22,111 +22,113 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ProductCubit>(
       create: (context) => locator.get<ProductCubit>()..fetchProducts(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppTextField(
-            controller: controller,
-            label: 'Search Here',
-            prefixIcon: const Icon(
-              Icons.search,
-              color: Colors.white,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppTextField(
+              controller: controller,
+              label: 'Search Here',
+              prefixIcon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ).paddingS(
+              v: 24.h,
+              h: 0,
             ),
-          ).paddingS(
-            v: 24.h,
-            h: 0,
-          ),
-          Text(
-            'Categories',
-            style: Theme.of(context).textTheme.titleLarge,
-          ).gapBottom(
-            4.h,
-          ),
-          BlocBuilder<CategoriesCubit, CategoriesState>(
-            bloc: _categoryCubit..fetchCategories(),
-            builder: (context, state) {
-              if (state is CategoriesLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is CategoriesResponseState) {
-                return Row(
-                  children: state.categories
-                      .map(
-                        (e) => Expanded(
-                          child: CategoryItem(
-                            imageUrl: e.image,
-                            title: e.name,
-                          ).gapRight(
-                            8.w,
+            Text(
+              'Categories',
+              style: Theme.of(context).textTheme.titleLarge,
+            ).gapBottom(
+              4.h,
+            ),
+            BlocBuilder<CategoriesCubit, CategoriesState>(
+              bloc: _categoryCubit..fetchCategories(),
+              builder: (context, state) {
+                if (state is CategoriesLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is CategoriesResponseState) {
+                  return Row(
+                    children: state.categories
+                        .map(
+                          (e) => Expanded(
+                            child: CategoryItem(
+                              imageUrl: e.image,
+                              title: e.name,
+                            ).gapRight(
+                              8.w,
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ).paddingV(v: 16.h),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Products',
-                  style: Theme.of(context).textTheme.titleLarge,
+                        )
+                        .toList(),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ).paddingV(v: 16.h),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Products',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  Routes.push(context, Routes.allProducts);
-                },
-                child: Text(
-                  'View More',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-            ],
-          ).gapBottom(
-            16.h,
-          ),
-          BlocConsumer<ProductCubit, ProductState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is ProductLoading) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              } else if (state is ProductFailure) {
-                return Text(state.message);
-              } else if (state is ProductSuccess) {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount:
-                      state.products.length >= 4 ? 4 : state.products.length,
-                  itemBuilder: (_, i) {
-                    final e = state.products[i];
-                    return HomeProductItem(
-                      product: state.products[i],
-                      width: MediaQuery.of(context).size.width.w,
-                      onTap: () {
-                        Routes.push(
-                          context,
-                          Routes.productDetails,
-                          extra: e,
-                        );
-                      },
-                    ).gapBottom(16.h);
+                InkWell(
+                  onTap: () {
+                    Routes.push(context, Routes.allProducts);
                   },
-                );
-              }
+                  child: Text(
+                    'View More',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ],
+            ).gapBottom(
+              16.h,
+            ),
+            BlocConsumer<ProductCubit, ProductState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is ProductLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                } else if (state is ProductFailure) {
+                  return Text(state.message);
+                } else if (state is ProductSuccess) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount:
+                        state.products.length >= 4 ? 4 : state.products.length,
+                    itemBuilder: (_, i) {
+                      final e = state.products[i];
+                      return HomeProductItem(
+                        product: state.products[i],
+                        width: MediaQuery.of(context).size.width.w,
+                        onTap: () {
+                          Routes.push(
+                            context,
+                            Routes.productDetails,
+                            extra: e,
+                          );
+                        },
+                      ).gapBottom(16.h);
+                    },
+                  );
+                }
 
-              return const SizedBox.shrink();
-            },
-          ),
-        ],
-      ),
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
+      ).paddingS(h: 16.w, v: 16.h),
     );
   }
 }

@@ -42,7 +42,8 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> addProduct(ProductDetailsModel details, String productId) async {
+  Future<void> addProduct(ProductDetailsModel details, String productId,
+      String productName, String imageUrl) async {
     final List<CartModel> cartItems = getLocalCartItems();
     try {
       final userId = auth.currentUser!.uid;
@@ -72,6 +73,8 @@ class CartCubit extends Cubit<CartState> {
         } else {
           _cartModel = CartModel(
             productId: productId,
+            name: productName,
+            image: imageUrl,
             selectedItems: [
               SelectedItemModel(units: 1, productDetails: details)
             ],
@@ -82,14 +85,16 @@ class CartCubit extends Cubit<CartState> {
         _cartModel.id = docRef.id;
         if (docRef.exists) {
           await ref.doc(_cartModel.id).update(_cartModel.toJson());
+
         } else {
           await ref.doc(_cartModel.id).set(_cartModel.toJson());
+          cartItems.add(_cartModel);
         }
-
-        cartItems.add(_cartModel);
       } else {
         final _cartModel = CartModel(
           productId: productId,
+          name: productName,
+          image: imageUrl,
           selectedItems: [SelectedItemModel(units: 1, productDetails: details)],
         );
 
@@ -171,13 +176,21 @@ class CartCubit extends Cubit<CartState> {
       cartItems.addAll((state as CartResponseState).cartItems);
     }
 
-    final cart =
-        cartItems.firstWhere((element) => element.productId == productId);
-    for (var item in cart.selectedItems) {
-      totalAmount = ((item.productDetails.qty * item.units) *
-              item.productDetails.discountedPrice)
-          .toDouble();
+    if (productId.isNotEmpty) {
+      final cart =
+          cartItems.firstWhere((element) => element.productId == productId);
+      for (var item in cart.selectedItems) {
+        totalAmount +=
+            (item.units * item.productDetails.discountedPrice).toDouble();
+      }
+    } else {
+      for (var cart in cartItems) {
+        for (var item in cart.selectedItems) {
+          totalAmount +=
+              (item.units * item.productDetails.discountedPrice).toDouble();
+        }
+      }
     }
-    return totalAmount.toString();
+    return totalAmount.toStringAsFixed(2);
   }
 }

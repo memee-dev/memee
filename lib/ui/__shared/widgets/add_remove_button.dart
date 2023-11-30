@@ -48,9 +48,9 @@ class AddRemoveWidget extends StatelessWidget {
                   ),
             ),
           )
-        : AnimatedOpacity(
-            opacity: 1,
+        : AnimatedSize(
             duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInExpo,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white12,
@@ -58,6 +58,7 @@ class AddRemoveWidget extends StatelessWidget {
                   12.r,
                 ), // Border radius
               ),
+              padding: EdgeInsets.zero,
               child: Row(
                 children: [
                   IconButton(

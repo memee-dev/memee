@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/cart_cubit.dart';
+import 'package:memee/blocs/cart/cart_cubit.dart';
 import 'package:memee/core/initializer/app_di.dart';
 import 'package:memee/core/shared/app_strings.dart';
 import 'package:memee/models/product_model.dart';
@@ -51,7 +51,9 @@ class ProductDescriptionScreen extends StatelessWidget {
                 ],
               ),
               child: CacheImageWidget(
-                imageUrl: (product.images ?? []).isNotEmpty ? (product.images ?? []).first : '',
+                imageUrl: (product.images ?? []).isNotEmpty
+                    ? (product.images ?? []).first
+                    : '',
               ),
             ).gapBottom(16.h),
             Text(
@@ -110,8 +112,11 @@ class ProductDescriptionScreen extends StatelessWidget {
                             bloc: _cartCubit,
                             builder: (_, state) {
                               return AddRemoveWidget(
-                                onAdd: () =>
-                                    _cartCubit.addProduct(e, product.id),
+                                onAdd: () => _cartCubit.addProduct(
+                                    e,
+                                    product.id,
+                                    product.name,
+                                    (product.images ?? []).first),
                                 onRemove: () =>
                                     _cartCubit.removeProduct(e, product.id),
                                 quantity: _cartCubit.showQty(e, product.id),

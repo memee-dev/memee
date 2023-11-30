@@ -7,7 +7,7 @@ import 'package:memee/core/shared/app_logger.dart';
 import 'package:memee/models/user_model.dart';
 
 import '../../core/initializer/app_di.dart';
-import '../cart_cubit.dart';
+import '../cart/cart_cubit.dart';
 
 part 'user_state.dart';
 
