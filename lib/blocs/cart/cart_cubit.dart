@@ -42,8 +42,12 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> addProduct(ProductDetailsModel details, String productId,
-      String productName, String imageUrl) async {
+  Future<void> addProduct(
+    ProductDetailsModel details,
+    String productId,
+    String productName,
+    String productImg,
+  ) async {
     final List<CartModel> cartItems = getLocalCartItems();
     try {
       final userId = auth.currentUser!.uid;
@@ -54,6 +58,7 @@ class CartCubit extends Cubit<CartState> {
 
       if (cartItems.isNotEmpty) {
         CartModel? _cartModel;
+
         for (var item in cartItems) {
           if (item.productId == productId) {
             _cartModel = item;
@@ -61,6 +66,7 @@ class CartCubit extends Cubit<CartState> {
         }
 
         if (_cartModel != null) {
+          final index = cartItems.indexOf(_cartModel);
           final selectedItemIndex = _cartModel.selectedItems
               .indexWhere((element) => element.productDetails == details);
 
@@ -70,23 +76,19 @@ class CartCubit extends Cubit<CartState> {
             _cartModel.selectedItems
                 .add(SelectedItemModel(units: 1, productDetails: details));
           }
+          await ref.doc(_cartModel.id).update(_cartModel.toJson());
+          cartItems[index] = _cartModel;
         } else {
           _cartModel = CartModel(
             productId: productId,
             name: productName,
-            image: imageUrl,
+            image: productImg,
             selectedItems: [
               SelectedItemModel(units: 1, productDetails: details)
             ],
           );
-        }
-
-        final docRef = await ref.doc(_cartModel.id).get();
-        _cartModel.id = docRef.id;
-        if (docRef.exists) {
-          await ref.doc(_cartModel.id).update(_cartModel.toJson());
-
-        } else {
+          final docRef = await ref.doc().get();
+          _cartModel.id = docRef.id;
           await ref.doc(_cartModel.id).set(_cartModel.toJson());
           cartItems.add(_cartModel);
         }
@@ -94,8 +96,13 @@ class CartCubit extends Cubit<CartState> {
         final _cartModel = CartModel(
           productId: productId,
           name: productName,
-          image: imageUrl,
-          selectedItems: [SelectedItemModel(units: 1, productDetails: details)],
+          image: productImg,
+          selectedItems: [
+            SelectedItemModel(
+              units: 1,
+              productDetails: details,
+            ),
+          ],
         );
 
         final docRef = await ref.add(_cartModel.toJson());
@@ -123,6 +130,7 @@ class CartCubit extends Cubit<CartState> {
       if (cartItems.isNotEmpty) {
         final CartModel _cartModel =
             cartItems.firstWhere((item) => item.productId == productId);
+        final cartIndex = cartItems.indexOf(_cartModel);
         final selectedItemIndex = _cartModel.selectedItems
             .indexWhere((element) => element.productDetails == details);
         if (selectedItemIndex >= 0) {
@@ -132,8 +140,10 @@ class CartCubit extends Cubit<CartState> {
           }
           if (_cartModel.selectedItems.isEmpty) {
             ref.doc(_cartModel.id).delete();
+            cartItems.removeAt(cartIndex);
           } else {
             await ref.doc(_cartModel.id).update(_cartModel.toJson());
+            cartItems[cartIndex] = _cartModel;
           }
         }
       }

@@ -113,10 +113,11 @@ class ProductDescriptionScreen extends StatelessWidget {
                             builder: (_, state) {
                               return AddRemoveWidget(
                                 onAdd: () => _cartCubit.addProduct(
-                                    e,
-                                    product.id,
-                                    product.name,
-                                    (product.images ?? []).first),
+                                  e,
+                                  product.id,
+                                  product.name,
+                                  (product.images ?? []).first,
+                                ),
                                 onRemove: () =>
                                     _cartCubit.removeProduct(e, product.id),
                                 quantity: _cartCubit.showQty(e, product.id),
