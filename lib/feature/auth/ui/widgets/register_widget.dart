@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 
+import '../../../../core/utils/app_textinputformatter.dart';
 import '../../bloc/login_cubit.dart';
 import '../../../../core/utils/app_di.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -11,19 +12,20 @@ import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_textfield.dart';
 import 'login_header.dart';
 
-class PhoneWidget extends StatelessWidget {
-  const PhoneWidget({super.key});
+class RegisterWidget extends StatelessWidget {
+  const RegisterWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final phoneQIDController = TextEditingController();
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
     final loginCubit = locator.get<LoginCubit>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const LoginHeader(
-          title: AppStrings.phoneTitle,
-          description: AppStrings.phoneDescription,
+          title: AppStrings.loginTitle,
+          description: AppStrings.loginDescription,
         ),
         Text(
           AppStrings.phoneNumber,
@@ -33,20 +35,29 @@ class PhoneWidget extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         AppTextField(
-          controller: phoneQIDController,
-          label: AppStrings.phoneHint,
+          controller: nameController,
+          label: AppStrings.nameHint,
           inputFormatters: <TextInputFormatter>[
             LengthLimitingTextInputFormatter(10),
             FilteringTextInputFormatter.allow(RegExp(r'^\+?\d*$')),
+          ],
+        ),
+        SizedBox(height: 4.h),
+        AppTextField(
+          controller: emailController,
+          label: AppStrings.emailHint,
+          inputFormatters: <TextInputFormatter>[
+            EmailInputFormatter(),
           ],
         ),
         SizedBox(height: 48.h),
         AppButton.primary(
           text: AppStrings.login,
           onPressed: () {
-            final val = phoneQIDController.text.trim();
-            if (val.isNotEmpty) {
-              loginCubit.verifyPhoneNumber('+91$val');
+            final name = nameController.text.trim();
+            final email = emailController.text.trim();
+            if (name.isNotEmpty && email.isNotEmpty) {
+              loginCubit.register(name, email);
             }
           },
         ),

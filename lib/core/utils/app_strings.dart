@@ -6,11 +6,15 @@ mixin AppStrings {
   static const String password = 'Password';
   static const String number = 'Mobile Number';
 
-  static const String phoneTitle = 'Log in to $appName';
-  static const String phoneDescription =
+  static const String loginTitle = 'Log in to $appName';
+  static const String loginDescription =
       'Enter your registered mobile number to log in';
+  static const String registerTitle = 'Register to $appName';
+  static const String registerDescription = 'Enter your details to register';
   static const String phoneNumber = 'Phone number';
   static const String phoneHint = 'Ex. 9994444111';
+  static const String nameHint = 'Ex. AlexBob';
+  static const String emailHint = 'Ex. alexbob@memee.com';
   static const String dontHaveAccount = 'Don’t have an account? ';
   static const String clickHere = 'Click Here';
 

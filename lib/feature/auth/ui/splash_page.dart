@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/app_strings.dart';
+import '../../../core/utils/app_strings.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

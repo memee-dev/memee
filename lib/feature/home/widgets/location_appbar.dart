@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
@@ -12,13 +14,15 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IndexCubit indexCubit;
   final GestureTapCallback? onTap;
 
-  LocationAppBar({Key? key, required this.indexCubit, this.onTap})
-      : super(key: key);
-
-  final userCubit = locator.get<UserCubit>();
+  const LocationAppBar({
+    Key? key,
+    required this.indexCubit,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = locator.get<UserCubit>();
     return SafeArea(
       child: BlocBuilder<IndexCubit, int>(
         bloc: indexCubit,
@@ -32,7 +36,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                         : state == 2
                             ? AppStrings.cart
                             : AppStrings.profile,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.displayMDBold,
                   ),
                 ).paddingH()
               : BlocBuilder<UserCubit, UserState>(
@@ -41,32 +45,31 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (user is UserInfoLoading) {
                       return const DefaultAddressShimmer();
                     } else if (user is CurrentUserState) {
-                      final address = user.user.defaultAddress;
-                      return user.user.address.isNotEmpty
+                      return user.user.address != null &&
+                              user.user.address!.isNotEmpty
                           ? InkWell(
                               onTap: onTap,
                               child: ListTile(
                                 title: Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.home_filled,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: AppColors.accentDarkColor,
                                     ).gapRight(4.w),
                                     Text(
                                       'Home',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMDBold,
                                     ).gapRight(4.w),
-                                    Icon(
+                                    const Icon(
                                       Icons.keyboard_arrow_down_outlined,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: AppColors.accentDarkColor,
                                     ),
                                   ],
                                 ),
                                 subtitle: Text(
-                                  '${address?.no},${address?.street},${address?.area},${address?.city},${address?.pincode},${address?.landmark}',
+                                  '${user.user.address!.first.no},${user.user.address!.first.street},${user.user.address!.first.area},${user.user.address!.first.city},${user.user.address!.first.pincode},${user.user.address!.first.landmark}',
                                   maxLines: 2,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ).paddingV(4.h),

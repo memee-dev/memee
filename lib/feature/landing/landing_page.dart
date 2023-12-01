@@ -78,10 +78,10 @@ class LandingPage extends StatelessWidget {
       ),
       bottomNavigationBar: BlocBuilder<IndexCubit, int>(
         bloc: indexCubit,
-        builder: (context, state) {
+        builder: (_, state) {
           return HomeBottomNavigation(
             index: state,
-            onTap: (int index) => indexCubit..onIndexChange(index),
+            onTap: (i) => indexCubit..onIndexChange(i),
           );
         },
       ),

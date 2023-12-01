@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/auth_cubit.dart';
 import '../../../core/utils/app_di.dart';
-import 'landing/landing_page.dart';
-import 'login/login_page.dart';
-import 'splash/splash_page.dart';
-import 'register/register_page.dart';
+import '../../landing/landing_page.dart';
+import 'login_page.dart';
+import 'splash_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -18,8 +17,6 @@ class AuthPage extends StatelessWidget {
       builder: (_, state) {
         if (state == AuthState.unauthenticated) {
           return const LoginPage();
-        } else if (state == AuthState.register) {
-          return const RegisterPage();
         } else if (state == AuthState.authenticated) {
           return LandingPage();
         }

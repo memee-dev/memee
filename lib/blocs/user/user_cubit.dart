@@ -114,7 +114,6 @@ class UserCubit extends Cubit<UserState> {
                 userName: data['userName'],
                 active: data['active'],
                 email: data['email'],
-                defaultAddress: AddressModel.fromJson(key),
               );
 
               emit(CurrentUserState(user: currentUser));
@@ -127,7 +126,6 @@ class UserCubit extends Cubit<UserState> {
                 userName: data['userName'],
                 active: data['active'],
                 email: data['email'],
-                defaultAddress: address.first,
               );
               emit(CurrentUserState(user: currentUser));
             }
@@ -221,7 +219,6 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'],
             active: data['active'],
             email: data['email'],
-            defaultAddress: address.first,
           );
 
           emit(SavedAddressState(address: address));
@@ -256,7 +253,6 @@ class UserCubit extends Cubit<UserState> {
           for (var element in addressList) {
             if (element['no'] == address.no) {
               element['default'] = value;
-              currentUser.defaultAddress = AddressModel.fromJson(element);
             }
 
             if (element['no'] != address.no) {

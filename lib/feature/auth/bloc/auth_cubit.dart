@@ -1,34 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_firestore.dart';
+import 'package:memee/feature/auth/repo/user_repo.dart';
 
 enum AuthState {
   splash,
   authenticated,
   unauthenticated,
-  register,
 }
 
 class AuthCubit extends Cubit<AuthState> {
-  final FirebaseAuth auth;
-  final FirebaseFirestore db;
+  final auth = locator.get<FirebaseAuth>();
+  final db = locator.get<FirebaseFirestore>();
+  final userRepo = locator.get<UserRepo>();
 
-  AuthCubit(this.auth, this.db) : super(AuthState.splash);
+  AuthCubit() : super(AuthState.splash);
 
   Future<void> checkAuthenticationStatus() async {
     await Future.delayed(const Duration(seconds: 2));
     auth.authStateChanges().listen((User? user) async {
       try {
         if (user != null) {
+          userRepo.user = user;
           DocumentSnapshot userDoc = await db
               .collection(AppFireStoreCollection.userDev)
               .doc(user.uid)
               .get();
           if (userDoc.exists) {
+            userDoc.data();
             emit(AuthState.authenticated);
           } else {
-            await user.delete();
             emit(AuthState.unauthenticated);
           }
         } else {

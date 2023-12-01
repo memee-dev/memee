@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/feature/auth/bloc/register_cubit.dart';
+import 'package:memee/feature/auth/ui/widgets/register_widget.dart';
 
-import '../../../../core/utils/app_di.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../_widgets/otp_widget.dart';
-import '../_widgets/phone_widget.dart';
+import '../bloc/login_cubit.dart';
+import '../../../core/utils/app_di.dart';
+import '../../../core/utils/app_colors.dart';
+import 'widgets/otp_widget.dart';
+import 'widgets/phone_widget.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final registerCubit = locator.get<RegisterCubit>();
+    final loginCubit = locator.get<LoginCubit>();
     final size = ScreenUtil();
     return Scaffold(
       body: Stack(
@@ -42,12 +43,12 @@ class RegisterPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BlocBuilder<RegisterCubit, RegisterState>(
-                        bloc: registerCubit,
+                      BlocBuilder<LoginCubit, LoginState>(
+                        bloc: loginCubit,
                         builder: (_, state) {
-                          return state != RegisterState.phoneNumber
+                          return state != LoginState.phoneNumber
                               ? IconButton(
-                                  onPressed: () => registerCubit.back(),
+                                  onPressed: () => loginCubit.back(),
                                   icon: const Icon(Icons.arrow_back_ios),
                                 )
                               : const SizedBox.shrink();
@@ -55,15 +56,19 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ],
                   ).paddingV(24.h),
-                  BlocBuilder<RegisterCubit, RegisterState>(
-                    bloc: registerCubit,
+                  BlocBuilder<LoginCubit, LoginState>(
+                    bloc: loginCubit,
                     builder: (_, state) {
-                      if (state == RegisterState.phoneNumber) {
+                      if (state == LoginState.phoneNumber) {
                         return const PhoneWidget();
-                      } else if (state == RegisterState.otp) {
+                      } else if (state == LoginState.otp) {
                         return OTPWidget(
-                          onCompleted: (String? val) {},
+                          onCompleted: (String? val) {
+                            loginCubit.verifyOTP(val!);
+                          },
                         );
+                      } else if (state == LoginState.register) {
+                        return const RegisterWidget();
                       }
                       return const SizedBox.shrink();
                     },

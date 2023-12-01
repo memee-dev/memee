@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
+import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/models/user_model.dart';
 
 enum LoginState {
   phoneNumber,
   otp,
+  register,
 }
 
 class LoginCubit extends Cubit<LoginState> {
@@ -19,6 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
   String? verificationId;
   int? resendToken;
 
+  User? user;
   late UserModel? loginUser;
 
   LoginCubit() : super(LoginState.phoneNumber);
@@ -57,24 +60,41 @@ class LoginCubit extends Cubit<LoginState> {
       );
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
-      User? user = userCredential.user;
+      user = userCredential.user;
       if (user != null) {
         DocumentSnapshot userDoc = await db
             .collection(AppFireStoreCollection.userDev)
-            .doc(user.uid)
+            .doc(user!.uid)
             .get();
 
         if (userDoc.exists) {
           loginUser =
               UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
+        } else {
+          emit(LoginState.register);
         }
-        emit(LoginState.phoneNumber);
       } else {
         auth.signOut();
         emit(LoginState.phoneNumber);
       }
     } catch (e) {
       console.e(e);
+    }
+  }
+
+  Future<void> register(String name, String email) async {
+    if (user != null && phoneNumber != null) {
+      loginUser = UserModel(
+        id: user!.uid,
+        phoneNumber: phoneNumber!,
+        userName: name,
+        email: email,
+      );
+      await db
+          .collection(AppFireStoreCollection.userDev)
+          .doc(user!.uid)
+          .set(loginUser!.toJson());
+      locator.get<AuthCubit>().checkAuthenticationStatus();
     }
   }
 

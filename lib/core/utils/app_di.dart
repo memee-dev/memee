@@ -11,6 +11,7 @@ import 'package:memee/blocs/payment/payment_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/feature/auth/bloc/register_cubit.dart';
+import 'package:memee/feature/auth/repo/user_repo.dart';
 
 import '../../feature/auth/bloc/auth_cubit.dart';
 import '../../feature/auth/bloc/login_cubit.dart';
@@ -21,6 +22,7 @@ final locator = GetIt.I;
 void init() {
   apiConfig(locator);
   blocConfig(locator);
+  repoConfig(locator);
 }
 
 void apiConfig(GetIt locator) {
@@ -38,7 +40,7 @@ void blocConfig(GetIt locator) {
     () => ThemeCubit(),
   );
   locator.registerLazySingleton<AuthCubit>(
-    () => AuthCubit(locator(), locator()),
+    () => AuthCubit(),
   );
   locator.registerLazySingleton<RegisterCubit>(
     () => RegisterCubit(),
@@ -73,5 +75,11 @@ void blocConfig(GetIt locator) {
   );
   locator.registerLazySingleton<PaymentCubit>(
     () => PaymentCubit(),
+  );
+}
+
+void repoConfig(GetIt locator) {
+  locator.registerLazySingleton<UserRepo>(
+    () => UserRepo(),
   );
 }
