@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/shared/app_firestore.dart';
-import 'package:memee/models/product_entity.dart';
+import 'package:memee/core/utils/app_firestore.dart';
+import 'package:memee/core/utils/app_logger.dart';
+import 'package:memee/models/product_model.dart';
 
 part 'product_state.dart';
 
@@ -11,22 +12,29 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this.db) : super(ProductInitial());
 
-  fetchProducts() {
+  Future<void> fetchProducts() async {
+    List<ProductModel> products = [];
     emit(ProductLoading());
+    try {
+      final prodDoc =
+          await db.collection(AppFireStoreCollection.products).get();
+      final docs = prodDoc.docs;
 
-    List<ProductEntity> products = [];
-    final CollectionReference reference =
-        db.collection(AppFireStoreCollection.products);
+      for (var doc in docs) {
+        final data = doc.data();
 
-    reference.get().then((value) {
-      if (value.docs.isNotEmpty) {
-        value.docs.map((e) {
-          Map<String, dynamic>? data = e.data() as Map<String, dynamic>;
-
-          products.add(ProductEntity.fromJson(data));
-        }).toList();
-        emit(ProductSuccess(products: products));
+        data['id'] = doc.id;
+        products.add(
+          ProductModel.fromMap(data),
+        );
       }
-    });
+      emit(ProductSuccess(products: products));
+    } catch (e) {
+      emit(ProductFailure(
+        message: e.toString(),
+        products,
+      ));
+      console.e('FETCH Products', error: e);
+    }
   }
 }

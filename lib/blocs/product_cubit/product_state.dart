@@ -12,13 +12,14 @@ final class ProductInitial extends ProductState {}
 final class ProductLoading extends ProductState {}
 
 final class ProductSuccess extends ProductState {
-  final List<ProductEntity> products;
+  final List<ProductModel> products;
 
   const ProductSuccess({required this.products});
 }
 
 final class ProductFailure extends ProductState {
   final String message;
+  final List<ProductModel> products;
 
-  const ProductFailure({required this.message});
+  const ProductFailure(this.products, {required this.message});
 }
