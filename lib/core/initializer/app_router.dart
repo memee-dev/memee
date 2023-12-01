@@ -4,6 +4,7 @@ import 'package:memee/models/product_model.dart';
 import 'package:memee/ui/address/address_edit_screen.dart';
 import 'package:memee/ui/address/saved_address_screen.dart';
 import 'package:memee/ui/cart/cart_screen.dart';
+import 'package:memee/ui/order/order_confirmation.dart';
 import 'package:memee/ui/product/product_detail_screen.dart';
 import 'package:memee/ui/profile/profile_widget.dart';
 import 'package:memee/ui/profile/user_info/add_user_info_screen.dart';
@@ -60,6 +61,18 @@ final GoRouter appRouter = GoRouter(
             map: state.extra as Map<String, dynamic>,
           ),
         ),
+        GoRoute(
+          path: Routes.addUserInfo,
+          builder: (_, state) => AddUserInfoScreen(
+            map: state.extra as Map<String, dynamic>,
+          ),
+        ),
+        GoRoute(
+          path: Routes.orderConfirmation,
+          builder: (_, state) => OrderConfirmation(
+            success: state.extra as bool,
+          ),
+        ),
       ],
     ),
   ],
@@ -76,6 +89,7 @@ mixin Routes {
   static const savedAddress = 'savedAddress';
   static const addEditAddress = 'addEditAddress';
   static const addUserInfo = 'addUserInfo';
+  static const orderConfirmation = 'orderConfirmation';
 
   static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);
