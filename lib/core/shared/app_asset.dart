@@ -5,4 +5,5 @@ mixin AppAsset {
   static const String beef = 'asset/beef.png';
   static const String paymentSuccess = 'asset/anim/payment-success.json';
   static const String paymentFailure = 'asset/anim/payment-failure.json';
+  static const String cartEmpty = 'asset/anim/cart-empty.json';
 }
