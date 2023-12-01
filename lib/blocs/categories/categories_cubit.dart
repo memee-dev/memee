@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/shared/app_firestore.dart';
+import 'package:memee/core/utils/app_firestore.dart';
 
-import '../../core/shared/app_logger.dart';
+import '../../core/utils/app_logger.dart';
 import '../../models/category_model.dart';
 
 part 'categories_state.dart';
@@ -34,7 +34,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         e.toString(),
         categories,
       ));
-      log.e('FETCH CATEGORY', error: e);
+      console.e('FETCH CATEGORY', error: e);
     }
   }
 

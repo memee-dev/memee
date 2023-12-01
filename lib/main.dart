@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/firebase_options.dart';
 
 
-import 'core/initializer/app_di.dart' as di;
-import 'ui/my_app.dart';
+import 'core/utils/app_di.dart' as di;
+import 'feature/my_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

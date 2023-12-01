@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/shared/app_firestore.dart';
-import 'package:memee/core/shared/app_logger.dart';
+import 'package:memee/core/utils/app_firestore.dart';
+import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/models/cart_model.dart';
 import 'package:memee/models/product_model.dart';
 
@@ -37,7 +37,7 @@ class CartCubit extends Cubit<CartState> {
       }
       emit(CartSuccess(cartItems: cartItems));
     } catch (e) {
-      log.e(e);
+      console.e(e);
       emit(CartFailure(message: e.toString(), cartItems: cartItems));
     }
   }
@@ -112,7 +112,7 @@ class CartCubit extends Cubit<CartState> {
       emit(CartLoading());
       emit(CartSuccess(cartItems: cartItems));
     } catch (e) {
-      log.e(e);
+      console.e(e);
       emit(CartFailure(message: e.toString(), cartItems: cartItems));
     }
   }
@@ -153,7 +153,7 @@ class CartCubit extends Cubit<CartState> {
     } catch (e) {
       emit(CartLoading());
       emit(CartFailure(message: '', cartItems: cartItems));
-      log.e(e);
+      console.e(e);
     }
   }
 
