@@ -24,11 +24,11 @@ class RegisterWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const LoginHeader(
-          title: AppStrings.loginTitle,
-          description: AppStrings.loginDescription,
+          title: AppStrings.registerTitle,
+          description: AppStrings.registerDescription,
         ),
         Text(
-          AppStrings.phoneNumber,
+          AppStrings.userName,
           style: Theme.of(context).textTheme.textMDRegular.copyWith(
                 color: AppColors.textDarkColor,
               ),
@@ -42,7 +42,14 @@ class RegisterWidget extends StatelessWidget {
             FilteringTextInputFormatter.allow(RegExp(r'^\+?\d*$')),
           ],
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: 8.h),
+        Text(
+          AppStrings.userName,
+          style: Theme.of(context).textTheme.textMDRegular.copyWith(
+                color: AppColors.textDarkColor,
+              ),
+        ),
+        SizedBox(height: 6.h),
         AppTextField(
           controller: emailController,
           label: AppStrings.emailHint,

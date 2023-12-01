@@ -17,6 +17,11 @@ class OTPWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginCubit = locator.get<LoginCubit>();
+    if (loginCubit.phoneNumber == null) {
+      loginCubit.back();
+      return const SizedBox.shrink();
+    }
+
     return Column(
       children: [
         LoginHeader(

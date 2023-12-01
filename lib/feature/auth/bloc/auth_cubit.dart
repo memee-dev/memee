@@ -45,5 +45,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void reset() {
     auth.signOut();
+    locator.get<UserRepo>().clear();
   }
 }

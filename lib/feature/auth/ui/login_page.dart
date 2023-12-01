@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ).paddingV(24.h),
                   BlocBuilder<LoginCubit, LoginState>(
-                    bloc: loginCubit,
+                    bloc: loginCubit..checkAuthIsDone(),
                     builder: (_, state) {
                       if (state == LoginState.phoneNumber) {
                         return const PhoneWidget();

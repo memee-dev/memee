@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/widgets/app_button.dart';
@@ -19,12 +20,7 @@ class ProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<UserCubit>.value(
       value: locator.get<UserCubit>(),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(
-          12.w,
-        ),
-        child: _Profile(),
-      ),
+      child: _Profile(),
     );
   }
 }
@@ -39,23 +35,20 @@ class _Profile extends StatelessWidget {
       children: [
         const UserInformationWidget(),
         SizedBox(height: 24.h),
-        if (_cubit.currentUser.address!.isNotEmpty) ...[
+        if (_cubit.currentUser.address!.isNotEmpty)
           SavedAddressesSection(
             address: _cubit.currentUser.address!.first,
-          ),
-          SizedBox(height: 24.h),
-        ],
-        const SettingsSection(),
-        SizedBox(height: 24.h),
-        const HelpSection(),
-        SizedBox(height: 24.h),
+          ).gapBottom(24.h),
+
+        // const SettingsSection(),
+        // SizedBox(height: 24.h),
+        // const HelpSection(),
+        const Spacer(),
         AppButton.primary(
           text: AppStrings.logout,
-          onPressed: () {
-            locator.get<AuthCubit>().reset();
-          },
+          onPressed: () => locator.get<AuthCubit>().reset(),
         ),
       ],
-    );
+    ).paddingS();
   }
 }

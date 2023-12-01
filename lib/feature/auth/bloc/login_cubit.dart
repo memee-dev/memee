@@ -7,6 +7,8 @@ import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/models/user_model.dart';
 
+import '../repo/user_repo.dart';
+
 enum LoginState {
   phoneNumber,
   otp,
@@ -21,10 +23,16 @@ class LoginCubit extends Cubit<LoginState> {
   String? verificationId;
   int? resendToken;
 
-  User? user;
-  late UserModel? loginUser;
-
   LoginCubit() : super(LoginState.phoneNumber);
+
+  Future<void> checkAuthIsDone() async {
+    final userRepo = locator.get<UserRepo>();
+    if (userRepo.user != null) {
+      if (userRepo.userModel == null) {
+        emit(LoginState.register);
+      }
+    }
+  }
 
   Future<void> verifyPhoneNumber(String phoneNumber) async {
     try {
@@ -58,19 +66,10 @@ class LoginCubit extends Cubit<LoginState> {
         verificationId: verificationId ?? '',
         smsCode: otp,
       );
-      UserCredential userCredential =
-          await auth.signInWithCredential(credential);
-      user = userCredential.user;
-      if (user != null) {
-        DocumentSnapshot userDoc = await db
-            .collection(AppFireStoreCollection.userDev)
-            .doc(user!.uid)
-            .get();
-
-        if (userDoc.exists) {
-          loginUser =
-              UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
-        } else {
+      await auth.signInWithCredential(credential);
+      final userRepo = locator.get<UserRepo>();
+      if (userRepo.user != null) {
+        if (userRepo.userModel == null) {
           emit(LoginState.register);
         }
       } else {
@@ -83,17 +82,18 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> register(String name, String email) async {
-    if (user != null && phoneNumber != null) {
-      loginUser = UserModel(
-        id: user!.uid,
+    final userRepo = locator.get<UserRepo>();
+    if (userRepo.user != null && phoneNumber != null) {
+      userRepo.userModel = UserModel(
+        id: userRepo.user!.uid,
         phoneNumber: phoneNumber!,
         userName: name,
         email: email,
       );
       await db
           .collection(AppFireStoreCollection.userDev)
-          .doc(user!.uid)
-          .set(loginUser!.toJson());
+          .doc(userRepo.user!.uid)
+          .set(userRepo.userModel!.toJson());
       locator.get<AuthCubit>().checkAuthenticationStatus();
     }
   }
@@ -102,6 +102,9 @@ class LoginCubit extends Cubit<LoginState> {
     int backIndex = state.index - 1;
     if (backIndex > -1) {
       emit(LoginState.values[backIndex]);
+      if (backIndex == 0) {
+        locator.get<AuthCubit>().reset();
+      }
     }
   }
 }
