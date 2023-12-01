@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:memee/core/shared/app_asset.dart';
+import 'package:memee/core/utils/app_asset.dart';
 
 class OrderConfirmation extends StatelessWidget {
   final bool? success;

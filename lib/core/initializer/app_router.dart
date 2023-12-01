@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memee/feature/address/address_edit_screen.dart';
+import 'package:memee/feature/address/saved_address_screen.dart';
+import 'package:memee/feature/auth/ui/login_page.dart';
+import 'package:memee/feature/auth/ui/splash_page.dart';
+import 'package:memee/feature/cart/cart_screen.dart';
+import 'package:memee/feature/landing/landing_page.dart';
+import 'package:memee/feature/order/order_confirmation.dart';
+import 'package:memee/feature/product/product_detail_screen.dart';
+import 'package:memee/feature/profile/profile_widget.dart';
+import 'package:memee/feature/profile/user_info/add_user_info_screen.dart';
 import 'package:memee/models/product_model.dart';
-import 'package:memee/ui/address/address_edit_screen.dart';
-import 'package:memee/ui/address/saved_address_screen.dart';
-import 'package:memee/ui/cart/cart_screen.dart';
-import 'package:memee/ui/order/order_confirmation.dart';
-import 'package:memee/ui/product/product_detail_screen.dart';
-import 'package:memee/ui/profile/profile_widget.dart';
-import 'package:memee/ui/profile/user_info/add_user_info_screen.dart';
-
-import '../../ui/landing/landing_page.dart';
-import '../../ui/login/login_page.dart';
-import '../../ui/splash/splash_page.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: GlobalKey<NavigatorState>(),
@@ -23,7 +22,7 @@ final GoRouter appRouter = GoRouter(
       routes: [
         GoRoute(
           path: Routes.login,
-          builder: (_, state) => LoginPage(),
+          builder: (_, state) => const LoginPage(),
         ),
         GoRoute(
           path: Routes.landing,

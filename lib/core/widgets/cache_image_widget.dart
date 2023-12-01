@@ -28,8 +28,6 @@ class CacheImageWidget extends StatelessWidget {
         height: height,
         width: width,
         alignment: Alignment.center,
-        color: Theme.of(context).colorScheme.secondary,
-        colorBlendMode: BlendMode.darken,
         fit: fit ?? BoxFit.contain,
         imageUrl: imageUrl,
         fadeInCurve: Curves.ease,
