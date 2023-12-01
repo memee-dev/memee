@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/shared/app_firestore.dart';
-import 'package:memee/core/shared/app_logger.dart';
+import 'package:memee/core/utils/app_firestore.dart';
+import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/models/user_model.dart';
 
-import '../../core/initializer/app_di.dart';
+import '../../core/utils/app_di.dart';
 import '../cart/cart_cubit.dart';
 
 part 'user_state.dart';
@@ -114,7 +114,6 @@ class UserCubit extends Cubit<UserState> {
                 userName: data['userName'],
                 active: data['active'],
                 email: data['email'],
-                defaultAddress: AddressModel.fromJson(key),
               );
 
               emit(CurrentUserState(user: currentUser));
@@ -127,7 +126,6 @@ class UserCubit extends Cubit<UserState> {
                 userName: data['userName'],
                 active: data['active'],
                 email: data['email'],
-                defaultAddress: address.first,
               );
               emit(CurrentUserState(user: currentUser));
             }
@@ -146,7 +144,7 @@ class UserCubit extends Cubit<UserState> {
         }
       }
     } catch (e) {
-      log.e(e.toString());
+      console.e(e.toString());
     }
   }
 
@@ -186,7 +184,7 @@ class UserCubit extends Cubit<UserState> {
         emit(SavedAddressState(address: newList));
       }
     } catch (e) {
-      log.e(e.toString());
+      console.e(e.toString());
       emit(UserUpdateFailure(message: 'Unable to delete address'));
     }
   }
@@ -221,7 +219,6 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'],
             active: data['active'],
             email: data['email'],
-            defaultAddress: address.first,
           );
 
           emit(SavedAddressState(address: address));
@@ -230,7 +227,7 @@ class UserCubit extends Cubit<UserState> {
         }
       }
     } catch (e) {
-      log.e(e);
+      console.e(e);
       emit(UserUpdateFailure(message: 'No address found'));
     }
   }
@@ -256,7 +253,6 @@ class UserCubit extends Cubit<UserState> {
           for (var element in addressList) {
             if (element['no'] == address.no) {
               element['default'] = value;
-              currentUser.defaultAddress = AddressModel.fromJson(element);
             }
 
             if (element['no'] != address.no) {
@@ -271,7 +267,7 @@ class UserCubit extends Cubit<UserState> {
         }
       }
     } catch (e) {
-      log.e(e.toString());
+      console.e(e.toString());
       emit(UserUpdateFailure(message: 'Unable to fetch address'));
     }
   }

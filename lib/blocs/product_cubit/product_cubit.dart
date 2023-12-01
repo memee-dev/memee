@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/shared/app_firestore.dart';
-import 'package:memee/core/shared/app_logger.dart';
+import 'package:memee/core/utils/app_firestore.dart';
+import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/models/product_model.dart';
 
 part 'product_state.dart';
@@ -34,7 +34,7 @@ class ProductCubit extends Cubit<ProductState> {
         message: e.toString(),
         products,
       ));
-      log.e('FETCH Products', error: e);
+      console.e('FETCH Products', error: e);
     }
   }
 }

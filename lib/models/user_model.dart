@@ -1,46 +1,45 @@
 class UserModel {
   UserModel({
-    required this.address,
+    this.address,
     required this.id,
     required this.phoneNumber,
-    required this.verified,
-    required this.active,
+    this.verified = true,
+    this.active = true,
     required this.userName,
     required this.email,
-    this.defaultAddress,
   });
 
-  List<AddressModel> address;
+  List<AddressModel>? address;
   String phoneNumber;
   String id;
   bool verified;
   bool active;
   String userName;
   String email;
-  AddressModel? defaultAddress;
 
   factory UserModel.fromJson(Map<dynamic, dynamic> json) => UserModel(
-        address: List<AddressModel>.from(
-            json['address'].map((x) => AddressModel.fromJson(x))),
-        phoneNumber: json['phoneNumber'],
-        verified: json['verified'],
         id: json['id'],
-        active: json['active'],
         userName: json['userName'],
         email: json['email'],
-        defaultAddress: json['defaultAddress'],
+        phoneNumber: json['phoneNumber'],
+        verified: json['verified'],
+        active: json['active'],
+        address: json['address'] != null
+            ? List<AddressModel>.from(
+                json['address'].map((x) => AddressModel.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
-        'address':
-            List<Map<String, dynamic>>.from(address.map((x) => x.toJson())),
+        'address': address != null
+            ? List<Map<String, dynamic>>.from(address!.map((x) => x.toJson()))
+            : null,
         'phoneNumber': phoneNumber,
         'verified': verified,
         'id': id,
         'active': active,
         'userName': userName,
         'email': email,
-        'defaultAddress': defaultAddress,
       };
 }
 
