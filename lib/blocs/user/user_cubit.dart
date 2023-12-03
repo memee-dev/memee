@@ -47,28 +47,51 @@ class UserCubit extends Cubit<UserState> {
           Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
           List<Map<String, dynamic>> address =
               List<Map<String, dynamic>>.from(data['address'] ?? []);
-
-          for (var element in address) {
-            if (setAsDefault && element['no'] != houseNo) {
-              element['default'] = false;
+          List<Map<String, dynamic>> updatedAddress = [];
+          if (address.isNotEmpty) {
+            for (var element in address) {
+              if (element['no'] != houseNo) {
+                updatedAddress.add({
+                  'area': area,
+                  'city': city,
+                  'pincode': pinCode,
+                  'street': street,
+                  'landmark': landmark,
+                  'no': houseNo,
+                  'type': 'Home',
+                  'default': setAsDefault,
+                });
+              } else {
+                element['area'] = area;
+                element['city'] = city;
+                element['pincode'] = pinCode;
+                element['street'] = street;
+                element['landmark'] = landmark;
+                element['no'] = houseNo;
+                element['type'] = 'Home';
+                element['default'] = setAsDefault;
+                updatedAddress.add(element);
+              }
             }
-            if (setAsDefault && element['no'] != houseNo) {
-              element['area'] = area;
-              element['city'] = city;
-              element['pincode'] = pinCode;
-              element['street'] = street;
-              element['landmark'] = landmark;
-              element['houseNo'] = houseNo;
-              element['type'] = 'Home';
-              element['default'] = setAsDefault;
-            }
+          } else {
+            updatedAddress.add({
+              'area': area,
+              'city': city,
+              'pincode': pinCode,
+              'street': street,
+              'landmark': landmark,
+              'no': houseNo,
+              'type': 'Home',
+              'default': setAsDefault,
+            });
           }
 
+          address.addAll(updatedAddress);
           final newData = {
             'phoneNumber': phone ?? data['phoneNumber'],
             'address': address,
-            'verified': data['verified'],
-            'active': data['active'],
+            'verified': data['verified'] ?? false,
+            'active': data['active'] ?? false,
             'userName': name ?? data['userName'],
             'email': email ?? data['email'],
           };
@@ -82,8 +105,7 @@ class UserCubit extends Cubit<UserState> {
         }
       }
     } catch (e) {
-      emit(UserUpdateFailure(
-          message: 'Failed to update user Data, please try again later'));
+      console.e(e);
     }
   }
 
@@ -101,7 +123,7 @@ class UserCubit extends Cubit<UserState> {
 
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         List<AddressModel> address = [];
-        if (data['address'].isNotEmpty) {
+        if (data['address'] != null && data['address'].isNotEmpty) {
           address = List<AddressModel>.from(
               data['address'].map((x) => AddressModel.fromJson(x)));
           for (var key in data['address']) {
@@ -109,6 +131,7 @@ class UserCubit extends Cubit<UserState> {
               currentUser = UserModel(
                 id: user.uid,
                 address: address,
+                defaultAddress: AddressModel.fromJson(key),
                 phoneNumber: data['phoneNumber'],
                 verified: data['verified'],
                 userName: data['userName'],
@@ -121,6 +144,7 @@ class UserCubit extends Cubit<UserState> {
               currentUser = UserModel(
                 id: user.uid,
                 address: address,
+                defaultAddress: AddressModel.fromJson(key),
                 phoneNumber: data['phoneNumber'],
                 verified: data['verified'],
                 userName: data['userName'],
@@ -134,11 +158,11 @@ class UserCubit extends Cubit<UserState> {
           currentUser = UserModel(
             id: user.uid,
             address: address,
-            phoneNumber: data['phoneNumber'],
-            verified: data['verified'],
-            userName: data['userName'],
-            active: data['active'],
-            email: data['email'],
+            phoneNumber: data['phoneNumber'] ?? '',
+            verified: data['verified'] ?? false,
+            userName: data['userName'] ?? '',
+            active: data['active'] ?? true,
+            email: data['email'] ?? '',
           );
           emit(CurrentUserState(user: currentUser));
         }

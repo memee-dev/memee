@@ -9,7 +9,7 @@ class DefaultAddressShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[800]!,
+      baseColor: Colors.grey[200]!,
       highlightColor: Colors.grey[100]!,
       child: ListTile(
         title: Row(

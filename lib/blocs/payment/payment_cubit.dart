@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:memee/core/utils/app_logger.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 part 'payment_state.dart';
@@ -19,9 +20,15 @@ class PaymentCubit extends Cubit<PaymentState> {
     _razorpay.open(options);
   }
 
-  _handlePaymentSuccess() {}
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    emit(PaymentSuccess(paymentId: response.paymentId!));
+  }
 
-  _handlePaymentError() {}
+  void _handlePaymentError(PaymentFailureResponse response) {
+    console.w(response);
+  }
 
-  _handleExternalWallet() {}
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    console.w(response);
+  }
 }

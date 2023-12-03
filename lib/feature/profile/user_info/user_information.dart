@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_divider.dart';
@@ -29,7 +31,7 @@ class UserInformationWidget extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           title: Text(
             _userCubit.currentUser.userName,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.textLGBold,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +42,7 @@ class UserInformationWidget extends StatelessWidget {
                   Icon(
                     Icons.email_outlined,
                     size: 16.sp,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: AppColors.accentPinkColor,
                   ).gapRight(
                     4.w,
                   ),
@@ -48,7 +50,10 @@ class UserInformationWidget extends StatelessWidget {
                     child: Text(
                       _userCubit.currentUser.email,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style:
+                          Theme.of(context).textTheme.textSMSemibold.copyWith(
+                                color: AppColors.textLightColor,
+                              ),
                     ).paddingV(4.h),
                   ),
                 ],
@@ -58,14 +63,17 @@ class UserInformationWidget extends StatelessWidget {
                   Icon(
                     Icons.phone,
                     size: 16.sp,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: AppColors.accentPinkColor,
                   ).gapRight(
                     4.w,
                   ),
                   Expanded(
                     child: Text(
                       _userCubit.currentUser.phoneNumber,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style:
+                          Theme.of(context).textTheme.textSMSemibold.copyWith(
+                                color: AppColors.textLightColor,
+                              ),
                     ),
                   ),
                 ],
@@ -75,7 +83,7 @@ class UserInformationWidget extends StatelessWidget {
               const AppDivider(),
             ],
           ),
-          trailing: TextButton(
+          trailing: IconButton(
             onPressed: () async {
               Routes.push(
                 context,
@@ -87,9 +95,10 @@ class UserInformationWidget extends StatelessWidget {
                 },
               );
             },
-            child: Text(
-              'Edit',
-              style: Theme.of(context).textTheme.bodyLarge,
+            icon: Icon(
+              Icons.edit,
+              color: AppColors.accentPinkColor,
+              size: 24.r,
             ),
           ),
         );

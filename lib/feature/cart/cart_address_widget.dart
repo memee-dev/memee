@@ -1,43 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_colors.dart';
+import 'package:memee/core/utils/app_router.dart';
+import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/models/user_model.dart';
 
 class CartAddressWidget extends StatelessWidget {
-  const CartAddressWidget({super.key});
+  final AddressModel address;
+
+  const CartAddressWidget({
+    super.key,
+    required this.address,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    String userAddress =
+        '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}';
+
+    return Column(
       children: [
-        Icon(
-          Icons.home_filled,
-          size: 16.sp,
-          color: Theme.of(context).colorScheme.secondary,
-        ).gapRight(
-          4.w,
-        ),
-        Expanded(
-          flex: 1,
-          child: Text(
-            'Home',
-            maxLines: 2,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.secondary,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Text(
+                AppStrings.orderWillBeDeliveredTo,
+                style: Theme.of(context).textTheme.textSMBold.copyWith(
+                      color: AppColors.textLightColor,
+                    ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Routes.push(context, Routes.savedAddress);
+              },
+              child: Text(
+                AppStrings.change,
+                style: Theme.of(context).textTheme.textMDBold.copyWith(
+                      color: AppColors.accentPinkColor,
+                    ),
+              ),
+            )
+          ],
+        ).gapBottom(8.h),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              12.r,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.displayColor.withOpacity(
+                  0.25,
                 ),
-          ).gapRight(
-            4.w,
+                blurRadius: 16.r,
+                blurStyle: BlurStyle.outer,
+              ),
+            ],
           ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.home_filled,
+                size: 16.sp,
+                color: AppColors.accentPinkColor,
+              ).gapRight(
+                4.w,
+              ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Home',
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.textSMBold,
+                ).gapRight(
+                  4.w,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  userAddress,
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.textSMSemibold,
+                ).paddingV(4.h),
+              )
+            ],
+          ).paddingS(),
         ),
-        Expanded(
-          flex: 3,
-          child: Text(
-            'No. 1, New Bangaru Naidu Colony,K.K. Nagar (West), Chennai - 600078',
-            maxLines: 2,
-            style: Theme.of(context).textTheme.bodySmall,
-          ).paddingV(4.h),
-        )
       ],
-    ).paddingH();
+    ).gapBottom(16.h);
   }
 }

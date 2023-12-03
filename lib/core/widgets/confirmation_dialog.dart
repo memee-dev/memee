@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 
@@ -24,22 +26,20 @@ class ConfirmationDialog extends StatelessWidget {
     return CupertinoAlertDialog(
       title: Text(
         title ?? AppStrings.confirmationDialog,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+        style: Theme.of(context).textTheme.textMDBold.copyWith(
+              color: AppColors.accentDarkColor,
             ),
       ).gapBottom(8.h),
       content: Text(
         description ?? '',
-        style: Theme.of(context).textTheme.bodySmall,
+        style: Theme.of(context).textTheme.textSMRegular,
       ),
       actions: <Widget>[
         CupertinoDialogAction(
           onPressed: negativeBtn,
           child: Text(
             buttonLabel1 ?? AppStrings.confirm,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.red,
-                ),
+            style: Theme.of(context).textTheme.textSMBold,
           ),
         ),
         if (buttonLabel2 != null)

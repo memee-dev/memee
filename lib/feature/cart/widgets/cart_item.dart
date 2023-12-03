@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/cart/cart_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/actual_discount_price.dart';
 import 'package:memee/models/cart_model.dart';
@@ -24,12 +26,12 @@ class CartItem extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.amber,
-            blurRadius: 12.r,
+            color: AppColors.borderColor,
+            blurRadius: 24.r,
             blurStyle: BlurStyle.outer,
           )
         ],
-        color: Colors.white24,
+        color: AppColors.bgColor,
       ),
       child: ListView.builder(
         shrinkWrap: true,
@@ -49,20 +51,21 @@ class CartItem extends StatelessWidget {
                       children: [
                         Text(
                           '${cart.name}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(color: Colors.amber),
+                          style:
+                              Theme.of(context).textTheme.textLGBold.copyWith(
+                                    color: AppColors.accentPinkColor,
+                                  ),
                         ).paddingS(h: 16.w, v: 8.h),
                         Row(
                           children: [
                             Icon(
                               Icons.set_meal,
                               size: 16.r,
+                              color: AppColors.accentPinkColor,
                             ).gapRight(8.w),
                             Text(
                               '${e.productDetails.qty} ${e.productDetails.type.name}',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: Theme.of(context).textTheme.textSMBold,
                             ),
                           ],
                         ).paddingH(),

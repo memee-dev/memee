@@ -45,34 +45,42 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (user is UserInfoLoading) {
                       return const DefaultAddressShimmer();
                     } else if (user is CurrentUserState) {
-                      return user.user.address != null &&
-                              user.user.address!.isNotEmpty
+                      final address = user.user.defaultAddress;
+                      return address != null
                           ? InkWell(
                               onTap: onTap,
-                              child: ListTile(
-                                title: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.home_filled,
-                                      color: AppColors.accentDarkColor,
-                                    ).gapRight(4.w),
-                                    Text(
-                                      'Home',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMDBold,
-                                    ).gapRight(4.w),
-                                    const Icon(
-                                      Icons.keyboard_arrow_down_outlined,
-                                      color: AppColors.accentDarkColor,
-                                    ),
-                                  ],
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 12.h,
                                 ),
-                                subtitle: Text(
-                                  '${user.user.address!.first.no},${user.user.address!.first.street},${user.user.address!.first.area},${user.user.address!.first.city},${user.user.address!.first.pincode},${user.user.address!.first.landmark}',
-                                  maxLines: 2,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ).paddingV(4.h),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.home_filled,
+                                        color: AppColors.accentPinkColor,
+                                      ).gapRight(4.w),
+                                      Text(
+                                        'Home',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .textSMBold,
+                                      ).gapRight(4.w),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down_outlined,
+                                        color: AppColors.accentPinkColor,
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Text(
+                                    '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
+                                    maxLines: 2,
+                                    style:
+                                        Theme.of(context).textTheme.textSMBold,
+                                  ).paddingV(4.h),
+                                ),
                               ),
                             )
                           : const SizedBox.shrink();

@@ -6,6 +6,7 @@ mixin AppColors {
   static const Color accentLightColor = Color(0xFFFFF2CC);
   static const Color accentRegularColor = Color(0xFFFFE699);
   static const Color accentDarkColor = Color(0xFFFFC000);
+  static const Color accentPinkColor = Color(0xFFDA008A);
 
   static const Color primaryButtonColor = Color(0xFFFFC000);
   static const Color secondaryButtonColor = Color(0xFFE1E1E1);
@@ -27,5 +28,4 @@ mixin AppColors {
 
   static const Color successColor = Color(0xFF12B76A);
   static const Color errorColor = Color(0xFFF04438);
-
 }

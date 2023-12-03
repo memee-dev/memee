@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/form/form_validation_cubit.dart';
 import 'package:memee/core/blocs/toggle_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/models/country_code_model.dart';
@@ -43,9 +45,16 @@ class AddUserInfoScreen extends StatelessWidget {
         TextEditingController(text: phoneNumber);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.bgColor,
         title: Text(
           'Add User Info',
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.textLGBold.copyWith(
+                color: AppColors.displayColor,
+              ),
+        ),
+        elevation: 0,
+        leading: const BackButton(
+          color: AppColors.displayColor,
         ),
       ),
       body: Column(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
@@ -35,9 +37,13 @@ class SavedAddressItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 12.r,
               ),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 16.r,
+                  color: AppColors.textLightColor.withOpacity(0.24),
+                  blurStyle: BlurStyle.outer,
+                )
+              ],
             )
           : null,
       child: Stack(
@@ -86,42 +92,38 @@ class SavedAddressItem extends StatelessWidget {
                 },
               );
             },
-            title: Row(
+            subtitle: Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'Home',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
+                Icon(
+                  Icons.home_filled,
+                  size: 16.sp,
+                  color: AppColors.accentPinkColor,
+                ).gapRight(
+                  4.w,
                 ),
-              ],
-            ).paddingH(16.w),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.home_filled,
-                      size: 16.sp,
-                      color: Theme.of(context).colorScheme.primary,
-                    ).gapRight(
-                      4.w,
-                    ),
-                    Expanded(
-                      child: Text(
-                        a,
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.bodySmall,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        address.type,
+                        style: Theme.of(context).textTheme.textSMBold.copyWith(
+                              color: AppColors.accentPinkColor,
+                            ),
                       ).paddingV(
                         4.h,
                       ),
-                    ),
-                    SizedBox(width: 8.w),
-                  ],
-                ).paddingH(8.w),
+                      Text(
+                        a,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.textSMSemibold,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8.w),
               ],
-            ),
+            ).paddingH(8.w),
             trailing: const Text('').paddingV(8.h),
           ),
           Align(
@@ -174,7 +176,9 @@ class SavedAddressItem extends StatelessWidget {
                 ),
                 child: Text(
                   address.defaultValue ? 'DEFAULT' : 'DELETE',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.textSMBold.copyWith(
+                        color: AppColors.bgColor,
+                      ),
                 ),
               ),
             ),

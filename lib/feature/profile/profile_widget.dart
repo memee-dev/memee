@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/widgets/app_button.dart';
@@ -44,6 +45,9 @@ class _Profile extends StatelessWidget {
             address: _cubit.currentUser.address!.first,
           ),
           SizedBox(height: 24.h),
+        ] else ...[
+          const NoAddressFound().gapBottom(24.h),
+
         ],
         const SettingsSection(),
         SizedBox(height: 24.h),

@@ -7,6 +7,7 @@ class UserModel {
     this.active = true,
     required this.userName,
     required this.email,
+    this.defaultAddress,
   });
 
   List<AddressModel>? address;
@@ -16,6 +17,7 @@ class UserModel {
   bool active;
   String userName;
   String email;
+  AddressModel? defaultAddress;
 
   factory UserModel.fromJson(Map<dynamic, dynamic> json) => UserModel(
         id: json['id'],

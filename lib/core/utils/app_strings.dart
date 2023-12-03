@@ -117,4 +117,18 @@ Reducing the risk of diabetes. ''';
   static const rupee = '₹';
 
   static const totalAmount = 'Total Amount';
+
+  static const viewMore = 'View More';
+
+  static const noAddressFound = 'No Address Found';
+
+  static const addDeliveryAddress = 'Add your delivery address to continue.';
+
+  static const addItemsToCart = 'Add Items To Cart';
+
+  static const attention = 'Attention';
+
+  static String change ='Change';
+
+  static String orderWillBeDeliveredTo  ='Order will be delivered to: ';
 }

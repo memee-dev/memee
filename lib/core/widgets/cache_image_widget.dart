@@ -7,6 +7,7 @@ class CacheImageWidget extends StatelessWidget {
   final double? height, width;
   final String imageUrl;
   final BoxFit? fit;
+  final Color? color;
   final double? radius;
 
   const CacheImageWidget({
@@ -16,6 +17,7 @@ class CacheImageWidget extends StatelessWidget {
     required this.imageUrl,
     this.fit,
     this.radius,
+    this.color,
   });
 
   @override
@@ -27,6 +29,7 @@ class CacheImageWidget extends StatelessWidget {
       child: CachedNetworkImage(
         height: height,
         width: width,
+        color: color,
         alignment: Alignment.center,
         fit: fit ?? BoxFit.contain,
         imageUrl: imageUrl,
@@ -36,6 +39,9 @@ class CacheImageWidget extends StatelessWidget {
           baseColor: Colors.grey[600]!, // Change these colors as desired
           highlightColor: Colors.grey[200]!,
           child: Container(
+            height: height,
+            width: width,
+            alignment: Alignment.center,
             color: Colors.white, // Ensure this color matches your background
           ),
         ),

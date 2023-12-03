@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/app_textfield.dart';
 import 'package:memee/feature/home/widgets/category_item.dart';
 import 'package:memee/feature/home/widgets/product_item.dart';
@@ -38,8 +40,8 @@ class HomeWidget extends StatelessWidget {
               h: 0,
             ),
             Text(
-              'Categories',
-              style: Theme.of(context).textTheme.titleLarge,
+              AppStrings.categories,
+              style: Theme.of(context).textTheme.textXLBold,
             ).gapBottom(
               4.h,
             ),
@@ -69,13 +71,13 @@ class HomeWidget extends StatelessWidget {
                 }
                 return const SizedBox.shrink();
               },
-            ).paddingV(),
+            ).paddingV(16.h),
             Row(
               children: [
                 Expanded(
                   child: Text(
-                    'Products',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    AppStrings.products,
+                    style: Theme.of(context).textTheme.textXLBold,
                   ),
                 ),
                 InkWell(
@@ -83,8 +85,8 @@ class HomeWidget extends StatelessWidget {
                     Routes.push(context, Routes.allProducts);
                   },
                   child: Text(
-                    'View More',
-                    style: Theme.of(context).textTheme.titleSmall,
+                    AppStrings.viewMore,
+                    style: Theme.of(context).textTheme.textMDBold,
                   ),
                 ),
               ],

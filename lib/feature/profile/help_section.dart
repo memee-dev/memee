@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_colors.dart';
 
 class HelpSection extends StatelessWidget {
   const HelpSection({super.key});
@@ -12,15 +14,15 @@ class HelpSection extends StatelessWidget {
       title: Row(
         children: [
           Icon(
-            Icons.help_outline,
+            Icons.help,
             size: 16.sp,
-            color: Theme.of(context).colorScheme.primary,
+            color: AppColors.accentPinkColor,
           ).gapRight(
             4.w,
           ),
           Text(
             'Help',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.textLGBold,
           ),
         ],
       ),
@@ -29,14 +31,18 @@ class HelpSection extends StatelessWidget {
         children: [
           Text(
             'Raise Queries, contact us',
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                  color: AppColors.textLightColor,
+                ),
           ).paddingV(12.h),
         ],
       ),
       trailing: IconButton(
         onPressed: () {},
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_right,
+          size: 16.sp,
+          color: AppColors.accentPinkColor,
         ),
       ),
     );

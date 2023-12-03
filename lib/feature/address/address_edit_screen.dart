@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/form/form_validation_cubit.dart';
-import 'package:memee/core/blocs/toggle_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/blocs/toggle_cubit.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_bar.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/models/user_model.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/app_button.dart';
 import 'package:memee/core/widgets/app_textfield.dart';
 import 'package:memee/feature/address/widgets/set_as_default.dart';
+import 'package:memee/models/user_model.dart';
 
 class AddressEditScreen extends StatelessWidget {
   final dynamic map;
@@ -38,12 +39,8 @@ class AddressEditScreen extends StatelessWidget {
         TextEditingController(text: address?.landmark);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          map['edit'] ?? false ? AppStrings.editAddress : AppStrings.addAddress,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: const BackButton(),
+      appBar: AppbarTemplate(
+        title: map['edit'] ?? false ? AppStrings.editAddress : AppStrings.addAddress,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(

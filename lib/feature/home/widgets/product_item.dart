@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/models/product_model.dart';
 import 'package:memee/core/widgets/cache_image_widget.dart';
 import 'package:memee/feature/home/widgets/product_item_footer.dart';
@@ -24,19 +25,16 @@ class HomeProductItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: height,
-        width: width,
-        margin: EdgeInsets.only(
-          right: 12.w,
-        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
             12.r,
           ),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               blurStyle: BlurStyle.outer,
-              color: Colors.white,
+              color: Colors.black12,
+              blurRadius: 24.r,
+              offset: const Offset(5, 5),
             )
           ],
           color: Colors.white38,
@@ -46,7 +44,7 @@ class HomeProductItem extends StatelessWidget {
             imageUrl: (product.images ?? []).isNotEmpty
                 ? (product.images ?? []).first
                 : '',
-            width: MediaQuery.of(context).size.width,
+            width: 64.w,
           ),
           contentPadding: EdgeInsets.zero,
           subtitle: Column(
@@ -54,16 +52,15 @@ class HomeProductItem extends StatelessWidget {
               ProductItemFooter(
                 name: product.name,
                 description: product.description,
-                type: product.productDetails.first.type == ProductType.kg
-                    ? 'Per KG'
-                    : 'Per Piece',
+                type:
+                    'Per ${product.productDetails.first.type.name.toUpperCase()}',
                 normalPrice:
                     product.productDetails.first.price.toStringAsFixed(2),
                 discountPrice: product.productDetails.first.discountedPrice
                     .toStringAsFixed(2),
               ),
             ],
-          ),
+          ).paddingH(4),
         ),
       ),
     );

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
-import 'package:memee/core/utils/app_di.dart';
-import 'package:memee/core/utils/app_router.dart';
-import 'package:memee/core/utils/app_divider.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_bar.dart';
+import 'package:memee/core/utils/app_di.dart';
+import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/utils/app_router.dart';
+import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/default_address_shimmer.dart';
 import 'package:memee/feature/address/widgets/saved_address_item.dart';
 
@@ -15,12 +17,8 @@ class SavedAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Saved Address',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: const BackButton(),
+      appBar: const AppbarTemplate(
+        title: AppStrings.savedAddress,
       ),
       floatingActionButton: TextButton.icon(
         icon: const Icon(

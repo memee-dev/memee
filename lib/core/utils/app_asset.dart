@@ -6,4 +6,5 @@ mixin AppAsset {
   static const String paymentSuccess = 'asset/anim/payment-success.json';
   static const String paymentFailure = 'asset/anim/payment-failure.json';
   static const String cartEmpty = 'asset/anim/cart-empty.json';
+  static const String noAddress = 'asset/anim/noAddress.json';
 }

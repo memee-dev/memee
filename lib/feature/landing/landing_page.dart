@@ -48,6 +48,7 @@ class LandingPage extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return ConfirmationDialog(
+                    title: AppStrings.attention,
                     description: AppStrings.additionalInformation,
                     buttonLabel1: AppStrings.addPersonalInfo,
                     positiveBtn: () {},

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_divider.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 
@@ -15,13 +17,13 @@ class SettingsSection extends StatelessWidget {
           Icon(
             Icons.settings,
             size: 16.sp,
-            color: Theme.of(context).colorScheme.primary,
+            color: AppColors.accentPinkColor,
           ).gapRight(
             4.w,
           ),
           Text(
             'Settings',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.textLGBold,
           ),
         ],
       ),
@@ -30,15 +32,19 @@ class SettingsSection extends StatelessWidget {
         children: [
           Text(
             'SMS, Notification, delete account',
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                  color: AppColors.textLightColor,
+                ),
           ).paddingV(12.h),
           const AppDivider(),
         ],
       ),
       trailing: IconButton(
         onPressed: () {},
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_right,
+          size: 16.sp,
+          color: AppColors.accentPinkColor,
         ),
       ),
     );

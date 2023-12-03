@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 
@@ -21,20 +23,20 @@ class ActualDiscountPrice extends StatelessWidget {
       children: [
         Text(
           '$units',
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.textSMBold,
         ),
         Text(
           ' *\t ${AppStrings.rupee}${discountedPrice ?? ''} \t',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w900,
-                color: Colors.amber,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .textMDBold
+              .copyWith(color: AppColors.accentDarkColor),
         ),
         Text(
           '${AppStrings.rupee}$price',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          style: Theme.of(context).textTheme.textMDBold.copyWith(
                 color: Colors.red,
                 fontWeight: FontWeight.w900,
                 decoration: TextDecoration.lineThrough,
