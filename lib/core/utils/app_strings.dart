@@ -128,7 +128,35 @@ Reducing the risk of diabetes. ''';
 
   static const attention = 'Attention';
 
-  static String change ='Change';
+  static const change = 'Change';
 
-  static String orderWillBeDeliveredTo  ='Order will be delivered to: ';
+  static const orderWillBeDeliveredTo = 'Order will be delivered to: ';
+
+  static const goToCart = 'Go to Cart';
+
+  static const allProducts = 'All Products';
+
+  static const paymentFailed = 'Payment Failed';
+
+  static const dismiss = 'Dismiss';
+
+  static var help = 'Help';
+
+  static var raiseQueries = 'Raise Queries, contact us';
+
+  static var settings = 'Settings';
+
+  static var smsNotifications = 'SMS, Notification, delete account';
+
+  static var viewAllOrdersHere = 'View all orders here';
+
+  static var ordersAreEmpty = 'Orders Are Empty';
+
+  static var orderDetails = 'Order Details';
+
+  static String orderSuccess = 'Order Success';
+  static String orderFailure = 'Order failed';
+  static String orderConfirmed = 'Order Confirmed';
+
+  static String success = 'Success';
 }

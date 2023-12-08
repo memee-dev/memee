@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/widgets/app_button.dart';
-import 'package:memee/feature/profile/help_section.dart';
-import 'package:memee/feature/profile/profile_saved_address.dart';
-import 'package:memee/feature/profile/settings_section.dart';
-import 'package:memee/feature/profile/user_info/user_information.dart';
+import 'package:memee/feature/profile/widgets/help_section.dart';
+import 'package:memee/feature/profile/widgets/profile_item.dart';
+import 'package:memee/feature/profile/widgets/profile_saved_address.dart';
+import 'package:memee/feature/profile/widgets/settings_section.dart';
+import 'package:memee/feature/profile/widgets/user_information.dart';
 
 import '../../core/utils/app_di.dart';
 import '../../core/utils/app_strings.dart';
@@ -22,7 +24,7 @@ class ProfileWidget extends StatelessWidget {
       value: locator.get<UserCubit>(),
       child: SingleChildScrollView(
         padding: EdgeInsets.all(
-          12.w,
+          16.w,
         ),
         child: _Profile(),
       ),
@@ -31,8 +33,6 @@ class ProfileWidget extends StatelessWidget {
 }
 
 class _Profile extends StatelessWidget {
-  final _cubit = locator.get<UserCubit>();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,19 +40,26 @@ class _Profile extends StatelessWidget {
       children: [
         const UserInformationWidget(),
         SizedBox(height: 24.h),
-        if (_cubit.currentUser.address!.isNotEmpty) ...[
-          SavedAddressesSection(
-            address: _cubit.currentUser.address!.first,
-          ),
-          SizedBox(height: 24.h),
-        ] else ...[
-          const NoAddressFound().gapBottom(24.h),
-
-        ],
-        const SettingsSection(),
+        BlocBuilder<UserCubit, UserState>(
+          bloc: locator.get<UserCubit>(),
+          builder: (context, state) {
+            if (state is CurrentUserState) {
+              return SavedAddressesSection(
+                address: state.user.defaultAddress!,
+              );
+            }
+            return const NoAddressFound().gapBottom(24.h);
+          },
+        ),
         SizedBox(height: 24.h),
-        const HelpSection(),
-        SizedBox(height: 24.h),
+        const SettingsSection().gapBottom(24.h),
+        const HelpSection().gapBottom(24.h),
+        ProfileItem(
+          title: AppStrings.orders,
+          subtitle: AppStrings.viewAllOrdersHere,
+          icon: Icons.event_note_sharp,
+          onPressed: () => Routes.push(context, Routes.orders),
+        ).gapBottom(24.h),
         AppButton.primary(
           text: AppStrings.logout,
           onPressed: () {

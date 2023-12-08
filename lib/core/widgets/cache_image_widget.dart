@@ -36,7 +36,7 @@ class CacheImageWidget extends StatelessWidget {
         fadeInCurve: Curves.ease,
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             Shimmer.fromColors(
-          baseColor: Colors.grey[600]!, // Change these colors as desired
+          baseColor: Colors.grey[400]!, // Change these colors as desired
           highlightColor: Colors.grey[200]!,
           child: Container(
             height: height,

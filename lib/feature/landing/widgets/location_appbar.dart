@@ -66,7 +66,10 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                                         'Home',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .textSMBold,
+                                            .textSMBold
+                                            .copyWith(
+                                              color: AppColors.textLightColor,
+                                            ),
                                       ).gapRight(4.w),
                                       const Icon(
                                         Icons.keyboard_arrow_down_outlined,
@@ -77,8 +80,12 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   subtitle: Text(
                                     '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
                                     maxLines: 2,
-                                    style:
-                                        Theme.of(context).textTheme.textSMBold,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .textSMBold
+                                        .copyWith(
+                                          color: AppColors.textLightColor,
+                                        ),
                                   ).paddingV(4.h),
                                 ),
                               ),

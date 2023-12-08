@@ -4,6 +4,7 @@ mixin AppFireStoreCollection {
   static const String users = 'users';
   static const String userDev = 'userDev';
   static const String cart = 'cart';
+  static const String orders = 'orders';
 
   static const categories = 'categories';
 }

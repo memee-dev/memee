@@ -87,4 +87,6 @@ class AddressModel {
         'landmark': landmark,
         'type': type,
       };
+
+  String addressString() => '$no, $street, $area, $city, $pincode, $landmark';
 }

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memee/core/utils/app_bar.dart';
+import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/core/widgets/order_confirmation.dart';
 import 'package:memee/feature/address/address_edit_screen.dart';
 import 'package:memee/feature/address/saved_address_screen.dart';
+import 'package:memee/feature/auth/ui/auth_page.dart';
 import 'package:memee/feature/auth/ui/login_page.dart';
-import 'package:memee/feature/auth/ui/splash_page.dart';
-import 'package:memee/feature/cart/cart_screen.dart';
+import 'package:memee/feature/auth/ui/user_info/add_user_info_screen.dart';
+import 'package:memee/feature/cart//ui/cart_screen.dart';
 import 'package:memee/feature/landing/landing_page.dart';
-import 'package:memee/feature/order/order_confirmation.dart';
+import 'package:memee/feature/order/ui/order_details_screen.dart';
+import 'package:memee/feature/order/ui/order_list_screen.dart';
+import 'package:memee/feature/product/all_products.dart';
 import 'package:memee/feature/product/product_detail_screen.dart';
 import 'package:memee/feature/profile/profile_widget.dart';
-import 'package:memee/feature/profile/user_info/add_user_info_screen.dart';
+import 'package:memee/models/order_model.dart';
 import 'package:memee/models/product_model.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -18,7 +24,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: Routes.root,
-      builder: (_, state) => const SplashPage(),
+      builder: (_, state) => const AuthPage(),
       routes: [
         GoRoute(
           path: Routes.login,
@@ -72,6 +78,27 @@ final GoRouter appRouter = GoRouter(
             success: state.extra as bool,
           ),
         ),
+        GoRoute(
+          path: Routes.cart,
+          builder: (_, state) => Scaffold(
+            appBar: const AppbarTemplate(
+              title: AppStrings.cart,
+            ),
+            body: CartScreen(),
+          ),
+        ),
+        GoRoute(
+          path: Routes.allProducts,
+          builder: (_, state) => const AllProducts(),
+        ),
+        GoRoute(
+          path: Routes.orders,
+          builder: (_, state) => const OrderListScreen(),
+        ),
+        GoRoute(
+          path: Routes.orderDetails,
+          builder: (_, state) =>  OrderDetailsScreen(order: state.extra as OrderModel),
+        ),
       ],
     ),
   ],
@@ -89,6 +116,9 @@ mixin Routes {
   static const addEditAddress = 'addEditAddress';
   static const addUserInfo = 'addUserInfo';
   static const orderConfirmation = 'orderConfirmation';
+  static const cart = 'cart';
+  static const orders = 'orders';
+  static const orderDetails = 'orderDetails';
 
   static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);

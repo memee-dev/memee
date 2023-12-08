@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/utils/app_strings.dart';
 
-import 'auth/bloc/auth_cubit.dart';
-import 'auth/bloc/login_cubit.dart';
 import '../core/blocs/theme_cubit.dart';
 import '../core/utils/app_di.dart';
 import '../core/utils/app_router.dart';
+import 'auth/bloc/auth_cubit.dart';
+import 'auth/bloc/login_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

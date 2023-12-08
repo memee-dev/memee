@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
+import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/models/user_model.dart';
 
 import '../../core/utils/app_di.dart';
-import '../cart/cart_cubit.dart';
 
 part 'user_state.dart';
 
@@ -126,34 +126,23 @@ class UserCubit extends Cubit<UserState> {
         if (data['address'] != null && data['address'].isNotEmpty) {
           address = List<AddressModel>.from(
               data['address'].map((x) => AddressModel.fromJson(x)));
+          AddressModel? defaultAddress;
           for (var key in data['address']) {
             if (key['default']) {
-              currentUser = UserModel(
-                id: user.uid,
-                address: address,
-                defaultAddress: AddressModel.fromJson(key),
-                phoneNumber: data['phoneNumber'],
-                verified: data['verified'],
-                userName: data['userName'],
-                active: data['active'],
-                email: data['email'],
-              );
-
-              emit(CurrentUserState(user: currentUser));
-            } else {
-              currentUser = UserModel(
-                id: user.uid,
-                address: address,
-                defaultAddress: AddressModel.fromJson(key),
-                phoneNumber: data['phoneNumber'],
-                verified: data['verified'],
-                userName: data['userName'],
-                active: data['active'],
-                email: data['email'],
-              );
-              emit(CurrentUserState(user: currentUser));
+              defaultAddress = AddressModel.fromJson(key);
             }
           }
+          currentUser = UserModel(
+            id: user.uid,
+            address: address,
+            defaultAddress: defaultAddress,
+            phoneNumber: data['phoneNumber'],
+            verified: data['verified'],
+            userName: data['userName'],
+            active: data['active'],
+            email: data['email'],
+          );
+          emit(CurrentUserState(user: currentUser));
         } else {
           currentUser = UserModel(
             id: user.uid,
@@ -205,7 +194,18 @@ class UserCubit extends Cubit<UserState> {
           }
         }
 
-        emit(SavedAddressState(address: newList));
+        currentUser = UserModel(
+          id: user.uid,
+          address: newList,
+          defaultAddress: newList.firstWhere((element) => element.defaultValue),
+          phoneNumber: data['phoneNumber'],
+          verified: data['verified'],
+          userName: data['userName'],
+          active: data['active'],
+          email: data['email'],
+        );
+
+        emit(CurrentUserState(user: currentUser));
       }
     } catch (e) {
       console.e(e.toString());
@@ -231,13 +231,11 @@ class UserCubit extends Cubit<UserState> {
             data['address'].map((x) => AddressModel.fromJson(x)));
 
         if (address.isNotEmpty) {
-          if (address.length == 1) {
-            address.first.defaultValue = true;
-          }
-
           currentUser = UserModel(
             id: user.uid,
             address: address,
+            defaultAddress:
+                address.firstWhere((element) => element.defaultValue),
             phoneNumber: data['phoneNumber'],
             verified: data['verified'],
             userName: data['userName'],
@@ -245,9 +243,18 @@ class UserCubit extends Cubit<UserState> {
             email: data['email'],
           );
 
-          emit(SavedAddressState(address: address));
+          emit(CurrentUserState(user: currentUser));
         } else {
-          emit(SavedAddressState(address: const []));
+          emit(CurrentUserState(
+              user: UserModel(
+            id: user.uid,
+            address: [],
+            phoneNumber: data['phoneNumber'] ?? '',
+            verified: data['verified'] ?? false,
+            userName: data['userName'] ?? '',
+            active: data['active'] ?? true,
+            email: data['email'] ?? '',
+          )));
         }
       }
     } catch (e) {
@@ -287,7 +294,18 @@ class UserCubit extends Cubit<UserState> {
           await reference.doc(user.uid).update({
             'address': addressList,
           });
-          emit(SavedAddressState(address: newList));
+
+          emit(CurrentUserState(
+              user: UserModel(
+            id: user.uid,
+            address: newList,
+            defaultAddress: address,
+            phoneNumber: data['phoneNumber'] ?? '',
+            verified: data['verified'] ?? false,
+            userName: data['userName'] ?? '',
+            active: data['active'] ?? true,
+            email: data['email'] ?? '',
+          )));
         }
       }
     } catch (e) {

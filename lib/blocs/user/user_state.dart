@@ -28,9 +28,3 @@ class CurrentUserState extends UserState {
 
   CurrentUserState({required this.user});
 }
-
-class SavedAddressState extends UserState {
-  final List<AddressModel> address;
-
-  SavedAddressState({required this.address});
-}

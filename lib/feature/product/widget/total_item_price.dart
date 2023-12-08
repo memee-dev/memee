@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/cart/cart_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/utils/app_colors.dart';
+import 'package:memee/core/utils/app_router.dart';
+import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/actual_discount_price.dart';
 import 'package:memee/core/utils/app_divider.dart';
@@ -17,85 +20,83 @@ class TotalItemPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _cartCubit = locator.get<CartCubit>();
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          12.r,
-        ),
-        color: Colors.white12,
-      ),
-      padding: EdgeInsets.symmetric(
-        vertical: 8.h,
-      ),
-      child: BlocBuilder<CartCubit, CartState>(
-        bloc: _cartCubit,
-        builder: (context, state) {
-          if (state is CartSuccess) {
-            int index = state.cartItems
-                .indexWhere((element) => element.productId == productId);
-            return (state.cartItems.isNotEmpty && index != -1)
-                ? ListTile(
-                    title: Text(
-                      'Mini Cart',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ).gapBottom(8.h),
-                    subtitle: Column(
-                      children: [
-                        Column(
-                          children:
-                              state.cartItems[index].selectedItems.map((e) {
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        '⦿',
-                                        style: TextStyle(
-                                          color: Colors.amber,
-                                        ),
-                                      ).gapRight(8.w),
-                                      Text(
-                                        e.productDetails.qty.toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                      Text(
-                                        ' ${e.productDetails.type.name} ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    ],
-                                  ).gapBottom(8.h),
-                                ),
-                                ActualDiscountPrice(
-                                  units: e.units,
-                                  discountedPrice:
-                                      e.productDetails.discountedPrice,
-                                  price: e.productDetails.price,
-                                ),
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                        const AppDivider(
-                          width: double.infinity,
-                        ).paddingV(8.h),
-                        AppButton.primary(
-                          text:
-                              'Pay ${AppStrings.rupee} ${_cartCubit.getTotalAmount(productId).toString()}',
-                          onPressed: () {},
-                        ),
-                      ],
+    return BlocBuilder<CartCubit, CartState>(
+      bloc: _cartCubit,
+      builder: (context, state) {
+        if (state is CartSuccess) {
+          int index = state.cartItems
+              .indexWhere((element) => element.productId == productId);
+          return (state.cartItems.isNotEmpty && index != -1)
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      12.r,
                     ),
-                  )
-                : const SizedBox.shrink();
-          }
-          return const SizedBox.shrink();
-        },
-      ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.textLightColor.withOpacity(0.36),
+                        blurStyle: BlurStyle.outer,
+                        blurRadius: 16.r,
+                      )
+                    ],
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.h,
+                    horizontal: 12.w,
+                  ),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: state.cartItems[index].selectedItems.map((e) {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '⦿',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .textXLBold
+                                          .copyWith(
+                                            color: AppColors.primaryButtonColor,
+                                          ),
+                                    ).gapRight(4.w),
+                                    Text(
+                                      '${e.productDetails.qty} ${e.productDetails.type.name} ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .textMDBold,
+                                    ),
+                                  ],
+                                ).gapBottom(8.h),
+                              ),
+                              ActualDiscountPrice(
+                                units: e.units,
+                                discountedPrice:
+                                    e.productDetails.discountedPrice,
+                                price: e.productDetails.price,
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                      const AppDivider(
+                        width: double.infinity,
+                      ).paddingV(8.h),
+                      AppButton.primary(
+                        text: AppStrings.goToCart,
+                        onPressed: () => Routes.push(context, Routes.cart),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink();
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/cart/cart_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_bar.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/models/product_model.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/cache_image_widget.dart';
+import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/product/widget/total_item_price.dart';
+import 'package:memee/models/product_model.dart';
 
 import '../../core/widgets/add_remove_button.dart';
 
@@ -24,12 +27,8 @@ class ProductDescriptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          product.name,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
+      backgroundColor: AppColors.bgColor,
+      appBar: AppbarTemplate(title: product.name),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
@@ -43,10 +42,11 @@ class ProductDescriptionScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                   12.r,
                 ),
-                color: Theme.of(context).colorScheme.primary,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    offset: Offset(10, 10),
+                    color: AppColors.displayColor.withOpacity(0.24),
+                    blurRadius: 16.r,
+                    blurStyle: BlurStyle.outer,
                   ),
                 ],
               ),
@@ -58,7 +58,7 @@ class ProductDescriptionScreen extends StatelessWidget {
             ).gapBottom(16.h),
             Text(
               product.description,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.textMDMedium,
             ).gapBottom(8.h),
             SizedBox(height: 8.h),
             Expanded(

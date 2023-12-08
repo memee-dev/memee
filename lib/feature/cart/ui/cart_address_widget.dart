@@ -9,10 +9,12 @@ import 'package:memee/models/user_model.dart';
 
 class CartAddressWidget extends StatelessWidget {
   final AddressModel address;
+  final bool isEmpty;
 
   const CartAddressWidget({
     super.key,
     required this.address,
+    required this.isEmpty,
   });
 
   @override
@@ -35,7 +37,11 @@ class CartAddressWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Routes.push(context, Routes.savedAddress);
+                if (isEmpty) {
+                  Routes.push(context, Routes.addEditAddress);
+                } else {
+                  Routes.push(context, Routes.savedAddress);
+                }
               },
               child: Text(
                 AppStrings.change,

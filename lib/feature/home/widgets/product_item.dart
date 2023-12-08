@@ -33,36 +33,33 @@ class HomeProductItem extends StatelessWidget {
             BoxShadow(
               blurStyle: BlurStyle.outer,
               color: Colors.black12,
-              blurRadius: 24.r,
-              offset: const Offset(5, 5),
+              blurRadius: 16.r,
             )
           ],
           color: Colors.white38,
         ),
-        child: ListTile(
-          title: CacheImageWidget(
-            imageUrl: (product.images ?? []).isNotEmpty
-                ? (product.images ?? []).first
-                : '',
-            width: 64.w,
-          ),
-          contentPadding: EdgeInsets.zero,
-          subtitle: Column(
-            children: [
-              ProductItemFooter(
-                name: product.name,
-                description: product.description,
-                type:
-                    'Per ${product.productDetails.first.type.name.toUpperCase()}',
-                normalPrice:
-                    product.productDetails.first.price.toStringAsFixed(2),
-                discountPrice: product.productDetails.first.discountedPrice
-                    .toStringAsFixed(2),
-              ),
-            ],
-          ).paddingH(4),
-        ),
+        child: Column(
+          children: [
+            CacheImageWidget(
+              imageUrl: (product.images ?? []).isNotEmpty
+                  ? (product.images ?? []).first
+                  : '',
+              width: MediaQuery.of(context).size.width,
+            ),
+            ProductItemFooter(
+              name: product.name,
+              description: product.description,
+              type:
+                  'Per ${product.productDetails.first.type.name.toUpperCase()}',
+              normalPrice:
+                  product.productDetails.first.price.toStringAsFixed(2),
+              discountPrice: product.productDetails.first.discountedPrice
+                  .toStringAsFixed(2),
+            ),
+          ],
+        ).paddingH(4),
       ),
     );
   }
 }
+

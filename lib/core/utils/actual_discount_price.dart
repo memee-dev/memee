@@ -22,11 +22,11 @@ class ActualDiscountPrice extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '$units',
-          style: Theme.of(context).textTheme.textSMBold,
+          '$units *\t',
+          style: Theme.of(context).textTheme.textMDBold,
         ),
         Text(
-          ' *\t ${AppStrings.rupee}${discountedPrice ?? ''} \t',
+          '${AppStrings.rupee}${discountedPrice ?? ''} \t',
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context)
               .textTheme
@@ -38,7 +38,6 @@ class ActualDiscountPrice extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.textMDBold.copyWith(
                 color: Colors.red,
-                fontWeight: FontWeight.w900,
                 decoration: TextDecoration.lineThrough,
                 decorationThickness: 2,
               ),

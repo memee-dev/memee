@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_divider.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 
-class SettingsSection extends StatelessWidget {
-  const SettingsSection({super.key});
+class ProfileItem extends StatelessWidget {
+  final String title, subtitle;
+  final IconData icon;
+  final IconData? trailingIcon;
+  final GestureTapCallback? onPressed;
+
+  const ProfileItem({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    this.trailingIcon,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onPressed,
       contentPadding: EdgeInsets.zero,
       title: Row(
         children: [
           Icon(
-            Icons.settings,
+            icon,
             size: 16.sp,
             color: AppColors.accentPinkColor,
           ).gapRight(
             4.w,
           ),
           Text(
-            'Settings',
+            title,
             style: Theme.of(context).textTheme.textLGBold,
           ),
         ],
@@ -31,7 +44,7 @@ class SettingsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'SMS, Notification, delete account',
+            subtitle,
             style: Theme.of(context).textTheme.textSMSemibold.copyWith(
                   color: AppColors.textLightColor,
                 ),
@@ -39,13 +52,10 @@ class SettingsSection extends StatelessWidget {
           const AppDivider(),
         ],
       ),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.arrow_right,
-          size: 16.sp,
-          color: AppColors.accentPinkColor,
-        ),
+      trailing: Icon(
+        trailingIcon ?? Icons.arrow_right,
+        size: 24.sp,
+        color: AppColors.accentPinkColor,
       ),
     );
   }

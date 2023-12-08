@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/app_colors.dart';
+import 'package:memee/core/utils/app_strings.dart';
 
 class ProductItemFooter extends StatelessWidget {
   final String normalPrice, discountPrice, name, type, description;
@@ -22,17 +24,11 @@ class ProductItemFooter extends StatelessWidget {
       children: [
         Text(
           name,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.black54,
-                fontWeight: FontWeight.w900,
-              ),
+          style: Theme.of(context).textTheme.textMDBold,
         ),
         Text(
           description,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
+          style: Theme.of(context).textTheme.textMDMedium,
         ).paddingV(6.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -46,26 +42,28 @@ class ProductItemFooter extends StatelessWidget {
                   ),
             ),
             Text(
-              '${AppStrings.rupee}$discountPrice \t',
+              '${AppStrings.rupee}$normalPrice \t',
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
+              style: Theme.of(context)
+                  .textTheme
+                  .textMDBold
+                  .copyWith(color: AppColors.accentDarkColor),
             ),
             Text(
-              '${AppStrings.rupee}$normalPrice',
+              '${AppStrings.rupee}$discountPrice',
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.red.shade800,
-                    fontWeight: FontWeight.w900,
+              style: Theme.of(context).textTheme.textMDBold.copyWith(
+                    color: Colors.red,
                     decoration: TextDecoration.lineThrough,
+                    decorationThickness: 2,
                   ),
             ),
             const Spacer(),
             Text(
               'View',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.textMDBold.copyWith(
+                    color: AppColors.accentPinkColor,
+                  ),
             )
           ],
         ),

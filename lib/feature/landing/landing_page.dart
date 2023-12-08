@@ -7,10 +7,10 @@ import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/confirmation_dialog.dart';
-import 'package:memee/feature/cart/cart_screen.dart';
+import 'package:memee/feature/cart/ui/cart_screen.dart';
 import 'package:memee/feature/home/home_widget.dart';
-import 'package:memee/feature/home/widgets/bottom_navigation_bar.dart';
-import 'package:memee/feature/home/widgets/location_appbar.dart';
+import 'package:memee/feature/landing/widgets/bottom_navigation_bar.dart';
+import 'package:memee/feature/landing/widgets/location_appbar.dart';
 import 'package:memee/feature/profile/profile_widget.dart';
 
 class LandingPage extends StatelessWidget {

@@ -19,8 +19,8 @@ class PaymentFailure extends PaymentState {
   PaymentFailure({required this.response});
 }
 
-class PaymentWallet extends PaymentState {
-  final ExternalWalletResponse response;
+class PaymentWalletFailure extends PaymentState {
+  final String message;
 
-  PaymentWallet({required this.response});
+  PaymentWalletFailure({required this.message});
 }

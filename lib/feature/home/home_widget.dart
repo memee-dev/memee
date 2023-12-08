@@ -5,13 +5,13 @@ import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/core/widgets/app_textfield.dart';
 import 'package:memee/feature/home/widgets/category_item.dart';
 import 'package:memee/feature/home/widgets/product_item.dart';
+import 'package:memee/feature/home/widgets/product_item_shimmer.dart';
 
 class HomeWidget extends StatelessWidget {
   HomeWidget({Key? key}) : super(key: key);
@@ -28,31 +28,27 @@ class HomeWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppTextField(
-              controller: controller,
-              label: 'Search Here',
-              prefixIcon: const Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            ).paddingS(
-              v: 24.h,
-              h: 0,
-            ),
+            // AppTextField(
+            //   controller: controller,
+            //   label: 'Search Here',
+            //   prefixIcon: const Icon(
+            //     Icons.search,
+            //     color: Colors.white,
+            //   ),
+            // ).paddingS(
+            //   v: 24.h,
+            //   h: 0,
+            // ),
+            SizedBox(height: 16.h),
             Text(
               AppStrings.categories,
               style: Theme.of(context).textTheme.textXLBold,
             ).gapBottom(
-              4.h,
+              8.h,
             ),
             BlocBuilder<CategoriesCubit, CategoriesState>(
               bloc: _categoryCubit..fetchCategories(),
               builder: (context, state) {
-                if (state is CategoriesLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
                 if (state is CategoriesResponseState) {
                   return Row(
                     children: state.categories
@@ -71,7 +67,7 @@ class HomeWidget extends StatelessWidget {
                 }
                 return const SizedBox.shrink();
               },
-            ).paddingV(16.h),
+            ).gapBottom(24.h),
             Row(
               children: [
                 Expanded(
@@ -90,20 +86,19 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ),
               ],
-            ).gapBottom(16.h),
+            ).gapBottom(8.h),
             BlocConsumer<ProductCubit, ProductState>(
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is ProductLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
+                  return const ProductItemShimmer();
                 } else if (state is ProductFailure) {
                   return Text(state.message);
                 } else if (state is ProductSuccess) {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     itemCount:
                         state.products.length >= 4 ? 4 : state.products.length,
                     itemBuilder: (_, i) {

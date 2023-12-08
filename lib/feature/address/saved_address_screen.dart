@@ -71,26 +71,27 @@ class _SavedAddress extends StatelessWidget {
             },
             itemCount: 4,
           );
-        } else if (state is SavedAddressState) {
+        } else if (state is CurrentUserState) {
           return ListView.separated(
             padding: EdgeInsets.symmetric(
               horizontal: 16.h,
               vertical: 16.w,
             ),
+            shrinkWrap: true,
             itemBuilder: (_, i) {
               return SavedAddressItem(
-                address: state.address[i],
+                address: (state.user.address ?? [])[i],
                 onEdit: () {
                   Routes.push(context, Routes.addEditAddress, extra: {
                     'edit': false,
-                    'address': state.address[i],
+                    'address': (state.user.address ?? [])[i],
                   });
                 },
               );
             },
             separatorBuilder: (_, i) =>
                 const AppDivider(height: 1).paddingV(24.h),
-            itemCount: state.address.length,
+            itemCount: (state.user.address ?? []).length,
           );
         }
 

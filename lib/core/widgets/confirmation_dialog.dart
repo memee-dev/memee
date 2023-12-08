@@ -10,6 +10,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String? title, buttonLabel1, buttonLabel2, description;
   final VoidCallback? positiveBtn;
   final VoidCallback? negativeBtn;
+  final Color? titleTextColor;
 
   const ConfirmationDialog({
     super.key,
@@ -19,6 +20,7 @@ class ConfirmationDialog extends StatelessWidget {
     this.description,
     this.positiveBtn,
     this.negativeBtn,
+    this.titleTextColor,
   });
 
   @override
@@ -27,7 +29,7 @@ class ConfirmationDialog extends StatelessWidget {
       title: Text(
         title ?? AppStrings.confirmationDialog,
         style: Theme.of(context).textTheme.textMDBold.copyWith(
-              color: AppColors.accentDarkColor,
+              color: titleTextColor ?? AppColors.accentDarkColor,
             ),
       ).gapBottom(8.h),
       content: Text(
@@ -39,7 +41,9 @@ class ConfirmationDialog extends StatelessWidget {
           onPressed: negativeBtn,
           child: Text(
             buttonLabel1 ?? AppStrings.confirm,
-            style: Theme.of(context).textTheme.textSMBold,
+            style: Theme.of(context).textTheme.textSMBold.copyWith(
+                  color: AppColors.accentPinkColor,
+                ),
           ),
         ),
         if (buttonLabel2 != null)
@@ -47,8 +51,8 @@ class ConfirmationDialog extends StatelessWidget {
             onPressed: positiveBtn,
             child: Text(
               buttonLabel2 ?? AppStrings.cancel,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+              style: Theme.of(context).textTheme.textSMBold.copyWith(
+                    color: AppColors.accentDarkColor,
                   ),
             ),
           ),
