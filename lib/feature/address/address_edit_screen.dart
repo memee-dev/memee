@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/form/form_validation_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
-import 'package:memee/core/blocs/toggle_cubit.dart';
+import 'package:memee/core/blocs/refresh_cubit.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_bar.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/app_button.dart';
-import 'package:memee/core/widgets/app_textfield.dart';
 import 'package:memee/feature/address/widgets/set_as_default.dart';
 import 'package:memee/models/user_model.dart';
+
+import '../../core/widgets/textfields/app_textfield.dart';
 
 class AddressEditScreen extends StatelessWidget {
   final dynamic map;
@@ -24,7 +25,7 @@ class AddressEditScreen extends StatelessWidget {
 
   final _formValidation = locator.get<FormValidationCubit>();
   final userCubit = locator.get<UserCubit>();
-  final hideCubit = locator.get<ToggleCubit>();
+  final hideCubit = locator.get<RefreshCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,9 @@ class AddressEditScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppbarTemplate(
-        title: map['edit'] ?? false ? AppStrings.editAddress : AppStrings.addAddress,
+        title: map['edit'] ?? false
+            ? AppStrings.editAddress
+            : AppStrings.addAddress,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -118,7 +121,7 @@ class AddressEditScreen extends StatelessWidget {
               controller: landmark,
               label: 'Landmark (Optional)',
             ).gapBottom(12.h),
-            BlocBuilder<ToggleCubit, bool>(
+            BlocBuilder<RefreshCubit, bool>(
               bloc: hideCubit,
               builder: (context, state) {
                 return SetAsDefaultWidget(

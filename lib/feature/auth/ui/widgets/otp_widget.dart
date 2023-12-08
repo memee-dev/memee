@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 
+import '../../../../core/widgets/textfields/app_pinfield.dart';
 import '../../bloc/login_cubit.dart';
 import '../../../../core/utils/app_di.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../../../core/widgets/app_pinfield.dart';
 import 'login_header.dart';
 
 class OTPWidget extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/core/utils/app_asset.dart';
+import 'package:memee/core/utils/app_assets.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
@@ -44,14 +44,14 @@ class CartWidget extends StatelessWidget {
                         },
                       )
                     : const EmptyWidget(
-                        lottieAsset: AppAsset.cartEmpty,
+                        lottieAsset: AppAssets.cartEmpty,
                         content: AppStrings.addItemsToCart,
                       );
               }
 
               if (state is! CartLoading) {
                 return const EmptyWidget(
-                  lottieAsset: AppAsset.cartEmpty,
+                  lottieAsset: AppAssets.cartEmpty,
                   content: AppStrings.addItemsToCart,
                 );
               }

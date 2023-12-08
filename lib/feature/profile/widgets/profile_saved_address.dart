@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/feature/profile/widgets/profile_item.dart';

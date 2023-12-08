@@ -6,7 +6,7 @@ import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
-import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/default_address_shimmer.dart';
 

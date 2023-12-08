@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 
 import '../../../../core/utils/app_textinputformatter.dart';
+import '../../../../core/widgets/textfields/app_textfield.dart';
 import '../../bloc/login_cubit.dart';
 import '../../../../core/utils/app_di.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_textfield.dart';
 import 'login_header.dart';
 
 class RegisterWidget extends StatelessWidget {

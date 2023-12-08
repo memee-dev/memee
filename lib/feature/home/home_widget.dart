@@ -13,6 +13,8 @@ import 'package:memee/feature/home/widgets/category_item.dart';
 import 'package:memee/feature/home/widgets/product_item.dart';
 import 'package:memee/feature/home/widgets/product_item_shimmer.dart';
 
+import '../../core/widgets/textfields/app_searchfiled.dart';
+
 class HomeWidget extends StatelessWidget {
   HomeWidget({Key? key}) : super(key: key);
 
@@ -28,17 +30,7 @@ class HomeWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // AppTextField(
-            //   controller: controller,
-            //   label: 'Search Here',
-            //   prefixIcon: const Icon(
-            //     Icons.search,
-            //     color: Colors.white,
-            //   ),
-            // ).paddingS(
-            //   v: 24.h,
-            //   h: 0,
-            // ),
+            AppSearchField(controller: controller).paddingV(24.h),
             SizedBox(height: 16.h),
             Text(
               AppStrings.categories,

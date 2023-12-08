@@ -89,7 +89,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.allProducts,
-          builder: (_, state) => const AllProducts(),
+          builder: (_, state) => const AllProductsScreen(),
         ),
         GoRoute(
           path: Routes.orders,

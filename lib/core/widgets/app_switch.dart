@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 
-import '../blocs/toggle_cubit.dart';
+import '../blocs/refresh_cubit.dart';
 import '../utils/app_di.dart';
 
 class AppSwitch extends StatelessWidget {
@@ -24,8 +24,8 @@ class AppSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = locator.get<ToggleCubit>();
-    return BlocBuilder<ToggleCubit, bool>(
+    final cubit = locator.get<RefreshCubit>();
+    return BlocBuilder<RefreshCubit, bool>(
       bloc: cubit..initialValue(value),
       builder: (context, state) {
         return Row(
@@ -53,7 +53,7 @@ class AppSwitch extends StatelessWidget {
     );
   }
 
-  void _setSwitch(ToggleCubit cubit, bool state) {
+  void _setSwitch(RefreshCubit cubit, bool state) {
     cubit.change();
     onTap(!state);
   }

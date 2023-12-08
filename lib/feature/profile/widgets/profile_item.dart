@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
-import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 
 class ProfileItem extends StatelessWidget {
   final String title, subtitle;

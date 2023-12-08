@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/core/utils/app_asset.dart';
+import 'package:memee/core/utils/app_assets.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_strings.dart';
 
@@ -36,7 +36,7 @@ class AddAddressWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
-              AppAsset.noAddress,
+              AppAssets.noAddress,
               height: 36.h,
             ),
             Text(

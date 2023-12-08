@@ -9,7 +9,7 @@ import 'package:memee/blocs/map_cubit/map_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
 import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
-import 'package:memee/core/blocs/toggle_cubit.dart';
+import 'package:memee/core/blocs/refresh_cubit.dart';
 import 'package:memee/feature/auth/bloc/register_cubit.dart';
 import 'package:memee/feature/auth/repo/user_repo.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
@@ -53,9 +53,7 @@ void blocConfig(GetIt locator) {
   locator.registerLazySingleton<UserCubit>(
     () => UserCubit(locator(), locator()),
   );
-  locator.registerFactory<ToggleCubit>(
-    () => ToggleCubit(),
-  );
+  locator.registerFactory<RefreshCubit>(RefreshCubit.new);
   locator.registerFactory<IndexCubit>(
     () => IndexCubit(),
   );

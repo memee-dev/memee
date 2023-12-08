@@ -14,6 +14,7 @@ mixin AppStrings {
   static const String phoneNumber = 'Phone number';
   static const String phoneHint = 'Ex. 9994444111';
   static const String nameHint = 'Ex. AlexBob';
+  static const String searchHint = 'Search here';
   static const String emailHint = 'Ex. alexbob@memee.com';
   static const String dontHaveAccount = 'Don’t have an account? ';
   static const String clickHere = 'Click Here';

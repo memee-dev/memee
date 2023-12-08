@@ -10,11 +10,14 @@ import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/feature/home/widgets/product_item.dart';
 import 'package:memee/feature/home/widgets/product_item_shimmer.dart';
 
-class AllProducts extends StatelessWidget {
-  const AllProducts({super.key});
+import '../../core/widgets/textfields/app_searchfiled.dart';
+
+class AllProductsScreen extends StatelessWidget {
+  const AllProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final searchController = TextEditingController();
     return Scaffold(
       appBar: const AppbarTemplate(
         title: AppStrings.allProducts,
@@ -25,31 +28,35 @@ class AllProducts extends StatelessWidget {
           if (state is ProductLoading) {
             return const ProductItemShimmer();
           } else if (state is ProductSuccess) {
-            return ListView.separated(
-              padding: EdgeInsets.symmetric(
-                vertical: 16.h,
-                horizontal: 16.w,
-              ),
-              shrinkWrap: true,
-              itemBuilder: (_, i) {
-                final e = state.products[i];
-                return HomeProductItem(
-                  product: state.products[i],
-                  width: MediaQuery.of(context).size.width.w,
-                  onTap: () {
-                    Routes.push(
-                      context,
-                      Routes.productDetails,
-                      extra: e,
-                    );
-                  },
-                ).gapBottom(16.h);
-              },
-              itemCount: state.products.length,
-              separatorBuilder: (BuildContext context, int index) => SizedBox(
-                height: 8.h,
-              ),
-            );
+            return Column(
+              children: [
+                AppSearchField(controller: searchController).gapBottom(12.h),
+                Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (_, i) {
+                      final e = state.products[i];
+                      return HomeProductItem(
+                        product: state.products[i],
+                        width: MediaQuery.of(context).size.width.w,
+                        onTap: () {
+                          Routes.push(
+                            context,
+                            Routes.productDetails,
+                            extra: e,
+                          );
+                        },
+                      ).gapBottom(16.h);
+                    },
+                    itemCount: state.products.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        SizedBox(
+                      height: 8.h,
+                    ),
+                  ),
+                ),
+              ],
+            ).paddingS();
           }
 
           return const SizedBox.shrink();

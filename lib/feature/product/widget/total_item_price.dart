@@ -7,7 +7,7 @@ import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/actual_discount_price.dart';
-import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/app_button.dart';

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 
+import '../../../../core/blocs/refresh_cubit.dart';
+import '../../../../core/models/country_info_model.dart';
+import '../../../../core/widgets/textfields/app_phonefield.dart';
 import '../../bloc/login_cubit.dart';
 import '../../../../core/utils/app_di.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_textfield.dart';
 import 'login_header.dart';
 
 class PhoneWidget extends StatelessWidget {
@@ -16,8 +19,10 @@ class PhoneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneQIDController = TextEditingController();
+    final phoneController = TextEditingController();
+    final phoneRefreshCubit = locator.get<RefreshCubit>();
     final loginCubit = locator.get<LoginCubit>();
+    String selectedCountryCode = countryList.first.code;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,21 +37,28 @@ class PhoneWidget extends StatelessWidget {
               ),
         ),
         SizedBox(height: 6.h),
-        AppTextField(
-          controller: phoneQIDController,
-          label: AppStrings.phoneHint,
-          inputFormatters: <TextInputFormatter>[
-            LengthLimitingTextInputFormatter(10),
-            FilteringTextInputFormatter.allow(RegExp(r'^\+?\d*$')),
-          ],
+        BlocBuilder<RefreshCubit, bool>(
+          bloc: phoneRefreshCubit,
+          builder: (_, state) {
+            return AppPhoneTextField(
+              controller: phoneController,
+              label: AppStrings.phoneHint,
+              autofocus: true,
+              selectedCountryCode: selectedCountryCode,
+              onChanged: (value) {
+                selectedCountryCode = value!;
+                phoneRefreshCubit.change();
+              },
+            );
+          },
         ),
         SizedBox(height: 48.h),
         AppButton.primary(
           text: AppStrings.login,
           onPressed: () {
-            final val = phoneQIDController.text.trim();
+            final val = phoneController.text.trim();
             if (val.isNotEmpty) {
-              loginCubit.verifyPhoneNumber('+91$val');
+              loginCubit.verifyPhoneNumber('$selectedCountryCode$val');
             }
           },
         ),

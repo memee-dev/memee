@@ -5,7 +5,7 @@ import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_bar.dart';
 import 'package:memee/core/utils/app_di.dart';
-import 'package:memee/core/utils/app_divider.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/default_address_shimmer.dart';

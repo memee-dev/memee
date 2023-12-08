@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/core/utils/app_asset.dart';
+import 'package:memee/core/utils/app_assets.dart';
 import 'package:memee/core/utils/app_bar.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_strings.dart';
@@ -53,7 +53,7 @@ class _Orders extends StatelessWidget {
                   itemCount: state.orders.length,
                 )
               : const EmptyWidget(
-                  lottieAsset: AppAsset.orderEmpty,
+                  lottieAsset: AppAssets.orderEmpty,
                   content: AppStrings.ordersAreEmpty,
                 );
         }

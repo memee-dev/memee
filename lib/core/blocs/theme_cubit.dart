@@ -25,7 +25,8 @@ final lightTheme = ThemeData(
   primarySwatch: Colors.amber,
   colorScheme: const ColorScheme.light(primary: Colors.pink),
   drawerTheme: const DrawerThemeData(backgroundColor: Colors.white24),
-  fontFamily: 'Roboto',
+  fontFamily: 'Poppins',
+  scaffoldBackgroundColor: AppColors.accentLightColor,
   textTheme: TextTheme(
     headlineSmall: TextStyle(
       fontSize: 36.sp,
@@ -58,5 +59,7 @@ final lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(8.r),
     ),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.white,
+  ),
 );

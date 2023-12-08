@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:memee/blocs/hide/hide_cubit.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/core/utils/app_asset.dart';
+import 'package:memee/core/utils/app_assets.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
@@ -29,7 +29,7 @@ class OrderConfirmation extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Lottie.asset(
-                AppAsset.glitter,
+                AppAssets.glitter,
                 repeat: false,
               ).paddingH(),
             ),
@@ -40,7 +40,7 @@ class OrderConfirmation extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Lottie.asset(
-                  success ? AppAsset.paymentSuccess : AppAsset.paymentFailure,
+                  success ? AppAssets.paymentSuccess : AppAssets.paymentFailure,
                   repeat: true,
                 ),
                 BlocBuilder<HideCubit, bool>(
