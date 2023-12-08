@@ -7,7 +7,7 @@ class HelpSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileItem(
+    return const ProfileItem(
       title: AppStrings.help,
       subtitle: AppStrings.raiseQueries,
       icon: Icons.help,

@@ -140,23 +140,29 @@ Reducing the risk of diabetes. ''';
 
   static const dismiss = 'Dismiss';
 
-  static var help = 'Help';
+  static const help = 'Help';
 
-  static var raiseQueries = 'Raise Queries, contact us';
+  static const raiseQueries = 'Raise Queries, contact us';
 
-  static var settings = 'Settings';
+  static const settings = 'Settings';
 
-  static var smsNotifications = 'SMS, Notification, delete account';
+  static const smsNotifications = 'SMS, Notification, delete account';
 
-  static var viewAllOrdersHere = 'View all orders here';
+  static const viewAllOrdersHere = 'View all orders here';
 
-  static var ordersAreEmpty = 'Orders Are Empty';
+  static const ordersAreEmpty = 'Orders Are Empty';
 
-  static var orderDetails = 'Order Details';
+  static const orderDetails = 'Order Details';
 
-  static String orderSuccess = 'Order Success';
-  static String orderFailure = 'Order failed';
-  static String orderConfirmed = 'Order Confirmed';
+  static const orderDelivered = 'Order Delivered';
+  static const orderFailure = 'Order failed';
+  static const orderConfirmed = 'Order Confirmed';
 
-  static String success = 'Success';
+  static const success = 'Success';
+  static const orderPlaceSuccess = 'Order has been placed successfully';
+  static const orderCannotBePlaced =
+      'Order cannot be placed because payment was unsuccessful.';
+
+  static const returnToHome = 'Return to Home';
+  static const viewOrders = 'View in Orders';
 }

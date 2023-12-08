@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/form/form_validation_cubit.dart';
+import 'package:memee/blocs/hide/hide_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/map_cubit/map_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
@@ -57,6 +58,9 @@ void blocConfig(GetIt locator) {
   );
   locator.registerFactory<IndexCubit>(
     () => IndexCubit(),
+  );
+  locator.registerLazySingleton<HideCubit>(
+    () => HideCubit(),
   );
   locator.registerFactory<FormValidationCubit>(
     () => FormValidationCubit(),

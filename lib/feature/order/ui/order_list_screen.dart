@@ -52,7 +52,7 @@ class _Orders extends StatelessWidget {
                   },
                   itemCount: state.orders.length,
                 )
-              : EmptyWidget(
+              : const EmptyWidget(
                   lottieAsset: AppAsset.orderEmpty,
                   content: AppStrings.ordersAreEmpty,
                 );

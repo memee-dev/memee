@@ -27,7 +27,7 @@ class LandingPage extends StatelessWidget {
       width: 200,
       color: Colors.orange,
     ),
-    CartScreen(),
+    CartWidget(),
     const ProfileWidget()
   ];
 

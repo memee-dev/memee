@@ -18,7 +18,7 @@ class OrderDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarTemplate(
+      appBar: const AppbarTemplate(
         title: AppStrings.orderDetails,
       ),
       body: Container(
@@ -168,7 +168,7 @@ class OrderDetailsScreen extends StatelessWidget {
   }
 
   getColor(String orderStatus) {
-    return orderStatus.equals(AppStrings.orderSuccess)
+    return orderStatus.equals(AppStrings.orderDelivered)
         ? AppColors.successColor
         : orderStatus.equals(AppStrings.orderConfirmed)
             ? AppColors.primaryButtonColor

@@ -44,7 +44,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.shoppingCart,
-          builder: (_, state) => CartScreen(),
+          builder: (_, state) => CartWidget(),
         ),
         GoRoute(
           path: Routes.profile,
@@ -84,7 +84,7 @@ final GoRouter appRouter = GoRouter(
             appBar: const AppbarTemplate(
               title: AppStrings.cart,
             ),
-            body: CartScreen(),
+            body: CartWidget(),
           ),
         ),
         GoRoute(
@@ -97,7 +97,8 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.orderDetails,
-          builder: (_, state) =>  OrderDetailsScreen(order: state.extra as OrderModel),
+          builder: (_, state) =>
+              OrderDetailsScreen(order: state.extra as OrderModel),
         ),
       ],
     ),
@@ -122,6 +123,10 @@ mixin Routes {
 
   static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);
+  }
+
+  static pushReplacement(BuildContext context, String path) {
+    context.pushReplacement('${Routes.root}$path');
   }
 
   static void pop(BuildContext context, {Object? value}) {

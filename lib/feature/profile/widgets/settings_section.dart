@@ -7,7 +7,7 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileItem(
+    return const ProfileItem(
       title: AppStrings.settings,
       subtitle: AppStrings.smsNotifications,
       icon: Icons.settings,

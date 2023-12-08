@@ -91,7 +91,7 @@ class OrderItem extends StatelessWidget {
   }
 
   getColor(String orderStatus) {
-    return orderStatus.equals(AppStrings.orderSuccess)
+    return orderStatus.equals(AppStrings.orderDelivered)
         ? AppColors.successColor
         : orderStatus.equals(AppStrings.orderConfirmed)
             ? AppColors.primaryButtonColor

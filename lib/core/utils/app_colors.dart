@@ -26,6 +26,6 @@ mixin AppColors {
   static const Color borderColor = Color(0xFFC3C3C3);
   static const Color linkColor = Color(0xFFEFA92B);
 
-  static const Color successColor = Color(0xFF12B76A);
+  static const Color successColor = Color(0xFF057942);
   static const Color errorColor = Color(0xFFF04438);
 }

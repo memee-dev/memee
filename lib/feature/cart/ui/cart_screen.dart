@@ -16,8 +16,8 @@ import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
 import 'package:memee/feature/cart/ui/cart_address_widget.dart';
 import 'package:memee/feature/cart/ui/widgets/cart_item.dart';
 
-class CartScreen extends StatelessWidget {
-  CartScreen({super.key});
+class CartWidget extends StatelessWidget {
+  CartWidget({super.key});
 
   final _cart = locator.get<CartCubit>();
   final _payment = locator.get<PaymentCubit>();
