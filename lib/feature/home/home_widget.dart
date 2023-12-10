@@ -30,8 +30,7 @@ class HomeWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppSearchField(controller: controller).paddingV(24.h),
-            SizedBox(height: 16.h),
+            AppSearchField(controller: controller).gapBottom(24.h),
             Text(
               AppStrings.categories,
               style: Theme.of(context).textTheme.textXLBold,
@@ -65,7 +64,7 @@ class HomeWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     AppStrings.products,
-                    style: Theme.of(context).textTheme.textXLBold,
+                    style: Theme.of(context).textTheme.textXLSemibold,
                   ),
                 ),
                 InkWell(
@@ -74,7 +73,7 @@ class HomeWidget extends StatelessWidget {
                   },
                   child: Text(
                     AppStrings.viewMore,
-                    style: Theme.of(context).textTheme.textMDBold,
+                    style: Theme.of(context).textTheme.textMDSemibold,
                   ),
                 ),
               ],

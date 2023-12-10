@@ -6,8 +6,8 @@ import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_bar.dart';
 import 'package:memee/core/utils/app_colors.dart';
-import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/models/order_model.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -17,10 +17,8 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppbarTemplate(
-        title: AppStrings.orderDetails,
-      ),
+    return ScaffoldTemplate(
+      title: AppStrings.orderDetails,
       body: Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -33,6 +31,7 @@ class OrderDetailsScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             12.r,
           ),
+          color: AppColors.bgColor,
         ),
         margin: EdgeInsets.symmetric(
           horizontal: 12.w,
@@ -44,12 +43,12 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: _rowText(context, 'Order Dd: ', order.id)),
+                Expanded(child: _rowText(context, 'Order Id:\t', order.id)),
                 Text(
                   order.orderedTime,
                   style: Theme.of(context)
                       .textTheme
-                      .textSMBold
+                      .textSMSemibold
                       .copyWith(color: AppColors.textRegularColor),
                 ),
               ],
@@ -83,7 +82,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                             '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .textSMBold
+                                            .textSMSemibold
                                             .copyWith(
                                               color: AppColors.textLightColor,
                                             ),
@@ -97,7 +96,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                               '${s.units} x\t',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .textMDBold,
+                                                  .textSMSemibold,
                                             ),
                                             Row(
                                               children: [
@@ -107,7 +106,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .textMDBold
+                                                      .textSMSemibold
                                                       .copyWith(
                                                           color: AppColors
                                                               .textAccentDarkColor),
@@ -116,7 +115,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                   '${s.productDetails.qty} ${s.productDetails.type.name})',
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .textSMBold
+                                                      .textSMSemibold
                                                       .copyWith(
                                                           color: AppColors
                                                               .textAccentDarkColor),
@@ -133,7 +132,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                  ).gapBottom(4.h),
+                  ),
                   const AppDivider(),
                   Align(
                     alignment: Alignment.centerRight,
@@ -146,19 +145,19 @@ class OrderDetailsScreen extends StatelessWidget {
             ).paddingV(16.h),
             _rowText(
               context,
-              'Order Status: ',
+              'Order Status:\t\t',
               order.orderStatus.toUpperCase(),
               color: getColor(order.orderStatus),
-            ).gapBottom(8.h),
+            ).gapBottom(12.h),
             _rowText(
               context,
-              'Payment Status: ',
+              'Payment Status:\t\t',
               order.paymentStatus,
               color: getPaymentStatus(order.paymentStatus),
-            ).gapBottom(8.h),
+            ).gapBottom(12.h),
             _rowText(
               context,
-              'Delivered to: ',
+              'Delivered to:\t\t',
               order.address,
             ),
           ],
@@ -196,7 +195,7 @@ Widget _rowText(context, String title, subtitle, {Color? color}) {
           text: subtitle,
           style: Theme.of(context)
               .textTheme
-              .textSMBold
+              .textSMSemibold
               .copyWith(color: color ?? AppColors.textAccentDarkColor),
         ),
       ],

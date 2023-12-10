@@ -26,7 +26,7 @@ final lightTheme = ThemeData(
   colorScheme: const ColorScheme.light(primary: Colors.pink),
   drawerTheme: const DrawerThemeData(backgroundColor: Colors.white24),
   fontFamily: 'Poppins',
-  scaffoldBackgroundColor: AppColors.bgColor,
+  scaffoldBackgroundColor: AppColors.accentLightColor,
   textTheme: TextTheme(
     headlineSmall: TextStyle(
       fontSize: 36.sp,
@@ -60,7 +60,7 @@ final lightTheme = ThemeData(
     ),
   ),
   appBarTheme: const AppBarTheme(
-    backgroundColor: AppColors.bgColor,
+    backgroundColor: AppColors.accentLightColor,
     elevation: 0,
   ),
 );

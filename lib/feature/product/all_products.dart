@@ -18,10 +18,8 @@ class AllProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchController = TextEditingController();
-    return Scaffold(
-      appBar: const AppbarTemplate(
-        title: AppStrings.allProducts,
-      ),
+    return ScaffoldTemplate(
+      title: AppStrings.allProducts,
       body: BlocBuilder<ProductCubit, ProductState>(
         bloc: locator.get<ProductCubit>()..fetchProducts(),
         builder: (context, state) {

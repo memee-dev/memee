@@ -13,7 +13,7 @@ import 'package:memee/core/widgets/confirmation_dialog.dart';
 import 'package:memee/core/widgets/empty_widget.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
-import 'package:memee/feature/cart/ui/cart_address_widget.dart';
+import 'package:memee/feature/cart/ui/widgets/cart_address_widget.dart';
 import 'package:memee/feature/cart/ui/widgets/cart_item.dart';
 
 class CartWidget extends StatelessWidget {
@@ -90,7 +90,8 @@ class CartWidget extends StatelessWidget {
                       bloc: _payment..init(),
                       listener: (_, pState) {
                         if (pState is PaymentSuccess) {
-                          Routes.push(context, Routes.orderConfirmation,
+                          Routes.pushReplacement(
+                              context, Routes.orderConfirmation,
                               extra: true);
                         } else if (pState is PaymentFailure) {
                           Routes.push(context, Routes.orderConfirmation);

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 mixin AppColors {
   static const Color bgColor = Color(0xFFFFFFFF);
 
-  static const Color accentLightColor = Color(0xFFFFF2CC);
+  static const Color accentLightColor = Color(0xFFF3EDC7);
   static const Color accentRegularColor = Color(0xFFFFE699);
   static const Color accentDarkColor = Color(0xFFFFC000);
   static const Color accentPinkColor = Color(0xFFDA008A);

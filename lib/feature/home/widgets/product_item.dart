@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/models/product_model.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/widgets/cache_image_widget.dart';
 import 'package:memee/feature/home/widgets/product_item_footer.dart';
+import 'package:memee/models/product_model.dart';
 
 class HomeProductItem extends StatelessWidget {
   final ProductModel product;
@@ -33,10 +34,10 @@ class HomeProductItem extends StatelessWidget {
             BoxShadow(
               blurStyle: BlurStyle.outer,
               color: Colors.black12,
-              blurRadius: 16.r,
+              blurRadius: 24.r,
             )
           ],
-          color: Colors.white38,
+          color: AppColors.bgColor,
         ),
         child: Column(
           children: [
@@ -44,7 +45,7 @@ class HomeProductItem extends StatelessWidget {
               imageUrl: (product.images ?? []).isNotEmpty
                   ? (product.images ?? []).first
                   : '',
-              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
             ),
             ProductItemFooter(
               name: product.name,
@@ -62,4 +63,3 @@ class HomeProductItem extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
@@ -22,55 +23,59 @@ class ProductItemFooter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          name,
-          style: Theme.of(context).textTheme.textMDBold,
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                name.toCapitalize(),
+                style: Theme.of(context).textTheme.textMDSemibold,
+              ),
+            ),
+            Expanded(
+              flex: 0,
+              child: Row(
+                children: [
+                  Text(
+                    '$type / ',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .textSMSemibold
+                        .copyWith(color: AppColors.textHintColor),
+                  ),
+                  Text(
+                    '${AppStrings.rupee}$normalPrice \t',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .textSMSemibold
+                        .copyWith(color: AppColors.textAccentDarkColor),
+                  ),
+                  Text(
+                    '${AppStrings.rupee}$discountPrice',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                          color: AppColors.textLightColor,
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 2,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         Text(
           description,
-          style: Theme.of(context).textTheme.textMDMedium,
-        ).paddingV(6.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              '$type / ',
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w900,
-                  ),
-            ),
-            Text(
-              '${AppStrings.rupee}$normalPrice \t',
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .textMDBold
-                  .copyWith(color: AppColors.accentDarkColor),
-            ),
-            Text(
-              '${AppStrings.rupee}$discountPrice',
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.textMDBold.copyWith(
-                    color: Colors.red,
-                    decoration: TextDecoration.lineThrough,
-                    decorationThickness: 2,
-                  ),
-            ),
-            const Spacer(),
-            Text(
-              'View',
-              style: Theme.of(context).textTheme.textMDBold.copyWith(
-                    color: AppColors.accentPinkColor,
-                  ),
-            )
-          ],
-        ),
+          style: Theme.of(context).textTheme.textMDMedium.copyWith(
+                color: AppColors.textLightColor,
+              ),
+        ).paddingV(2.h),
       ],
     ).paddingS(
       v: 4.h,
-      h: 12.w,
+      h: 8.w,
     );
   }
 }

@@ -14,10 +14,8 @@ class OrderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppbarTemplate(
-        title: AppStrings.orders,
-      ),
+    return ScaffoldTemplate(
+      title: AppStrings.orders,
       body: BlocProvider<OrderCubit>.value(
         value: locator.get<OrderCubit>()..getOrders(),
         child: _Orders(),

@@ -19,11 +19,12 @@ class OrderItem extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
+            color: Colors.white70,
+            blurRadius: 48.r,
             blurStyle: BlurStyle.outer,
-            blurRadius: 16.r,
-            color: AppColors.textLightColor.withOpacity(0.46),
           ),
         ],
+        color: AppColors.bgColor,
         borderRadius: BorderRadius.circular(
           12.r,
         ),

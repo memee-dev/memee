@@ -26,26 +26,36 @@ class CacheImageWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(
         radius ?? 12.r,
       ),
-      child: CachedNetworkImage(
-        height: height,
-        width: width,
-        color: color,
-        alignment: Alignment.center,
-        fit: fit ?? BoxFit.contain,
-        imageUrl: imageUrl,
-        fadeInCurve: Curves.ease,
-        progressIndicatorBuilder: (context, url, downloadProgress) =>
-            Shimmer.fromColors(
-          baseColor: Colors.grey[400]!, // Change these colors as desired
-          highlightColor: Colors.grey[200]!,
-          child: Container(
-            height: height,
-            width: width,
-            alignment: Alignment.center,
-            color: Colors.white, // Ensure this color matches your background
+      child: SizedBox(
+        height: height ?? 100.h,
+        width: width ?? MediaQuery.of(context).size.width,
+        child: CachedNetworkImage(
+          color: color,
+          alignment: Alignment.center,
+          fit: fit ?? BoxFit.contain,
+          imageUrl: imageUrl,
+          fadeInCurve: Curves.ease,
+          placeholder: (_, s) => Shimmer.fromColors(
+            baseColor: Colors.grey[200]!, // Change these colors as desired
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: height ?? 100.h,
+              width: width ?? MediaQuery.of(context).size.width,
+              alignment: Alignment.center,
+              color: Colors.white, // Ensure this color matches your background
+            ),
+          ),
+          errorWidget: (context, url, error) => Shimmer.fromColors(
+            baseColor: Colors.grey[200]!, // Change these colors as desired
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: height ?? 100.h,
+              width: width ?? MediaQuery.of(context).size.width,
+              alignment: Alignment.center,
+              color: Colors.white, // Ensure this color matches your background
+            ),
           ),
         ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
   }

@@ -80,10 +80,8 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.cart,
-          builder: (_, state) => Scaffold(
-            appBar: const AppbarTemplate(
-              title: AppStrings.cart,
-            ),
+          builder: (_, state) => ScaffoldTemplate(
+            title: AppStrings.cart,
             body: CartWidget(),
           ),
         ),
@@ -125,8 +123,8 @@ mixin Routes {
     context.push('${Routes.root}$path', extra: extra);
   }
 
-  static pushReplacement(BuildContext context, String path) {
-    context.pushReplacement('${Routes.root}$path');
+  static pushReplacement(BuildContext context, String path, {Object? extra}) {
+    context.pushReplacement('${Routes.root}$path', extra: extra);
   }
 
   static void pop(BuildContext context, {Object? value}) {

@@ -69,7 +69,7 @@ class _AppButtonState extends State<AppButton>
       builder: (_, state) {
         return SizedBox(
           width: widget.width ?? double.infinity,
-          height: widget.height ?? 55.h,
+          height: widget.height ?? 36.h,
           child: ElevatedButton(
             onPressed: () async {
               if (!loading) {
@@ -94,7 +94,7 @@ class _AppButtonState extends State<AppButton>
                   )
                 : Text(
                     widget.text,
-                    style: Theme.of(context).textTheme.textLGSemibold.copyWith(
+                    style: Theme.of(context).textTheme.textMDSemibold.copyWith(
                           color: widget.textColor,
                         ),
                   ),

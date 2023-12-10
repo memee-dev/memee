@@ -39,11 +39,12 @@ class SavedAddressItem extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 16.r,
+                  blurRadius: 24.r,
                   color: AppColors.textLightColor.withOpacity(0.24),
                   blurStyle: BlurStyle.outer,
                 )
               ],
+              color: AppColors.bgColor,
             )
           : null,
       child: Stack(
@@ -94,29 +95,34 @@ class SavedAddressItem extends StatelessWidget {
             },
             subtitle: Row(
               children: [
-                Icon(
-                  Icons.home_filled,
-                  size: 16.sp,
-                  color: AppColors.accentPinkColor,
-                ).gapRight(
-                  4.w,
-                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        address.type,
-                        style: Theme.of(context).textTheme.textSMBold.copyWith(
-                              color: AppColors.accentPinkColor,
-                            ),
-                      ).paddingV(
-                        4.h,
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.home_filled,
+                            size: 16.sp,
+                            color: AppColors.accentPinkColor,
+                          ).gapRight(
+                            4.w,
+                          ),
+                          Text(
+                            address.type,
+                            style:
+                                Theme.of(context).textTheme.textSMBold.copyWith(
+                                      color: AppColors.accentPinkColor,
+                                    ),
+                          ).paddingV(
+                            4.h,
+                          ),
+                        ],
                       ),
                       Text(
                         a,
                         maxLines: 2,
-                        style: Theme.of(context).textTheme.textSMSemibold,
+                        style: Theme.of(context).textTheme.textSMMedium,
                       ),
                     ],
                   ),
@@ -171,12 +177,12 @@ class SavedAddressItem extends StatelessWidget {
                     ),
                   ),
                   color: address.defaultValue
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.red,
+                      ? AppColors.successColor
+                      : AppColors.errorColor,
                 ),
                 child: Text(
                   address.defaultValue ? 'DEFAULT' : 'DELETE',
-                  style: Theme.of(context).textTheme.textSMBold.copyWith(
+                  style: Theme.of(context).textTheme.textSMSemibold.copyWith(
                         color: AppColors.bgColor,
                       ),
                 ),

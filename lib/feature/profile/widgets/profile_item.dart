@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
@@ -30,13 +31,13 @@ class ProfileItem extends StatelessWidget {
           Icon(
             icon,
             size: 16.sp,
-            color: AppColors.accentPinkColor,
+            color: AppColors.textAccentDarkColor,
           ).gapRight(
             4.w,
           ),
           Text(
-            title,
-            style: Theme.of(context).textTheme.textLGBold,
+            title.toCapitalize(),
+            style: Theme.of(context).textTheme.textLGSemibold,
           ),
         ],
       ),
@@ -49,13 +50,13 @@ class ProfileItem extends StatelessWidget {
                   color: AppColors.textLightColor,
                 ),
           ).paddingV(12.h),
-          const AppDivider(),
+          const AppDivider(color: AppColors.textAccentDarkColor),
         ],
       ),
       trailing: Icon(
         trailingIcon ?? Icons.arrow_right,
         size: 24.sp,
-        color: AppColors.accentPinkColor,
+        color: AppColors.textAccentDarkColor,
       ),
     );
   }

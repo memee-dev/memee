@@ -28,30 +28,27 @@ class ProductDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgColor,
-      appBar: AppbarTemplate(
-        title: product.name,
-        actions: [
-          BlocBuilder<UserCubit, UserState>(
-            bloc: _user,
-            builder: (context, state) {
-              return IconButton(
-                onPressed: () {
-                  product.favourite = !product.favourite;
+    return ScaffoldTemplate(
+      title: product.name,
+      actions: [
+        BlocBuilder<UserCubit, UserState>(
+          bloc: _user,
+          builder: (context, state) {
+            return IconButton(
+              onPressed: () {
+                product.favourite = !product.favourite;
 
-                  _user.addRemoveFavourites(product);
-                },
-                icon: Icon(
-                  product.favourite ? Icons.favorite : Icons.favorite_border,
-                  size: 24.r,
-                  color: AppColors.errorColor,
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+                _user.addRemoveFavourites(product);
+              },
+              icon: Icon(
+                product.favourite ? Icons.favorite : Icons.favorite_border,
+                size: 24.r,
+                color: AppColors.errorColor,
+              ),
+            );
+          },
+        ),
+      ],
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
@@ -59,6 +56,7 @@ class ProductDescriptionScreen extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -67,7 +65,7 @@ class ProductDescriptionScreen extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.displayColor.withOpacity(0.24),
+                    color: AppColors.textLightColor.withOpacity(0.5),
                     blurRadius: 16.r,
                     blurStyle: BlurStyle.outer,
                   ),
@@ -77,6 +75,7 @@ class ProductDescriptionScreen extends StatelessWidget {
                 imageUrl: (product.images ?? []).isNotEmpty
                     ? (product.images ?? []).first
                     : '',
+                fit: BoxFit.cover,
               ),
             ).gapBottom(16.h),
             Text(
@@ -86,10 +85,12 @@ class ProductDescriptionScreen extends StatelessWidget {
             SizedBox(height: 8.h),
             Expanded(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: product.productDetails
                     .map(
                       (e) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Row(
@@ -100,10 +101,9 @@ class ProductDescriptionScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: Colors.amber,
-                                        fontWeight: FontWeight.w900,
+                                      .textMDSemibold
+                                      .copyWith(
+                                        color: AppColors.textAccentDarkColor,
                                       ),
                                 ),
                                 Text(
@@ -111,20 +111,17 @@ class ProductDescriptionScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w900,
-                                      ),
+                                      .textMDSemibold
+                                      .copyWith(color: AppColors.displayColor),
                                 ),
                                 Text(
                                   '${AppStrings.rupee}${e.price}',
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Colors.white12.withOpacity(0.5),
-                                        fontWeight: FontWeight.w900,
+                                      .textMDSemibold
+                                      .copyWith(
+                                        color: AppColors.textLightColor,
                                         decoration: TextDecoration.lineThrough,
                                       ),
                                 ),
@@ -139,7 +136,9 @@ class ProductDescriptionScreen extends StatelessWidget {
                                   e,
                                   product.id,
                                   product.name,
-                                  (product.images ?? []).first,
+                                  ((product.images ?? []).isNotEmpty)
+                                      ? (product.images ?? []).first
+                                      : '',
                                 ),
                                 onRemove: () =>
                                     _cartCubit.removeProduct(e, product.id),

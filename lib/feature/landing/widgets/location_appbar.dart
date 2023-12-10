@@ -10,6 +10,7 @@ import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/default_address_shimmer.dart';
+import 'package:memee/core/widgets/lottie_location.dart';
 
 class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IndexCubit indexCubit;
@@ -36,7 +37,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                       : state == 2
                           ? AppStrings.cart
                           : AppStrings.profile,
-                  style: Theme.of(context).textTheme.displaySMBold,
+                  style: Theme.of(context).textTheme.displayXSSemibold,
                 ),
               ).paddingS()
             : BlocBuilder<UserCubit, UserState>(
@@ -51,15 +52,12 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                             onTap: onTap,
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
+                                horizontal: 8.w,
                                 vertical: 12.h,
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(
-                                    Icons.location_on_outlined,
-                                    color: AppColors.accentPinkColor,
-                                  ).gapRight(4.w),
+                                  const LottieLocation(),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -70,7 +68,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                                         'Home',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .textSMBold
+                                            .textSMSemibold
                                             .copyWith(
                                               color: AppColors.textLightColor,
                                             ),
@@ -80,16 +78,17 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                                         maxLines: 2,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .textSMBold
+                                            .textSMSemibold
                                             .copyWith(
                                               color: AppColors.textLightColor,
                                             ),
                                       )
                                     ],
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.keyboard_arrow_down_outlined,
-                                    color: AppColors.accentPinkColor,
+                                    color: AppColors.textAccentDarkColor,
+                                    size: 24.r,
                                   ),
                                 ],
                               ),

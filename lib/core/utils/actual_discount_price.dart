@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 
 class ActualDiscountPrice extends StatelessWidget {
   final int units;
@@ -23,26 +21,25 @@ class ActualDiscountPrice extends StatelessWidget {
       children: [
         Text(
           '$units *\t',
-          style: Theme.of(context).textTheme.textMDBold,
+          style: Theme.of(context).textTheme.textSMSemibold,
         ),
         Text(
-          '${AppStrings.rupee}${discountedPrice ?? ''} \t',
+          '${AppStrings.rupee} ${discountedPrice ?? ''} \t',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context)
-              .textTheme
-              .textMDBold
-              .copyWith(color: AppColors.accentDarkColor),
+          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                color: AppColors.textAccentDarkColor,
+              ),
         ),
         Text(
-          '${AppStrings.rupee}$price',
+          '${AppStrings.rupee} $price',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.textMDBold.copyWith(
-                color: Colors.red,
+          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                color: AppColors.textLightColor,
                 decoration: TextDecoration.lineThrough,
                 decorationThickness: 2,
               ),
         ),
       ],
-    ).gapTop(12.h);
+    );
   }
 }

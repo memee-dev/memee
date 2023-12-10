@@ -5,6 +5,7 @@ import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/core/widgets/lottie_location.dart';
 import 'package:memee/models/user_model.dart';
 
 class CartAddressWidget extends StatelessWidget {
@@ -30,9 +31,7 @@ class CartAddressWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 AppStrings.orderWillBeDeliveredTo,
-                style: Theme.of(context).textTheme.textSMBold.copyWith(
-                      color: AppColors.textLightColor,
-                    ),
+                style: Theme.of(context).textTheme.textSMSemibold,
               ),
             ),
             InkWell(
@@ -45,8 +44,8 @@ class CartAddressWidget extends StatelessWidget {
               },
               child: Text(
                 AppStrings.change,
-                style: Theme.of(context).textTheme.textMDBold.copyWith(
-                      color: AppColors.accentPinkColor,
+                style: Theme.of(context).textTheme.textMDSemibold.copyWith(
+                      color: AppColors.textAccentDarkColor,
                     ),
               ),
             )
@@ -66,36 +65,20 @@ class CartAddressWidget extends StatelessWidget {
                 blurStyle: BlurStyle.outer,
               ),
             ],
+            color: AppColors.bgColor,
           ),
           child: Row(
             children: [
-              Icon(
-                Icons.home_filled,
-                size: 16.sp,
-                color: AppColors.accentPinkColor,
-              ).gapRight(
-                4.w,
-              ),
+              const LottieLocation(),
               Expanded(
-                flex: 1,
-                child: Text(
-                  'Home',
-                  maxLines: 2,
-                  style: Theme.of(context).textTheme.textSMBold,
-                ).gapRight(
-                  4.w,
-                ),
-              ),
-              Expanded(
-                flex: 3,
                 child: Text(
                   userAddress,
                   maxLines: 2,
-                  style: Theme.of(context).textTheme.textSMSemibold,
-                ).paddingV(4.h),
-              )
+                  style: Theme.of(context).textTheme.textSMMedium,
+                ),
+              ),
             ],
-          ).paddingS(),
+          ).paddingV(4.h).paddingS(),
         ),
       ],
     ).gapBottom(16.h);

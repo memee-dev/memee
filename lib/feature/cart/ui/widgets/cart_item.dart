@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
+import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
+import 'package:memee/core/utils/actual_discount_price.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
-import 'package:memee/core/utils/actual_discount_price.dart';
-import 'package:memee/models/cart_model.dart';
-import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/add_remove_button.dart';
+import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
+import 'package:memee/models/cart_model.dart';
 
 class CartItem extends StatelessWidget {
   final CartModel cart;
@@ -26,8 +27,8 @@ class CartItem extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.borderColor,
-            blurRadius: 24.r,
+            color: Colors.black12,
+            blurRadius: 16.r,
             blurStyle: BlurStyle.outer,
           )
         ],
@@ -50,22 +51,24 @@ class CartItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${cart.name}',
-                          style:
-                              Theme.of(context).textTheme.textLGBold.copyWith(
-                                    color: AppColors.accentPinkColor,
-                                  ),
+                          '${cart.name}'.toCapitalize(),
+                          style: Theme.of(context).textTheme.textMDSemibold,
                         ).paddingS(h: 16.w, v: 8.h),
                         Row(
                           children: [
-                            Icon(
-                              Icons.set_meal,
-                              size: 16.r,
-                              color: AppColors.accentPinkColor,
-                            ).gapRight(8.w),
                             Text(
                               '${e.productDetails.qty} ${e.productDetails.type.name}',
-                              style: Theme.of(context).textTheme.textSMBold,
+                              style: Theme.of(context).textTheme.textSMSemibold,
+                            ),
+                            Icon(
+                              Icons.food_bank_sharp,
+                              size: 16.r,
+                              color: AppColors.textAccentDarkColor,
+                            ).paddingH(8.w),
+                            ActualDiscountPrice(
+                              units: e.units,
+                              discountedPrice: e.productDetails.discountedPrice,
+                              price: e.productDetails.price,
                             ),
                           ],
                         ).paddingH(),
@@ -73,37 +76,23 @@ class CartItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      ActualDiscountPrice(
-                        units: e.units,
-                        discountedPrice: e.productDetails.discountedPrice,
-                        price: e.productDetails.price,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          BlocBuilder<CartCubit, CartState>(
-                            bloc: _cartCubit,
-                            builder: (_, state) {
-                              return AddRemoveWidget(
-                                onAdd: () => _cartCubit.addProduct(
-                                  e.productDetails,
-                                  cart.productId,
-                                  cart.name ?? '',
-                                  cart.image ?? '',
-                                ),
-                                onRemove: () => _cartCubit.removeProduct(
-                                    e.productDetails, cart.productId),
-                                quantity: _cartCubit.showQty(
-                                    e.productDetails, cart.productId),
-                              );
-                            },
-                          ),
-                        ],
-                      ).paddingS(h: 16.w, v: 8.h),
-                    ],
-                  ),
+                  BlocBuilder<CartCubit, CartState>(
+                    bloc: _cartCubit,
+                    builder: (_, state) {
+                      return AddRemoveWidget(
+                        onAdd: () => _cartCubit.addProduct(
+                          e.productDetails,
+                          cart.productId,
+                          cart.name ?? '',
+                          cart.image ?? '',
+                        ),
+                        onRemove: () => _cartCubit.removeProduct(
+                            e.productDetails, cart.productId),
+                        quantity: _cartCubit.showQty(
+                            e.productDetails, cart.productId),
+                      );
+                    },
+                  ).paddingS(h: 16.w, v: 8.h),
                 ],
               )
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
@@ -30,8 +31,8 @@ class UserInformationWidget extends StatelessWidget {
         return ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(
-            _userCubit.currentUser.userName,
-            style: Theme.of(context).textTheme.textLGBold,
+            _userCubit.currentUser.userName.toCapitalize(),
+            style: Theme.of(context).textTheme.textLGSemibold,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class UserInformationWidget extends StatelessWidget {
                   Icon(
                     Icons.email_outlined,
                     size: 16.sp,
-                    color: AppColors.accentPinkColor,
+                    color: AppColors.textAccentDarkColor,
                   ).gapRight(
                     4.w,
                   ),
@@ -63,7 +64,7 @@ class UserInformationWidget extends StatelessWidget {
                   Icon(
                     Icons.phone,
                     size: 16.sp,
-                    color: AppColors.accentPinkColor,
+                    color: AppColors.textAccentDarkColor,
                   ).gapRight(
                     4.w,
                   ),
@@ -80,7 +81,7 @@ class UserInformationWidget extends StatelessWidget {
               ).gapBottom(
                 12.h,
               ),
-              const AppDivider(),
+              const AppDivider(color: AppColors.textAccentDarkColor),
             ],
           ),
           trailing: IconButton(
@@ -97,7 +98,7 @@ class UserInformationWidget extends StatelessWidget {
             },
             icon: Icon(
               Icons.edit,
-              color: AppColors.accentPinkColor,
+              color: AppColors.textAccentDarkColor,
               size: 24.r,
             ),
           ),

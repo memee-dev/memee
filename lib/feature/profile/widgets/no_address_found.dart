@@ -2,29 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
-import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/feature/profile/widgets/profile_item.dart';
-import 'package:memee/models/user_model.dart';
-
-class SavedAddressesSection extends StatelessWidget {
-  final AddressModel address;
-
-  const SavedAddressesSection({super.key, required this.address});
-
-  @override
-  Widget build(BuildContext context) {
-    return ProfileItem(
-      title: AppStrings.savedAddress,
-      subtitle:
-          '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
-      icon: Icons.bookmark_added_rounded,
-      onPressed: () => Routes.push(context, Routes.savedAddress),
-      trailingIcon: Icons.edit,
-    );
-  }
-}
+import 'package:memee/core/widgets/app_divider.dart';
 
 class NoAddressFound extends StatelessWidget {
   const NoAddressFound({super.key});
@@ -70,7 +50,7 @@ class NoAddressFound extends StatelessWidget {
         }),
         child: Text(
           AppStrings.add,
-          style: Theme.of(context).textTheme.textLGBold,
+          style: Theme.of(context).textTheme.textLGSemibold,
         ),
       ),
     );

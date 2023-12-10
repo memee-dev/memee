@@ -16,10 +16,10 @@ class HomeBottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationBar(
       onDestinationSelected: onTap,
-      indicatorColor: AppColors.accentPinkColor,
+      indicatorColor: AppColors.accentDarkColor,
       selectedIndex: index,
-      elevation: 2,
-      backgroundColor: AppColors.bgColor,
+      elevation: 4,
+      backgroundColor: AppColors.accentLightColor,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
       indicatorShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(

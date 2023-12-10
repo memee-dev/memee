@@ -34,14 +34,15 @@ class TotalItemPrice extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.textLightColor.withOpacity(0.36),
+                        color: Colors.black12,
                         blurStyle: BlurStyle.outer,
-                        blurRadius: 16.r,
+                        blurRadius: 24.r,
                       )
                     ],
+                    color: AppColors.bgColor,
                   ),
                   padding: EdgeInsets.symmetric(
-                    vertical: 8.h,
+                    vertical: 12.h,
                     horizontal: 12.w,
                   ),
                   child: Column(
@@ -55,20 +56,16 @@ class TotalItemPrice extends StatelessWidget {
                               Expanded(
                                 child: Row(
                                   children: [
-                                    Text(
-                                      '⦿',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .textXLBold
-                                          .copyWith(
-                                            color: AppColors.primaryButtonColor,
-                                          ),
+                                    Icon(
+                                      Icons.deblur,
+                                      size: 16.r,
+                                      color: AppColors.textAccentDarkColor,
                                     ).gapRight(4.w),
                                     Text(
                                       '${e.productDetails.qty} ${e.productDetails.type.name} ',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .textMDBold,
+                                          .textMDSemibold,
                                     ),
                                   ],
                                 ).gapBottom(8.h),
@@ -83,9 +80,21 @@ class TotalItemPrice extends StatelessWidget {
                           );
                         }).toList(),
                       ),
-                      const AppDivider(
-                        width: double.infinity,
-                      ).paddingV(8.h),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          children: [
+                            AppDivider(
+                              width: MediaQuery.of(context).size.width * .30,
+                              color: AppColors.textAccentDarkColor,
+                            ).gapBottom(
+                              8.h,
+                            ),
+                            _rowText(context, AppStrings.amount,
+                                '${AppStrings.rupee} ${_cartCubit.getTotalAmount(productId)}'),
+                          ],
+                        ),
+                      ).gapBottom(4.h),
                       AppButton.primary(
                         text: AppStrings.goToCart,
                         onPressed: () => Routes.push(context, Routes.cart),
@@ -99,4 +108,25 @@ class TotalItemPrice extends StatelessWidget {
       },
     );
   }
+}
+
+Widget _rowText(context, String title, subtitle, {Color? color}) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: '$title:\t\t',
+          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                color: AppColors.textLightColor,
+              ),
+        ),
+        TextSpan(
+          text: subtitle,
+          style: Theme.of(context).textTheme.textSMBold.copyWith(
+                color: color ?? AppColors.textAccentDarkColor,
+              ),
+        ),
+      ],
+    ),
+  );
 }

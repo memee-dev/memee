@@ -39,12 +39,9 @@ class AddressEditScreen extends StatelessWidget {
     TextEditingController landmark =
         TextEditingController(text: address?.landmark);
 
-    return Scaffold(
-      appBar: AppbarTemplate(
-        title: map['edit'] ?? false
-            ? AppStrings.editAddress
-            : AppStrings.addAddress,
-      ),
+    return ScaffoldTemplate(
+      title:
+          map['edit'] ?? false ? AppStrings.editAddress : AppStrings.addAddress,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
           horizontal: 16.h,

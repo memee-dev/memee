@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_bar.dart';
+import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/widgets/app_divider.dart';
 import 'package:memee/core/utils/app_router.dart';
@@ -16,13 +18,12 @@ class SavedAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppbarTemplate(
-        title: AppStrings.savedAddress,
-      ),
+    return ScaffoldTemplate(
+      title: AppStrings.savedAddress,
       floatingActionButton: TextButton.icon(
         icon: const Icon(
           Icons.add,
+          color: AppColors.textAccentDarkColor,
         ),
         style: ButtonStyle(
           shape: MaterialStatePropertyAll(
@@ -30,10 +31,13 @@ class SavedAddressScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 12.r,
               ),
-              side: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
+              side: const BorderSide(
+                color: AppColors.textAccentDarkColor,
               ),
             ),
+          ),
+          backgroundColor: const MaterialStatePropertyAll(
+            AppColors.bgColor,
           ),
         ),
         onPressed: () {
@@ -41,8 +45,11 @@ class SavedAddressScreen extends StatelessWidget {
             'edit': false,
           });
         },
-        label: const Text(
-          'Add new Address',
+        label: Text(
+          AppStrings.addNewAddress,
+          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                color: AppColors.textAccentDarkColor,
+              ),
         ),
       ).gapBottom(16.h),
       body: BlocProvider.value(

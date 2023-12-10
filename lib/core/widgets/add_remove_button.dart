@@ -34,19 +34,19 @@ class AddRemoveWidget extends StatelessWidget {
                 ),
               ),
               backgroundColor: const MaterialStatePropertyAll(
-                AppColors.accentDarkColor,
+                AppColors.bgColor,
               ),
             ),
             onPressed: onAdd,
             icon: Icon(
               Icons.add,
               size: 16.r,
-              color: Colors.white,
+              color: AppColors.displayColor,
             ),
             label: Text(
               AppStrings.add,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+              style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                    color: AppColors.displayColor,
                   ),
             ),
           )
@@ -55,10 +55,17 @@ class AddRemoveWidget extends StatelessWidget {
             curve: Curves.easeInExpo,
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.accentDarkColor,
+                color: AppColors.bgColor,
                 borderRadius: BorderRadius.circular(
                   12.r,
-                ), // Border radius
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 24.r,
+                    blurStyle: BlurStyle.outer,
+                  )
+                ],
               ),
               padding: EdgeInsets.zero,
               child: Row(
@@ -73,7 +80,7 @@ class AddRemoveWidget extends StatelessWidget {
                   ),
                   Text(
                     quantity.toString(),
-                    style: Theme.of(context).textTheme.textSMBold,
+                    style: Theme.of(context).textTheme.textSMSemibold,
                   ),
                   IconButton(
                     onPressed: onAdd,

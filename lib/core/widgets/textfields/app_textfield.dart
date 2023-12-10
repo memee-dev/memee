@@ -14,6 +14,7 @@ class AppTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final bool readOnly;
   final double? width;
+  final Color? borderColor;
   final List<TextInputFormatter> inputFormatters;
   final TextInputType keyboardType;
   final InputDecoration decoration;
@@ -34,7 +35,7 @@ class AppTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     InputDecoration? decoration,
     this.onChanged,
-    this.errorText,
+    this.errorText, this.borderColor,
   })  : inputFormatters = inputFormatters ?? [],
         decoration = decoration ??
             const InputDecoration(
@@ -113,14 +114,14 @@ class AppTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(
             width: 1.w,
-            color: AppColors.borderColor,
+            color: borderColor ?? AppColors.borderColor,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(
             width: 1.w,
-            color: AppColors.borderColor,
+            color: borderColor ?? AppColors.borderColor,
           ),
         ),
         hintText: label,
