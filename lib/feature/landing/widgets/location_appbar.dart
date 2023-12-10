@@ -36,9 +36,9 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                       : state == 2
                           ? AppStrings.cart
                           : AppStrings.profile,
-                  style: Theme.of(context).textTheme.displayMDBold,
+                  style: Theme.of(context).textTheme.displaySMBold,
                 ),
-              ).paddingH()
+              ).paddingS()
             : BlocBuilder<UserCubit, UserState>(
                 bloc: userCubit..getCurrentUserInfo(),
                 builder: (context, user) {
@@ -105,7 +105,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(
-        kToolbarHeight,
+  Size get preferredSize => Size.fromHeight(
+        kToolbarHeight.h,
       );
 }

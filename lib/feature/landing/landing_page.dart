@@ -8,6 +8,7 @@ import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/confirmation_dialog.dart';
 import 'package:memee/feature/cart/ui/cart_screen.dart';
+import 'package:memee/feature/favourites/favourite_widget.dart';
 import 'package:memee/feature/home/home_widget.dart';
 import 'package:memee/feature/landing/widgets/bottom_navigation_bar.dart';
 import 'package:memee/feature/landing/widgets/location_appbar.dart';
@@ -22,11 +23,7 @@ class LandingPage extends StatelessWidget {
 
   final List<Widget> screens = [
     HomeWidget(),
-    Container(
-      height: 100,
-      width: 200,
-      color: Colors.orange,
-    ),
+    const FavouriteWidget(),
     CartWidget(),
     const ProfileWidget()
   ];

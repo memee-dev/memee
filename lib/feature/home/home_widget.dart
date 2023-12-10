@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
-import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_di.dart';
@@ -12,6 +11,7 @@ import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/feature/home/widgets/category_item.dart';
 import 'package:memee/feature/home/widgets/product_item.dart';
 import 'package:memee/feature/home/widgets/product_item_shimmer.dart';
+import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 
 import '../../core/widgets/textfields/app_searchfiled.dart';
 

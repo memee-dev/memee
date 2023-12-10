@@ -7,13 +7,13 @@ import 'package:memee/blocs/hide/hide_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/map_cubit/map_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
-import 'package:memee/blocs/product_cubit/product_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/blocs/refresh_cubit.dart';
 import 'package:memee/feature/auth/bloc/register_cubit.dart';
 import 'package:memee/feature/auth/repo/user_repo.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/order/bloc/order_cubit.dart';
+import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 
 import '../../feature/auth/bloc/auth_cubit.dart';
 import '../../feature/auth/bloc/login_cubit.dart';

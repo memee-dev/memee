@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
+import 'package:memee/models/product_model.dart';
 import 'package:memee/models/user_model.dart';
 
 import '../../core/utils/app_di.dart';
@@ -120,12 +121,19 @@ class UserCubit extends Cubit<UserState> {
             .collection(AppFireStoreCollection.userDev)
             .doc(user.uid)
             .get();
+        List<ProductModel> products = [];
 
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         List<AddressModel> address = [];
+        if (data['favourites'] != null) {
+          products = List<ProductModel>.from(
+              data['favourites'].map((x) => ProductModel.fromMap(x)));
+        }
+
         if (data['address'] != null && data['address'].isNotEmpty) {
           address = List<AddressModel>.from(
               data['address'].map((x) => AddressModel.fromJson(x)));
+
           AddressModel? defaultAddress;
           for (var key in data['address']) {
             if (key['default']) {
@@ -141,6 +149,7 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'],
             active: data['active'],
             email: data['email'],
+            favourites: products,
           );
           emit(CurrentUserState(user: currentUser));
         } else {
@@ -152,6 +161,7 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'] ?? '',
             active: data['active'] ?? true,
             email: data['email'] ?? '',
+            favourites: products,
           );
           emit(CurrentUserState(user: currentUser));
         }
@@ -311,6 +321,57 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {
       console.e(e.toString());
       emit(UserUpdateFailure(message: 'Unable to fetch address'));
+    }
+  }
+
+  addRemoveFavourites(ProductModel product) async {
+    emit(UserInfoLoading());
+    List<ProductModel> products = [];
+
+    try {
+      User? user = auth.currentUser;
+      CollectionReference reference =
+          db.collection(AppFireStoreCollection.userDev);
+      if (user != null) {
+        DocumentSnapshot userDoc = await db
+            .collection(AppFireStoreCollection.userDev)
+            .doc(user.uid)
+            .get();
+
+        if (product.favourite) {
+          products.add(product);
+        }
+        Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+
+        if (data['favourites'] != null) {
+          products.addAll(List<ProductModel>.from(
+              data['favourites'].map((x) => ProductModel.fromMap(x))));
+          if (product.favourite == false) {
+            products.removeWhere((element) => element.id == product.id);
+          }
+        }
+        final newData = {
+          'id': user.uid,
+          'phoneNumber': data['phoneNumber'],
+          'address': data['address'],
+          'verified': data['verified'],
+          'active': data['active'],
+          'userName': data['userName'],
+          'email': data['email'],
+        };
+        if (products.isNotEmpty) {
+          newData['favourites'] = products.map((e) => e.toJson()).toList();
+        } else {
+          newData['favourites'] = [];
+        }
+
+        currentUser = UserModel.fromJson(newData);
+
+        await reference.doc(user.uid).update(newData);
+        emit(CurrentUserState(user: currentUser));
+      }
+    } catch (e) {
+      console.e(e.toString());
     }
   }
 }

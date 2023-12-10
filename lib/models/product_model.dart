@@ -9,19 +9,19 @@ class ProductModel {
   bool active;
   final List<String>? images;
   final List<ProductDetailsModel> productDetails;
+  bool favourite;
 
-  ProductModel({
-    required this.id,
-    required this.name,
-    required this.category,
-    required this.description,
-    this.images,
-    required this.productDetails,
-    this.active = true,
-  });
+  ProductModel(
+      {required this.id,
+      required this.name,
+      required this.category,
+      required this.description,
+      this.images,
+      required this.productDetails,
+      this.active = true,
+      this.favourite = false});
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
-
     return ProductModel(
       id: map['id'],
       name: map['name'],
@@ -31,6 +31,7 @@ class ProductModel {
       productDetails: List<ProductDetailsModel>.from(
           map['productDetails'].map((x) => ProductDetailsModel.fromMap(x))),
       active: map['active'],
+      favourite: map['favourite'] ?? false,
     );
   }
 
@@ -41,6 +42,7 @@ class ProductModel {
     map['category'] = category.toJson(addId: true);
     map['description'] = description;
     map['active'] = active;
+    map['favourite'] = favourite;
     if ((images ?? []).isNotEmpty) {
       map['images'] = List<String>.from(images!.map((x) => x));
     }

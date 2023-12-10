@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_bar.dart';
@@ -23,12 +24,34 @@ class ProductDescriptionScreen extends StatelessWidget {
   });
 
   final _cartCubit = locator.get<CartCubit>();
+  final _user = locator.get<UserCubit>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      appBar: AppbarTemplate(title: product.name),
+      appBar: AppbarTemplate(
+        title: product.name,
+        actions: [
+          BlocBuilder<UserCubit, UserState>(
+            bloc: _user,
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  product.favourite = !product.favourite;
+
+                  _user.addRemoveFavourites(product);
+                },
+                icon: Icon(
+                  product.favourite ? Icons.favorite : Icons.favorite_border,
+                  size: 24.r,
+                  color: AppColors.errorColor,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,

@@ -1,3 +1,5 @@
+import 'package:memee/models/product_model.dart';
+
 class UserModel {
   UserModel({
     this.address,
@@ -8,6 +10,7 @@ class UserModel {
     required this.userName,
     required this.email,
     this.defaultAddress,
+    this.favourites,
   });
 
   List<AddressModel>? address;
@@ -18,6 +21,7 @@ class UserModel {
   String userName;
   String email;
   AddressModel? defaultAddress;
+  List<ProductModel>? favourites;
 
   factory UserModel.fromJson(Map<dynamic, dynamic> json) => UserModel(
         id: json['id'],
@@ -30,11 +34,18 @@ class UserModel {
             ? List<AddressModel>.from(
                 json['address'].map((x) => AddressModel.fromJson(x)))
             : null,
+        favourites: json['favourites'] != null
+            ? List<ProductModel>.from(
+                json['favourites'].map((x) => ProductModel.fromMap(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
         'address': address != null
             ? List<Map<String, dynamic>>.from(address!.map((x) => x.toJson()))
+            : null,
+        'favourites': favourites != null
+            ? List<dynamic>.from(favourites!.map((x) => x.toJson()))
             : null,
         'phoneNumber': phoneNumber,
         'verified': verified,
