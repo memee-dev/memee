@@ -50,27 +50,22 @@ class CartItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${cart.name}'.toCapitalize(),
-                          style: Theme.of(context).textTheme.textMDSemibold,
-                        ).paddingS(h: 16.w, v: 8.h),
                         Row(
                           children: [
                             Text(
-                              '${e.productDetails.qty} ${e.productDetails.type.name}',
-                              style: Theme.of(context).textTheme.textSMSemibold,
+                              '${cart.name}'.toCapitalize(),
+                              style: Theme.of(context).textTheme.textMDMedium,
                             ),
-                            Icon(
-                              Icons.food_bank_sharp,
-                              size: 16.r,
-                              color: AppColors.textAccentDarkColor,
-                            ).paddingH(8.w),
-                            ActualDiscountPrice(
-                              units: e.units,
-                              discountedPrice: e.productDetails.discountedPrice,
-                              price: e.productDetails.price,
+                            Text(
+                              ',\t${e.productDetails.qty} ${e.productDetails.type.name}',
+                              style: Theme.of(context).textTheme.textMDMedium,
                             ),
                           ],
+                        ).paddingS(h: 16.w, v: 4.h),
+                        ActualDiscountPrice(
+                          units: e.units,
+                          discountedPrice: e.productDetails.discountedPrice,
+                          price: e.productDetails.price,
                         ).paddingH(),
                         SizedBox(height: 8.h),
                       ],

@@ -9,7 +9,6 @@ import 'package:memee/feature/auth/bloc/auth_cubit.dart';
 import 'package:memee/feature/profile/widgets/no_address_found.dart';
 import 'package:memee/feature/profile/widgets/profile_item.dart';
 import 'package:memee/feature/profile/widgets/user_information.dart';
-
 import '../../core/utils/app_di.dart';
 import '../../core/utils/app_strings.dart';
 
@@ -55,16 +54,19 @@ class _Profile extends StatelessWidget {
             return const NoAddressFound().gapBottom(24.h);
           },
         ),
-        const ProfileItem(
+        ProfileItem(
           title: AppStrings.settings,
           subtitle: AppStrings.smsNotifications,
           icon: Icons.settings,
+          onPressed: () => Routes.push(context, Routes.settings),
         ).gapBottom(24.h),
-        const ProfileItem(
-          title: AppStrings.help,
-          subtitle: AppStrings.raiseQueries,
-          icon: Icons.help,
-        ).gapBottom(24.h),
+
+        /// Not available in mvp
+        // const ProfileItem(
+        //   title: AppStrings.help,
+        //   subtitle: AppStrings.raiseQueries,
+        //   icon: Icons.help,
+        // ).gapBottom(24.h),
         ProfileItem(
           title: AppStrings.orders,
           subtitle: AppStrings.viewAllOrdersHere,

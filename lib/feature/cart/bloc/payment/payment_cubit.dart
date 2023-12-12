@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +7,7 @@ import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
+import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/order/bloc/order_cubit.dart';
 import 'package:memee/models/cart_model.dart';
@@ -48,14 +47,17 @@ class PaymentCubit extends Cubit<PaymentState> {
       Map<String, dynamic> map = {
         'orders': cartItems.map((e) => e.toJson()).toList(),
         'orderedTime': DateTime.now().format(),
+        'updatedTime': DateTime.now().format(),
         'paymentStatus': response.paymentId != null ? 'Success' : 'Failed',
         'totalAmount': _cart.getTotalAmount(''),
-        'orderStatus': 'Order Confirmed',
+        'orderStatus': AppStrings.orderPending,
         'paymentId': response.paymentId,
+        'userId': _user.currentUser.id,
         'address': _user.currentUser.defaultAddress?.addressString(),
       };
       await _order.updateOrderList(map);
 
+      console.i(map);
       await deleteCartItemOnSuccess();
       emit(PaymentSuccess(paymentId: response.paymentId!));
     } catch (e) {
@@ -64,27 +66,29 @@ class PaymentCubit extends Cubit<PaymentState> {
   }
 
   _handlePaymentError(PaymentFailureResponse response) async {
-    log('======> ${response.code}');
-    log('======> ${response.error}');
-    // try {
-    //   List<CartModel> cartItems = await getLocalCartItems();
-    //
-    //   Map<String, dynamic> map = {0
-    //     'orders': cartItems.map((e) => e.toJson()).toList(),
-    //     'orderedTime': DateTime.now().format(),
-    //     'paymentStatus': response.message ?? 'Failed',
-    //     'orderStatus': 'Order Failed',
-    //     'totalAmount': _cart.getTotalAmount(''),
-    //     'paymentId': 'NA',
-    //     'address': _user.currentUser.defaultAddress?.addressString(),
-    //   };
-    //
-    //   _order.updateOrderList(map);
-    //   await deleteCartItemOnSuccess();
-    //   emit(PaymentFailure(response: response));
-    // } catch (e) {
-    //   console.e(e);
-    // }
+    try {
+      if (response.code != 2) {
+        List<CartModel> cartItems = await getLocalCartItems();
+
+        Map<String, dynamic> map = {
+          'orders': cartItems.map((e) => e.toJson()).toList(),
+          'orderedTime': DateTime.now().format(),
+          'updatedTime': DateTime.now().format(),
+          'paymentStatus': response.message ?? 'Failed',
+          'orderStatus': 'Order Failed',
+          'totalAmount': _cart.getTotalAmount(''),
+          'paymentId': 'NA',
+          'userId': _user.currentUser.id,
+          'address': _user.currentUser.defaultAddress?.addressString(),
+        };
+
+        _order.updateOrderList(map);
+        await deleteCartItemOnSuccess();
+        emit(PaymentFailure(response: response));
+      }
+    } catch (e) {
+      console.e(e);
+    }
   }
 
   Future<void> _handleExternalWallet(ExternalWalletResponse response) async {
@@ -95,10 +99,12 @@ class PaymentCubit extends Cubit<PaymentState> {
       Map<String, dynamic> map = {
         'orders': cartItems.map((e) => e.toJson()).toList(),
         'orderedTime': DateTime.now().format(),
+        'updatedTime': DateTime.now().format(),
         'paymentStatus': 'Payment Failed with ${response.walletName}',
         'orderStatus': 'Order Failed',
         'totalAmount': _cart.getTotalAmount(''),
         'paymentId': 'NA',
+        'userId': _user.currentUser.id,
         'address': _user.currentUser.defaultAddress?.addressString(),
       };
       _order.updateOrderList(map);

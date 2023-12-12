@@ -7,6 +7,7 @@ mixin AppAssets {
   static const String glitter = 'assets/anim/glitter.json';
   static const String loadingBtn = 'assets/anim/loading-button.json';
   static const String location = 'assets/anim/location.json';
+  static const String favourites = 'assets/anim/favourites.json';
 }
 
 mixin AppFlags {

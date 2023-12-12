@@ -19,7 +19,7 @@ class AppDivider extends StatelessWidget {
     return SizedBox(
       width: width ?? MediaQuery.of(context).size.width * 0.75,
       child: Divider(
-        color: color ?? AppColors.accentPinkColor,
+        color: color ?? AppColors.textAccentDarkColor,
         thickness: 2.sp,
         height: (height ?? 4).h,
       ),

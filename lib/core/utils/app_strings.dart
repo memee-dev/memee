@@ -155,9 +155,9 @@ Reducing the risk of diabetes. ''';
 
   static const orderDetails = 'Order Details';
 
-  static const orderDelivered = 'Order Delivered';
-  static const orderFailure = 'Order failed';
-  static const orderConfirmed = 'Order Confirmed';
+  static const orderCompleted = 'Order Completed';
+  static const orderCancelled = 'Order cancelled';
+  static const orderPending = 'Order Pending';
 
   static const success = 'Success';
   static const orderPlaceSuccess = 'Order has been placed successfully';
@@ -169,5 +169,13 @@ Reducing the risk of diabetes. ''';
 
   static const amount = 'Amount';
 
-  static String addNewAddress = 'Add new Address';
+  static const addNewAddress = 'Add new Address';
+
+  static const cancelOrderDesc = 'Are you sure you want to cancel the order?';
+
+  static const cancelOrder = 'Cancel Order';
+
+  static const viewDetail = 'View Detail';
+
+  static const addUserInfo = 'Add User Info';
 }

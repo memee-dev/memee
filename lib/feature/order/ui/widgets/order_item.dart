@@ -19,8 +19,8 @@ class OrderItem extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.white70,
-            blurRadius: 48.r,
+            color: Colors.black12,
+            blurRadius: 24.r,
             blurStyle: BlurStyle.outer,
           ),
         ],
@@ -41,7 +41,7 @@ class OrderItem extends StatelessWidget {
                 order.orderedTime,
                 style: Theme.of(context)
                     .textTheme
-                    .textSMBold
+                    .textSMSemibold
                     .copyWith(color: AppColors.textRegularColor),
               ),
             ],
@@ -70,16 +70,17 @@ class OrderItem extends StatelessWidget {
                       ),
                     ),
                     backgroundColor: const MaterialStatePropertyAll(
-                      AppColors.primaryButtonColor,
+                      AppColors.textAccentDarkColor,
                     ),
                     elevation: const MaterialStatePropertyAll(8)),
                 child: Row(
                   children: [
                     Text(
-                      'View Detail',
-                      style: Theme.of(context).textTheme.textXSBold.copyWith(
-                            color: AppColors.bgColor,
-                          ),
+                      AppStrings.viewDetail,
+                      style:
+                          Theme.of(context).textTheme.textXSSemibold.copyWith(
+                                color: AppColors.bgColor,
+                              ),
                     ),
                   ],
                 ),
@@ -92,9 +93,9 @@ class OrderItem extends StatelessWidget {
   }
 
   getColor(String orderStatus) {
-    return orderStatus.equals(AppStrings.orderDelivered)
+    return orderStatus.equals(AppStrings.orderCompleted)
         ? AppColors.successColor
-        : orderStatus.equals(AppStrings.orderConfirmed)
+        : orderStatus.equals(AppStrings.orderPending)
             ? AppColors.primaryButtonColor
             : AppColors.errorColor;
   }

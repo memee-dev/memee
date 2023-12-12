@@ -37,7 +37,7 @@ class ProfileItem extends StatelessWidget {
           ),
           Text(
             title.toCapitalize(),
-            style: Theme.of(context).textTheme.textLGSemibold,
+            style: Theme.of(context).textTheme.textLGMedium,
           ),
         ],
       ),
@@ -46,11 +46,11 @@ class ProfileItem extends StatelessWidget {
         children: [
           Text(
             subtitle,
-            style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+            style: Theme.of(context).textTheme.textSMMedium.copyWith(
                   color: AppColors.textLightColor,
                 ),
           ).paddingV(12.h),
-          const AppDivider(color: AppColors.textAccentDarkColor),
+          const AppDivider(),
         ],
       ),
       trailing: Icon(

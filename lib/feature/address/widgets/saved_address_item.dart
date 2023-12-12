@@ -8,6 +8,7 @@ import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/core/widgets/lottie_location.dart';
 import 'package:memee/models/user_model.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/widgets/confirmation_dialog.dart';
@@ -101,17 +102,13 @@ class SavedAddressItem extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.home_filled,
-                            size: 16.sp,
-                            color: AppColors.accentPinkColor,
-                          ).gapRight(
-                            4.w,
+                          LottieLocation(
+                            height: 20.h,
                           ),
                           Text(
                             address.type,
                             style:
-                                Theme.of(context).textTheme.textSMBold.copyWith(
+                                Theme.of(context).textTheme.textMDMedium.copyWith(
                                       color: AppColors.accentPinkColor,
                                     ),
                           ).paddingV(
@@ -177,15 +174,22 @@ class SavedAddressItem extends StatelessWidget {
                     ),
                   ),
                   color: address.defaultValue
-                      ? AppColors.successColor
+                      ? AppColors.textAccentDarkColor
                       : AppColors.errorColor,
                 ),
-                child: Text(
-                  address.defaultValue ? 'DEFAULT' : 'DELETE',
-                  style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                child: address.defaultValue
+                    ? Text(
+                        AppStrings.defaultT,
+                        style:
+                            Theme.of(context).textTheme.textMDMedium.copyWith(
+                                  color: AppColors.bgColor,
+                                ),
+                      )
+                    : Icon(
+                        Icons.delete,
                         color: AppColors.bgColor,
+                        size: 24.r,
                       ),
-                ),
               ),
             ),
           ),

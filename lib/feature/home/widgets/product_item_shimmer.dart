@@ -9,7 +9,7 @@ class ProductItemShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[200]!,
+      baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: Container(
         decoration: BoxDecoration(
@@ -29,8 +29,8 @@ class ProductItemShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.24,
-              width: MediaQuery.of(context).size.width,
+              height: 100.h,
+              width: MediaQuery.of(context).size.width.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                   12.r,

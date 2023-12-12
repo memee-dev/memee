@@ -1,9 +1,9 @@
+import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:memee/blocs/categories/categories_cubit.dart';
 import 'package:memee/blocs/form/form_validation_cubit.dart';
-import 'package:memee/blocs/hide/hide_cubit.dart';
+import 'package:memee/blocs/hide/bool_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/map_cubit/map_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
@@ -13,6 +13,7 @@ import 'package:memee/feature/auth/bloc/register_cubit.dart';
 import 'package:memee/feature/auth/repo/user_repo.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/order/bloc/order_cubit.dart';
+import 'package:memee/feature/product/bloc/categories/categories_cubit.dart';
 import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 
 import '../../feature/auth/bloc/auth_cubit.dart';
@@ -34,6 +35,13 @@ void apiConfig(GetIt locator) {
 
   locator.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
+  );
+
+  locator.registerLazySingleton<Algolia>(
+    () => const Algolia.init(
+      applicationId: 'LDNGTJUKYJ',
+      apiKey: 'abf28250124d323a522237e9b4988456',
+    ),
   );
 }
 
@@ -60,12 +68,15 @@ void blocConfig(GetIt locator) {
   locator.registerLazySingleton<HideCubit>(
     () => HideCubit(),
   );
+  locator.registerFactory<SwitchCubit>(
+    () => SwitchCubit(),
+  );
   locator.registerFactory<FormValidationCubit>(
     () => FormValidationCubit(),
   );
 
   locator.registerFactory<ProductCubit>(
-    () => ProductCubit(locator()),
+    () => ProductCubit(locator(), locator()),
   );
   locator.registerFactory<CategoriesCubit>(
     () => CategoriesCubit(locator()),

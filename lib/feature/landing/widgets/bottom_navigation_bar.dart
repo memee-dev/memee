@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/utils/app_colors.dart';
 
 class HomeBottomNavigation extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomeBottomNavigation extends StatelessWidget {
       indicatorColor: AppColors.accentDarkColor,
       selectedIndex: index,
       elevation: 4,
-      backgroundColor: AppColors.accentLightColor,
+      backgroundColor: AppColors.bgColor,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
       indicatorShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
@@ -48,6 +49,46 @@ class HomeBottomNavigation extends StatelessWidget {
           label: 'Profile',
         ),
       ],
+    );
+  }
+}
+
+class NavigationBarItem extends StatelessWidget {
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onPressed;
+
+  const NavigationBarItem({
+    super.key,
+    required this.selectedIcon,
+    required this.unselectedIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isSelected ? selectedIcon : unselectedIcon,
+            color:
+                isSelected ? AppColors.accentDarkColor : AppColors.displayColor,
+          ),
+          const SizedBox(height: 4.0),
+          if (isSelected)
+            Text(
+              label,
+              style: Theme.of(context).textTheme.textSMSemibold,
+            ),
+        ],
+      ),
     );
   }
 }

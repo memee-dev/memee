@@ -11,26 +11,31 @@ class OrderModel {
   OrderModel({
     required this.totalAmount,
     required this.orderedTime,
+    required this.updatedTime,
     required this.address,
     required this.paymentId,
     required this.orders,
     required this.orderStatus,
     required this.paymentStatus,
     this.id,
+    this.userId,
   });
 
   String totalAmount;
   String orderedTime;
+  String updatedTime;
   String address;
   String paymentId;
   List<CartModel> orders;
   String orderStatus;
   String paymentStatus;
   String? id;
+  String? userId;
 
   factory OrderModel.fromJson(Map<dynamic, dynamic> json) => OrderModel(
         totalAmount: json['totalAmount'],
         orderedTime: json['orderedTime'],
+        updatedTime: json['updatedTime'],
         address: json['address'],
         paymentId: json['paymentId'],
         orders: List<CartModel>.from(
@@ -38,16 +43,19 @@ class OrderModel {
         orderStatus: json['orderStatus'],
         paymentStatus: json['paymentStatus'],
         id: json['id'],
+        userId: json['userId'],
       );
 
-  Map<dynamic, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'totalAmount': totalAmount,
         'orderedTime': orderedTime,
+        'updatedTime': updatedTime,
         'address': address,
         'paymentId': paymentId,
         'orders': List<dynamic>.from(orders.map((x) => x.toJson())),
         'orderStatus': orderStatus,
         'paymentStatus': paymentStatus,
         'id': id,
+        'userId': userId,
       };
 }

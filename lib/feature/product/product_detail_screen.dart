@@ -10,24 +10,24 @@ import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/cache_image_widget.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
+import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 import 'package:memee/feature/product/widget/total_item_price.dart';
 import 'package:memee/models/product_model.dart';
 
 import '../../core/widgets/add_remove_button.dart';
 
-class ProductDescriptionScreen extends StatelessWidget {
+class ProductDetailScreen extends StatelessWidget {
   final ProductModel product;
 
-  ProductDescriptionScreen({
+  const ProductDetailScreen({
     super.key,
     required this.product,
   });
 
-  final _cartCubit = locator.get<CartCubit>();
-  final _user = locator.get<UserCubit>();
-
   @override
   Widget build(BuildContext context) {
+    final _cartCubit = locator.get<CartCubit>();
+    final _user = locator.get<UserCubit>();
     return ScaffoldTemplate(
       title: product.name,
       actions: [
@@ -37,7 +37,7 @@ class ProductDescriptionScreen extends StatelessWidget {
             return IconButton(
               onPressed: () {
                 product.favourite = !product.favourite;
-
+                locator.get<ProductCubit>().updateFavourite(product);
                 _user.addRemoveFavourites(product);
               },
               icon: Icon(

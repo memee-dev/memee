@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:memee/blocs/hide/hide_cubit.dart';
+import 'package:memee/blocs/hide/bool_cubit.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_assets.dart';

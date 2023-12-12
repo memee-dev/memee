@@ -21,19 +21,19 @@ class ActualDiscountPrice extends StatelessWidget {
       children: [
         Text(
           '$units *\t',
-          style: Theme.of(context).textTheme.textSMSemibold,
+          style: Theme.of(context).textTheme.textSMMedium,
         ),
         Text(
           '${AppStrings.rupee} ${discountedPrice ?? ''} \t',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+          style: Theme.of(context).textTheme.textSMMedium.copyWith(
                 color: AppColors.textAccentDarkColor,
               ),
         ),
         Text(
           '${AppStrings.rupee} $price',
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+          style: Theme.of(context).textTheme.textSMMedium.copyWith(
                 color: AppColors.textLightColor,
                 decoration: TextDecoration.lineThrough,
                 decorationThickness: 2,

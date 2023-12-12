@@ -13,25 +13,35 @@ import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 import '../../core/widgets/textfields/app_searchfiled.dart';
 
 class AllProductsScreen extends StatelessWidget {
-  const AllProductsScreen({super.key});
+  final Map<String, dynamic>? map;
+
+  const AllProductsScreen({
+    super.key,
+    this.map,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final _product = locator.get<ProductCubit>();
     final searchController = TextEditingController();
     return ScaffoldTemplate(
-      title: AppStrings.allProducts,
-      body: BlocBuilder<ProductCubit, ProductState>(
-        bloc: locator.get<ProductCubit>()..fetchProducts(),
-        builder: (context, state) {
-          if (state is ProductLoading) {
-            return const ProductItemShimmer();
-          } else if (state is ProductSuccess) {
-            return Column(
-              children: [
-                AppSearchField(controller: searchController).gapBottom(12.h),
-                Expanded(
+      title: map?['title'] ?? AppStrings.allProducts,
+      body: Column(
+        children: [
+          AppSearchField(
+            controller: searchController,
+            productCubit: _product,
+          ).paddingS(),
+          BlocBuilder<ProductCubit, ProductState>(
+            bloc: _product..fetchProducts(map?['categoryId'] ?? ''),
+            builder: (context, state) {
+              if (state is ProductLoading) {
+                return const ProductItemShimmer().paddingS();
+              } else if (state is ProductSuccess) {
+                return Expanded(
                   child: ListView.separated(
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     itemBuilder: (_, i) {
                       final e = state.products[i];
                       return HomeProductItem(
@@ -44,21 +54,21 @@ class AllProductsScreen extends StatelessWidget {
                             extra: e,
                           );
                         },
-                      ).gapBottom(16.h);
+                      );
                     },
                     itemCount: state.products.length,
                     separatorBuilder: (BuildContext context, int index) =>
                         SizedBox(
-                      height: 8.h,
+                      height: 16.h,
                     ),
-                  ),
-                ),
-              ],
-            ).paddingS();
-          }
+                  ).paddingS(v: 12.h),
+                );
+              }
 
-          return const SizedBox.shrink();
-        },
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
       ),
     );
   }

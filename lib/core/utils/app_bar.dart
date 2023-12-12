@@ -27,7 +27,7 @@ class ScaffoldTemplate extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         elevation: 0,
-        backgroundColor: AppColors.accentLightColor,
+        backgroundColor: AppColors.bgColor,
         leading: const AppBackButton(),
         actions: actions,
       ),

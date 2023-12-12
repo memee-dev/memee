@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
-import 'package:memee/core/utils/app_colors.dart';
 
 class EmptyWidget extends StatelessWidget {
   final String lottieAsset, content;
@@ -21,9 +20,7 @@ class EmptyWidget extends StatelessWidget {
         Text(
           content,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.textLGBold.copyWith(
-                color: AppColors.accentDarkColor,
-              ),
+          style: Theme.of(context).textTheme.textXLMedium,
         ),
       ],
     );

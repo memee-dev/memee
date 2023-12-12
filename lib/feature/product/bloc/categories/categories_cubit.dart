@@ -2,9 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/core/utils/app_firestore.dart';
-
-import '../../core/utils/app_logger.dart';
-import '../../models/category_model.dart';
+import 'package:memee/core/utils/app_logger.dart';
+import 'package:memee/models/category_model.dart';
 
 part 'categories_state.dart';
 
@@ -36,15 +35,5 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       ));
       console.e('FETCH CATEGORY', error: e);
     }
-  }
-
-  List<CategoryModel> getLocalCategories() {
-    List<CategoryModel> categories = [];
-    if (state is CategoriesSuccess) {
-      categories.addAll((state as CategoriesSuccess).categories);
-    } else if (state is CategoriesFailure) {
-      categories.addAll((state as CategoriesFailure).categories);
-    }
-    return categories;
   }
 }

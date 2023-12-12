@@ -22,7 +22,7 @@ class LandingPage extends StatelessWidget {
   final _userCubit = locator.get<UserCubit>();
 
   final List<Widget> screens = [
-    HomeWidget(),
+    const HomeWidget(),
     const FavouriteWidget(),
     CartWidget(),
     const ProfileWidget()

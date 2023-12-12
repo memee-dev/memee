@@ -37,9 +37,9 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                       : state == 2
                           ? AppStrings.cart
                           : AppStrings.profile,
-                  style: Theme.of(context).textTheme.displayXSSemibold,
+                  style: Theme.of(context).textTheme.displayXSMedium,
                 ),
-              ).paddingS()
+              ).paddingS(v: 16.h)
             : BlocBuilder<UserCubit, UserState>(
                 bloc: userCubit..getCurrentUserInfo(),
                 builder: (context, user) {

@@ -32,7 +32,7 @@ class UserInformationWidget extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           title: Text(
             _userCubit.currentUser.userName.toCapitalize(),
-            style: Theme.of(context).textTheme.textLGSemibold,
+            style: Theme.of(context).textTheme.textLGMedium,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,10 +51,9 @@ class UserInformationWidget extends StatelessWidget {
                     child: Text(
                       _userCubit.currentUser.email,
                       maxLines: 2,
-                      style:
-                          Theme.of(context).textTheme.textSMSemibold.copyWith(
-                                color: AppColors.textLightColor,
-                              ),
+                      style: Theme.of(context).textTheme.textSMMedium.copyWith(
+                            color: AppColors.textLightColor,
+                          ),
                     ).paddingV(4.h),
                   ),
                 ],
@@ -71,17 +70,16 @@ class UserInformationWidget extends StatelessWidget {
                   Expanded(
                     child: Text(
                       _userCubit.currentUser.phoneNumber,
-                      style:
-                          Theme.of(context).textTheme.textSMSemibold.copyWith(
-                                color: AppColors.textLightColor,
-                              ),
+                      style: Theme.of(context).textTheme.textSMMedium.copyWith(
+                            color: AppColors.textLightColor,
+                          ),
                     ),
                   ),
                 ],
               ).gapBottom(
                 12.h,
               ),
-              const AppDivider(color: AppColors.textAccentDarkColor),
+              const AppDivider(),
             ],
           ),
           trailing: IconButton(

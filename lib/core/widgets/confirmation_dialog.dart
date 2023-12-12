@@ -42,7 +42,7 @@ class ConfirmationDialog extends StatelessWidget {
           child: Text(
             buttonLabel1 ?? AppStrings.confirm,
             style: Theme.of(context).textTheme.textSMBold.copyWith(
-                  color: AppColors.accentPinkColor,
+                  color: AppColors.displayColor.withOpacity(0.5),
                 ),
           ),
         ),
@@ -52,7 +52,7 @@ class ConfirmationDialog extends StatelessWidget {
             child: Text(
               buttonLabel2 ?? AppStrings.cancel,
               style: Theme.of(context).textTheme.textSMBold.copyWith(
-                    color: AppColors.accentDarkColor,
+                    color: AppColors.textAccentDarkColor,
                   ),
             ),
           ),

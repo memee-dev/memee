@@ -21,9 +21,10 @@ class SavedAddressScreen extends StatelessWidget {
     return ScaffoldTemplate(
       title: AppStrings.savedAddress,
       floatingActionButton: TextButton.icon(
-        icon: const Icon(
+        icon: Icon(
           Icons.add,
           color: AppColors.textAccentDarkColor,
+          size: 24.r,
         ),
         style: ButtonStyle(
           shape: MaterialStatePropertyAll(
@@ -96,8 +97,7 @@ class _SavedAddress extends StatelessWidget {
                 },
               );
             },
-            separatorBuilder: (_, i) =>
-                const AppDivider(height: 1).paddingV(24.h),
+            separatorBuilder: (_, i) => const AppDivider().paddingV(24.h),
             itemCount: (state.user.address ?? []).length,
           );
         }

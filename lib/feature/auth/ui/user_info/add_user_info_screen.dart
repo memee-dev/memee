@@ -47,8 +47,8 @@ class AddUserInfoScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         title: Text(
-          'Add User Info',
-          style: Theme.of(context).textTheme.textLGBold.copyWith(
+          AppStrings.addUserInfo,
+          style: Theme.of(context).textTheme.textLGMedium.copyWith(
                 color: AppColors.displayColor,
               ),
         ),

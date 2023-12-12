@@ -15,6 +15,7 @@ import 'package:memee/feature/order/ui/order_list_screen.dart';
 import 'package:memee/feature/product/all_products.dart';
 import 'package:memee/feature/product/product_detail_screen.dart';
 import 'package:memee/feature/profile/profile_widget.dart';
+import 'package:memee/feature/settings/ui/settings_screen.dart';
 import 'package:memee/models/order_model.dart';
 import 'package:memee/models/product_model.dart';
 
@@ -37,7 +38,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: Routes.productDetails,
           builder: (_, state) {
-            return ProductDescriptionScreen(
+            return ProductDetailScreen(
               product: state.extra as ProductModel,
             );
           },
@@ -87,7 +88,9 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.allProducts,
-          builder: (_, state) => const AllProductsScreen(),
+          builder: (_, state) => AllProductsScreen(
+            map: state.extra as Map<String, dynamic>,
+          ),
         ),
         GoRoute(
           path: Routes.orders,
@@ -97,6 +100,10 @@ final GoRouter appRouter = GoRouter(
           path: Routes.orderDetails,
           builder: (_, state) =>
               OrderDetailsScreen(order: state.extra as OrderModel),
+        ),
+        GoRoute(
+          path: Routes.settings,
+          builder: (_, state) => const SettingsScreen(),
         ),
       ],
     ),
@@ -118,13 +125,14 @@ mixin Routes {
   static const cart = 'cart';
   static const orders = 'orders';
   static const orderDetails = 'orderDetails';
+  static const settings = 'settings';
 
   static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);
   }
 
   static pushReplacement(BuildContext context, String path, {Object? extra}) {
-    context.pushReplacement('${Routes.root}$path', extra: extra);
+    context.go('${Routes.root}$path', extra: extra);
   }
 
   static void pop(BuildContext context, {Object? value}) {
