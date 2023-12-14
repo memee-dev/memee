@@ -4,8 +4,8 @@ import 'package:memee/core/utils/helper.dart';
 class HideCubit extends Cubit<bool> {
   HideCubit() : super(false);
 
-  show(bool value) {
-    Future.delayed(const Duration(seconds: 2), () {
+  show(bool value, {int? seconds}) {
+    Future.delayed(Duration(seconds: seconds ?? 2), () {
       emit(value);
     });
   }

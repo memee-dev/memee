@@ -172,7 +172,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 ).gapBottom(12.h),
                 _rowText(
                   context,
-                  'Delivered to:\t\t',
+                  'Delivery Address:\t\t',
                   order.address,
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/extensions/theme_extension.dart';
+import 'package:memee/core/extensions/widget_extensions.dart';
 
 import '../../../../core/utils/app_colors.dart';
 
@@ -16,21 +17,18 @@ class LoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.displayXSSemibold,
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          description,
-          style: Theme.of(context).textTheme.textMDRegular.copyWith(
-                color: AppColors.textLightColor,
-              ),
-        ),
-        SizedBox(height: 16.h),
-      ],
+    return ListTile(
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.displayXSMedium,
+      ).gapBottom(16.h),
+      subtitle: Text(
+        description,
+        style: Theme.of(context).textTheme.textSMMedium.copyWith(
+              color: AppColors.textLightColor,
+            ),
+      ).gapBottom(16.h),
     );
   }
 }

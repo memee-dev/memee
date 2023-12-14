@@ -57,7 +57,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                               ),
                               child: Row(
                                 children: [
-                                  const LottieLocation(),
+                                  LottieLocation(height: 26.h),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -78,7 +78,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                                         maxLines: 2,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .textSMSemibold
+                                            .textSMMedium
                                             .copyWith(
                                               color: AppColors.textLightColor,
                                             ),

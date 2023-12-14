@@ -89,12 +89,6 @@ class _SavedAddress extends StatelessWidget {
             itemBuilder: (_, i) {
               return SavedAddressItem(
                 address: (state.user.address ?? [])[i],
-                onEdit: () {
-                  Routes.push(context, Routes.addEditAddress, extra: {
-                    'edit': false,
-                    'address': (state.user.address ?? [])[i],
-                  });
-                },
               );
             },
             separatorBuilder: (_, i) => const AppDivider().paddingV(24.h),

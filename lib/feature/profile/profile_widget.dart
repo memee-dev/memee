@@ -42,24 +42,29 @@ class _Profile extends StatelessWidget {
           builder: (context, state) {
             if (state is CurrentUserState) {
               var address = state.user.defaultAddress;
-              return ProfileItem(
-                title: AppStrings.savedAddress,
-                subtitle:
-                    '${address?.no},${address?.street},${address?.area},${address?.city},${address?.pincode},${address?.landmark}',
-                icon: Icons.bookmark_added_rounded,
-                onPressed: () => Routes.push(context, Routes.savedAddress),
-                trailingIcon: Icons.edit,
-              ).gapBottom(24.h);
+              return address != null
+                  ? ProfileItem(
+                      title: AppStrings.savedAddress,
+                      subtitle:
+                          '${address.no},${address.street},${address.area},${address.city},${address.pincode},${address.landmark}',
+                      icon: Icons.bookmark_added_rounded,
+                      onPressed: () =>
+                          Routes.push(context, Routes.savedAddress),
+                      trailingIcon: Icons.edit,
+                    ).gapBottom(24.h)
+                  : const NoAddressFound().gapBottom(24.h);
             }
             return const NoAddressFound().gapBottom(24.h);
           },
         ),
-        ProfileItem(
-          title: AppStrings.settings,
-          subtitle: AppStrings.smsNotifications,
-          icon: Icons.settings,
-          onPressed: () => Routes.push(context, Routes.settings),
-        ).gapBottom(24.h),
+
+        /// Not available in mvp
+        // ProfileItem(
+        //   title: AppStrings.settings,
+        //   subtitle: AppStrings.smsNotifications,
+        //   icon: Icons.settings,
+        //   onPressed: () => Routes.push(context, Routes.settings),
+        // ).gapBottom(24.h),
 
         /// Not available in mvp
         // const ProfileItem(

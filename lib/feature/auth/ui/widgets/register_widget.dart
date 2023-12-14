@@ -29,7 +29,7 @@ class RegisterWidget extends StatelessWidget {
         ),
         Text(
           AppStrings.phoneNumber,
-          style: Theme.of(context).textTheme.textMDRegular.copyWith(
+          style: Theme.of(context).textTheme.textMDSemibold.copyWith(
                 color: AppColors.textDarkColor,
               ),
         ),

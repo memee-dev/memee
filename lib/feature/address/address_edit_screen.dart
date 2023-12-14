@@ -12,7 +12,6 @@ import 'package:memee/core/utils/app_strings.dart';
 import 'package:memee/core/widgets/app_button.dart';
 import 'package:memee/feature/address/widgets/set_as_default.dart';
 import 'package:memee/models/user_model.dart';
-
 import '../../core/widgets/textfields/app_textfield.dart';
 
 class AddressEditScreen extends StatelessWidget {
@@ -147,15 +146,28 @@ class AddressEditScreen extends StatelessWidget {
                     } else if (pinCode.text.isEmpty) {
                       _formValidation.validatePinCode(pinCode.text);
                     } else {
-                      userCubit.updateUserAddress(
-                        street: street.text,
-                        houseNo: houseNo.text,
-                        area: area.text,
-                        pinCode: pinCode.text,
-                        city: city.text,
-                        landmark: landmark.text,
-                        setAsDefault: hideCubit.state,
-                      );
+                      if (map['edit'] == true) {
+                        userCubit.updateUserAddress(
+                          street: street.text,
+                          houseNo: houseNo.text,
+                          area: area.text,
+                          pinCode: pinCode.text,
+                          city: city.text,
+                          landmark: landmark.text,
+                          setAsDefault: address?.defaultValue ?? false,
+                        );
+                      } else {
+                        userCubit.addNewAddress(
+                          street: street.text,
+                          houseNo: houseNo.text,
+                          area: area.text,
+                          pinCode: pinCode.text,
+                          city: city.text,
+                          landmark: landmark.text,
+                          setAsDefault:
+                              address?.defaultValue ?? hideCubit.state,
+                        );
+                      }
                     }
                   },
                 );

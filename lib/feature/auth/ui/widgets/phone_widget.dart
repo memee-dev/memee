@@ -32,7 +32,7 @@ class PhoneWidget extends StatelessWidget {
         ),
         Text(
           AppStrings.phoneNumber,
-          style: Theme.of(context).textTheme.textMDRegular.copyWith(
+          style: Theme.of(context).textTheme.textMDMedium.copyWith(
                 color: AppColors.textDarkColor,
               ),
         ),
@@ -67,13 +67,13 @@ class PhoneWidget extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: AppStrings.dontHaveAccount,
-              style: Theme.of(context).textTheme.textMDRegular.copyWith(
+              style: Theme.of(context).textTheme.textMDMedium.copyWith(
                     color: AppColors.textLightColor,
                   ),
               children: [
                 TextSpan(
                   text: AppStrings.clickHere,
-                  style: Theme.of(context).textTheme.textMDRegular.copyWith(
+                  style: Theme.of(context).textTheme.textMDMedium.copyWith(
                         color: AppColors.linkColor,
                       ),
                 ),

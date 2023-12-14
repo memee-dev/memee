@@ -32,6 +32,10 @@ class AppPhoneTextField extends StatelessWidget {
       autofocus: autofocus,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d*$')),
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(countryList
+            .firstWhere((country) => country.code == selectedCountryCode)
+            .length)
       ],
       keyboardType: keyboardType,
       prefixIcon: Row(

@@ -48,21 +48,9 @@ class UserCubit extends Cubit<UserState> {
           Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
           List<Map<String, dynamic>> address =
               List<Map<String, dynamic>>.from(data['address'] ?? []);
-          List<Map<String, dynamic>> updatedAddress = [];
           if (address.isNotEmpty) {
             for (var element in address) {
-              if (element['no'] != houseNo) {
-                updatedAddress.add({
-                  'area': area,
-                  'city': city,
-                  'pincode': pinCode,
-                  'street': street,
-                  'landmark': landmark,
-                  'no': houseNo,
-                  'type': 'Home',
-                  'default': setAsDefault,
-                });
-              } else {
+              if (element['no'] == houseNo) {
                 element['area'] = area;
                 element['city'] = city;
                 element['pincode'] = pinCode;
@@ -71,33 +59,73 @@ class UserCubit extends Cubit<UserState> {
                 element['no'] = houseNo;
                 element['type'] = 'Home';
                 element['default'] = setAsDefault;
-                updatedAddress.add(element);
+                address[address.indexOf(element)] = element;
+              } else if (element['no'] != houseNo) {
+                element['default'] = !setAsDefault;
+                address[address.indexOf(element)] = element;
               }
             }
-          } else {
-            updatedAddress.add({
-              'area': area,
-              'city': city,
-              'pincode': pinCode,
-              'street': street,
-              'landmark': landmark,
-              'no': houseNo,
-              'type': 'Home',
-              'default': setAsDefault,
-            });
           }
 
-          address.addAll(updatedAddress);
-          final newData = {
-            'phoneNumber': phone ?? data['phoneNumber'],
+          await reference.doc(user.uid).update({
             'address': address,
-            'verified': data['verified'] ?? false,
-            'active': data['active'] ?? false,
-            'userName': name ?? data['userName'],
-            'email': email ?? data['email'],
-          };
+          });
 
-          await reference.doc(user.uid).update(newData);
+          emit(UserUpdateSuccess(message: 'Success'));
+        } else {
+          emit(UserUpdateFailure(
+              message: 'Failed to update user Data, please try again later'));
+        }
+      }
+    } catch (e) {
+      console.e(e);
+    }
+  }
+
+  Future<void> addNewAddress({
+    String landmark = '',
+    bool setAsDefault = false,
+    String? street,
+    String? houseNo,
+    String? area,
+    String? city,
+    String? pinCode,
+  }) async {
+    emit(UserLoading());
+    try {
+      User? user = auth.currentUser;
+      CollectionReference reference =
+          db.collection(AppFireStoreCollection.userDev);
+
+      if (user != null) {
+        DocumentSnapshot userDoc = await db
+            .collection(AppFireStoreCollection.userDev)
+            .doc(user.uid)
+            .get();
+
+        if (userDoc.exists) {
+          Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+          List<Map<String, dynamic>> address =
+              List<Map<String, dynamic>>.from(data['address'] ?? []);
+          if (setAsDefault && address.isNotEmpty) {
+            for (var item in address) {
+              item['default'] = false;
+            }
+          }
+          address.add({
+            'area': area,
+            'city': city,
+            'pincode': pinCode,
+            'street': street,
+            'landmark': landmark,
+            'no': houseNo,
+            'type': 'Home',
+            'default': setAsDefault,
+          });
+
+          await reference.doc(user.uid).update({
+            'address': address,
+          });
 
           emit(UserUpdateSuccess(message: 'Success'));
         } else {
@@ -193,13 +221,15 @@ class UserCubit extends Cubit<UserState> {
           for (int i = 0; i < updatedAddressList.length; i++) {
             if (updatedAddressList[i]['no'] == address.no) {
               updatedAddressList.remove(updatedAddressList[i]);
-            }
-
-            if (updatedAddressList.isNotEmpty) {
-              newList.add(AddressModel.fromJson(updatedAddressList[i]));
               await reference.doc(user.uid).update({
                 'address': updatedAddressList,
               });
+            }
+          }
+
+          if (updatedAddressList.isNotEmpty) {
+            for (var element in updatedAddressList) {
+              newList.add(AddressModel.fromJson(element));
             }
           }
         }
@@ -241,11 +271,13 @@ class UserCubit extends Cubit<UserState> {
             data['address'].map((x) => AddressModel.fromJson(x)));
 
         if (address.isNotEmpty) {
+          bool value = address.every((element) => element.defaultValue);
           currentUser = UserModel(
             id: user.uid,
             address: address,
-            defaultAddress:
-                address.firstWhere((element) => element.defaultValue),
+            defaultAddress: !value
+                ? address.first
+                : address.firstWhere((element) => element.defaultValue),
             phoneNumber: data['phoneNumber'],
             verified: data['verified'],
             userName: data['userName'],

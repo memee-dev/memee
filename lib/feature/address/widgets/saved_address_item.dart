@@ -16,12 +16,10 @@ import 'package:memee/core/widgets/confirmation_dialog.dart';
 class SavedAddressItem extends StatelessWidget {
   final AddressModel address;
   final String? label;
-  final VoidCallback? onEdit;
 
   SavedAddressItem({
     super.key,
     required this.address,
-    this.onEdit,
     this.label,
   });
 
@@ -72,13 +70,12 @@ class SavedAddressItem extends StatelessWidget {
                             ? AppStrings.cancel
                             : AppStrings.setAsDefaultLabel,
                         buttonLabel2: AppStrings.editAddress,
+                        titleTextColor: AppColors.textAccentDarkColor,
                         positiveBtn: () {
-                          if (address.defaultValue) {
-                            Routes.push(context, Routes.addEditAddress, extra: {
-                              'address': address,
-                              'edit': true,
-                            });
-                          }
+                          Routes.push(context, Routes.addEditAddress, extra: {
+                            'address': address,
+                            'edit': true,
+                          });
                           Routes.pop(context);
                         },
                         negativeBtn: () {
@@ -96,7 +93,7 @@ class SavedAddressItem extends StatelessWidget {
             },
             subtitle: Row(
               children: [
-                Expanded(
+                Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -107,10 +104,12 @@ class SavedAddressItem extends StatelessWidget {
                           ),
                           Text(
                             address.type,
-                            style:
-                                Theme.of(context).textTheme.textMDMedium.copyWith(
-                                      color: AppColors.accentPinkColor,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .textMDMedium
+                                .copyWith(
+                                  color: AppColors.accentPinkColor,
+                                ),
                           ).paddingV(
                             4.h,
                           ),
@@ -145,6 +144,7 @@ class SavedAddressItem extends StatelessWidget {
                                 description: AppStrings.deleteConfirmation,
                                 buttonLabel1: AppStrings.delete,
                                 buttonLabel2: AppStrings.cancel,
+                                buttonLabel1Color: AppColors.errorColor,
                                 positiveBtn: () {
                                   Routes.pop(context);
                                 },

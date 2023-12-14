@@ -75,6 +75,7 @@ class _AppButtonState extends State<AppButton>
               if (!loading) {
                 loading = true;
                 refreshCubit.change();
+                await Future.delayed(const Duration(milliseconds: 1000));
                 await widget.onPressed();
                 loading = false;
                 refreshCubit.change();
@@ -88,9 +89,8 @@ class _AppButtonState extends State<AppButton>
             ),
             child: loading
                 ? Lottie.asset(
-                    AppAssets.loadingBtn,
-                    repeat: false,
-                    controller: _controller,
+                    AppAssets.loading,
+                    repeat: true,
                   )
                 : Text(
                     widget.text,

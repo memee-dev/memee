@@ -10,7 +10,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String? title, buttonLabel1, buttonLabel2, description;
   final VoidCallback? positiveBtn;
   final VoidCallback? negativeBtn;
-  final Color? titleTextColor;
+  final Color? titleTextColor, buttonLabel1Color, buttonLabel2Color;
 
   const ConfirmationDialog({
     super.key,
@@ -21,6 +21,8 @@ class ConfirmationDialog extends StatelessWidget {
     this.positiveBtn,
     this.negativeBtn,
     this.titleTextColor,
+    this.buttonLabel1Color,
+    this.buttonLabel2Color,
   });
 
   @override
@@ -28,8 +30,8 @@ class ConfirmationDialog extends StatelessWidget {
     return CupertinoAlertDialog(
       title: Text(
         title ?? AppStrings.confirmationDialog,
-        style: Theme.of(context).textTheme.textMDBold.copyWith(
-              color: titleTextColor ?? AppColors.accentDarkColor,
+        style: Theme.of(context).textTheme.textMDSemibold.copyWith(
+              color: titleTextColor ?? AppColors.textAccentDarkColor,
             ),
       ).gapBottom(8.h),
       content: Text(
@@ -41,8 +43,9 @@ class ConfirmationDialog extends StatelessWidget {
           onPressed: negativeBtn,
           child: Text(
             buttonLabel1 ?? AppStrings.confirm,
-            style: Theme.of(context).textTheme.textSMBold.copyWith(
-                  color: AppColors.displayColor.withOpacity(0.5),
+            style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                  color: buttonLabel1Color ??
+                      AppColors.displayColor.withOpacity(0.75),
                 ),
           ),
         ),
@@ -51,8 +54,8 @@ class ConfirmationDialog extends StatelessWidget {
             onPressed: positiveBtn,
             child: Text(
               buttonLabel2 ?? AppStrings.cancel,
-              style: Theme.of(context).textTheme.textSMBold.copyWith(
-                    color: AppColors.textAccentDarkColor,
+              style: Theme.of(context).textTheme.textSMSemibold.copyWith(
+                    color: buttonLabel2Color ?? AppColors.textAccentDarkColor,
                   ),
             ),
           ),
