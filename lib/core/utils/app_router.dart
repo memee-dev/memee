@@ -15,6 +15,7 @@ import 'package:memee/feature/order/ui/order_list_screen.dart';
 import 'package:memee/feature/product/all_products.dart';
 import 'package:memee/feature/product/product_detail_screen.dart';
 import 'package:memee/feature/profile/profile_widget.dart';
+import 'package:memee/feature/search/search_screen.dart';
 import 'package:memee/feature/settings/ui/settings_screen.dart';
 import 'package:memee/models/order_model.dart';
 import 'package:memee/models/product_model.dart';
@@ -45,7 +46,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.shoppingCart,
-          builder: (_, state) => CartWidget(),
+          builder: (_, state) => const CartWidget(),
         ),
         GoRoute(
           path: Routes.profile,
@@ -81,7 +82,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: Routes.cart,
-          builder: (_, state) => ScaffoldTemplate(
+          builder: (_, state) => const ScaffoldTemplate(
             title: AppStrings.cart,
             body: CartWidget(),
           ),
@@ -105,6 +106,10 @@ final GoRouter appRouter = GoRouter(
           path: Routes.settings,
           builder: (_, state) => const SettingsScreen(),
         ),
+        GoRoute(
+          path: Routes.search,
+          builder: (_, state) => const SearchScreen(),
+        ),
       ],
     ),
   ],
@@ -126,6 +131,7 @@ mixin Routes {
   static const orders = 'orders';
   static const orderDetails = 'orderDetails';
   static const settings = 'settings';
+  static const search = 'search';
 
   static push(BuildContext context, String path, {Object? extra}) {
     context.push('${Routes.root}$path', extra: extra);

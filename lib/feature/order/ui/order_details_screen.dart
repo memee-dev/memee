@@ -49,11 +49,8 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Expanded(child: _rowText(context, 'Order Id:\t', order.id)),
                     Text(
-                      order.orderedTime,
-                      style: Theme.of(context)
-                          .textTheme
-                          .textSMSemibold
-                          .copyWith(color: AppColors.textRegularColor),
+                      order.timeSlot ?? order.orderedTime,
+                      style: Theme.of(context).textTheme.textSMMedium,
                     ),
                   ],
                 ).gapBottom(8.h),
@@ -101,7 +98,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                   '${s.units} x\t',
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .textSMSemibold,
+                                                      .textSMMedium,
                                                 ),
                                                 Row(
                                                   children: [
@@ -111,7 +108,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                           TextOverflow.ellipsis,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .textSMSemibold
+                                                          .textSMMedium
                                                           .copyWith(
                                                               color: AppColors
                                                                   .textAccentDarkColor),
@@ -120,7 +117,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                       '${s.productDetails.qty} ${s.productDetails.type.name})',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .textSMSemibold
+                                                          .textSMMedium
                                                           .copyWith(
                                                               color: AppColors
                                                                   .textAccentDarkColor),
@@ -141,8 +138,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       const AppDivider(),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: _rowText(
-                                context, 'Total Amount: ', order.totalAmount)
+                        child: _rowText(context, 'Total Amount: ',
+                                '${AppStrings.rupee}${order.totalAmount}')
                             .paddingS(),
                       ),
                     ],
@@ -167,7 +164,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 _rowText(
                   context,
                   'Payment Status:\t\t',
-                  order.paymentStatus,
+                  order.paymentStatus.toCapitalize(),
                   color: getPaymentStatus(order.paymentStatus),
                 ).gapBottom(12.h),
                 _rowText(
@@ -230,15 +227,15 @@ Widget _rowText(context, String title, subtitle, {Color? color}) {
       children: [
         TextSpan(
           text: title,
-          style: Theme.of(context).textTheme.textSMBold.copyWith(
-                color: AppColors.textLightColor,
+          style: Theme.of(context).textTheme.textSMMedium.copyWith(
+                color: AppColors.textLightColor.withOpacity(0.75),
               ),
         ),
         TextSpan(
           text: subtitle,
           style: Theme.of(context)
               .textTheme
-              .textSMSemibold
+              .textSMMedium
               .copyWith(color: color ?? AppColors.textAccentDarkColor),
         ),
       ],

@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/core/utils/app_colors.dart';
+import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 
 import '../../utils/app_strings.dart';
 import 'app_textfield.dart';
 
 class AppSearchField extends StatelessWidget {
-  final ProductCubit productCubit;
-  final TextEditingController controller;
-
-  const AppSearchField(
-      {super.key, required this.controller, required this.productCubit});
+  const AppSearchField({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -36,7 +34,7 @@ class AppSearchField extends StatelessWidget {
           color: AppColors.textAccentDarkColor,
         ),
         onChanged: (String value) =>
-            productCubit.searchProducts(context, value),
+            locator.get<ProductCubit>().searchProducts(context, value),
         borderColor: AppColors.bgColor,
         label: AppStrings.searchHint,
         inputFormatters: <TextInputFormatter>[

@@ -12,18 +12,18 @@ class FavouriteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _user = locator.get<UserCubit>();
     return BlocBuilder<UserCubit, UserState>(
-      bloc: locator.get<UserCubit>(),
+      bloc: _user,
       builder: (context, state) {
-
-        if (state is CurrentUserState) {
-          return (state.user.favourites ?? []).isNotEmpty
+        if (state == UserState.success) {
+          return (_user.currentUser?.favourites ?? []).isNotEmpty
               ? ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (_, i) {
-                    final e = state.user.favourites?[i];
+                    final e = _user.currentUser?.favourites?[i];
                     return HomeProductItem(
-                      product: state.user.favourites![i],
+                      product: _user.currentUser!.favourites![i],
                       width: MediaQuery.of(context).size.width.w,
                       onTap: () {
                         Routes.push(
@@ -34,7 +34,7 @@ class FavouriteWidget extends StatelessWidget {
                       },
                     ).gapBottom(16.h);
                   },
-                  itemCount: (state.user.favourites ?? []).length,
+                  itemCount: (_user.currentUser?.favourites ?? []).length,
                   separatorBuilder: (BuildContext context, int index) =>
                       SizedBox(
                     height: 8.h,

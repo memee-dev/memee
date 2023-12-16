@@ -19,19 +19,19 @@ class UserInformationWidget extends StatelessWidget {
     final _userCubit = locator.get<UserCubit>();
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
-        if (state is UserUpdateSuccess) {
+        if (state == UserState.userDataUpdate) {
           _userCubit.getCurrentUserInfo();
         }
       },
       bloc: _userCubit,
       builder: (context, state) {
-        if (state is UserLoading) {
+        if (state == UserState.infoLoading) {
           return const DefaultAddressShimmer();
         }
         return ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(
-            _userCubit.currentUser.userName.toCapitalize(),
+            _userCubit.currentUser?.userName.toCapitalize() ?? '',
             style: Theme.of(context).textTheme.textLGMedium,
           ),
           subtitle: Column(
@@ -49,7 +49,7 @@ class UserInformationWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      _userCubit.currentUser.email,
+                      _userCubit.currentUser?.email ?? '',
                       maxLines: 2,
                       style: Theme.of(context).textTheme.textSMMedium.copyWith(
                             color: AppColors.textLightColor,
@@ -69,7 +69,7 @@ class UserInformationWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      _userCubit.currentUser.phoneNumber,
+                      _userCubit.currentUser?.phoneNumber ?? '',
                       style: Theme.of(context).textTheme.textSMMedium.copyWith(
                             color: AppColors.textLightColor,
                           ),
@@ -88,9 +88,9 @@ class UserInformationWidget extends StatelessWidget {
                 context,
                 Routes.addUserInfo,
                 extra: {
-                  'userName': _userCubit.currentUser.userName,
-                  'userEmail': _userCubit.currentUser.email,
-                  'phoneNo': _userCubit.currentUser.phoneNumber,
+                  'userName': _userCubit.currentUser?.userName,
+                  'userEmail': _userCubit.currentUser?.email,
+                  'phoneNo': _userCubit.currentUser?.phoneNumber,
                 },
               );
             },

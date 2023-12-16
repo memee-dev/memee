@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/blocs/time_slot_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_assets.dart';
@@ -15,16 +16,18 @@ import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
 import 'package:memee/feature/cart/ui/widgets/cart_address_widget.dart';
 import 'package:memee/feature/cart/ui/widgets/cart_item.dart';
+import 'package:memee/feature/cart/ui/widgets/selected_time_slots.dart';
 
 class CartWidget extends StatelessWidget {
-  CartWidget({super.key});
-
-  final _cart = locator.get<CartCubit>();
-  final _payment = locator.get<PaymentCubit>();
-  final _user = locator.get<UserCubit>();
+  const CartWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final _cart = locator.get<CartCubit>();
+    final _payment = locator.get<PaymentCubit>();
+    final _user = locator.get<UserCubit>();
+    final _slots = locator.get<TimeSlotCubit>();
+
     return Column(
       children: [
         Expanded(
@@ -77,46 +80,69 @@ class CartWidget extends StatelessWidget {
                     BlocBuilder<UserCubit, UserState>(
                       bloc: _user,
                       builder: (context, state) {
-                        if (state is CurrentUserState) {
-                          return CartAddressWidget(
-                            address: state.user.defaultAddress!,
-                            isEmpty: (state.user.address ?? []).isEmpty,
+                        if (state == UserState.success) {
+                          return Column(
+                            children: [
+                              const SelectedTimeSlots(),
+                              CartAddressWidget(
+                                address: _user.currentUser?.defaultAddress,
+                                isEmpty:
+                                    (_user.currentUser?.address ?? []).isEmpty,
+                              ),
+                              if (_user.currentUser?.defaultAddress != null)
+                                BlocListener<PaymentCubit, PaymentState>(
+                                  bloc: _payment..init(),
+                                  listener: (_, pState) {
+                                    if (pState is PaymentSuccess) {
+                                      Routes.push(
+                                          context, Routes.orderConfirmation,
+                                          extra: true);
+                                    } else if (pState is PaymentFailure) {
+                                      Routes.push(
+                                          context, Routes.orderConfirmation);
+                                    } else if (pState is PaymentWalletFailure) {
+                                      showFailureMessage(
+                                          context, pState.message);
+                                    }
+                                  },
+                                  child:
+                                      BlocBuilder<TimeSlotCubit, TimeSlotState>(
+                                    bloc: _slots,
+                                    builder: (context, state) {
+                                      return _slots.selectedTime.isNotEmpty
+                                          ? AppButton.primary(
+                                              text:
+                                                  'Pay now ${_cart.getTotalAmount('')}',
+                                              onPressed: () {
+                                                final user = locator
+                                                    .get<UserCubit>()
+                                                    .currentUser;
+                                                var options = {
+                                                  'key':
+                                                      'rzp_test_5XcnJRQ3Lowiw0',
+                                                  'amount': double.parse(_cart
+                                                          .getTotalAmount('')) *
+                                                      100,
+                                                  'name': cartItemsNames,
+                                                  'description': cartItemsNames,
+                                                  'prefill': {
+                                                    'contact':
+                                                        user?.phoneNumber,
+                                                    'email': user?.email,
+                                                  }
+                                                };
+                                                _payment.openCheckout(options);
+                                              },
+                                            )
+                                          : const SizedBox.shrink();
+                                    },
+                                  ),
+                                ),
+                            ],
                           );
                         }
                         return const SizedBox.shrink();
                       },
-                    ),
-                    BlocListener<PaymentCubit, PaymentState>(
-                      bloc: _payment..init(),
-                      listener: (_, pState) {
-                        if (pState is PaymentSuccess) {
-                          Routes.pushReplacement(
-                              context, Routes.orderConfirmation,
-                              extra: true);
-                        } else if (pState is PaymentFailure) {
-                          Routes.push(context, Routes.orderConfirmation);
-                        } else if (pState is PaymentWalletFailure) {
-                          showFailureMessage(context, pState.message);
-                        }
-                      },
-                      child: AppButton.primary(
-                        text: 'Pay now ${_cart.getTotalAmount('')}',
-                        onPressed: () {
-                          final user = locator.get<UserCubit>().currentUser;
-                          var options = {
-                            'key': 'rzp_test_5XcnJRQ3Lowiw0',
-                            'amount':
-                                double.parse(_cart.getTotalAmount('')) * 100,
-                            'name': cartItemsNames,
-                            'description': cartItemsNames,
-                            'prefill': {
-                              'contact': user.phoneNumber,
-                              'email': user.email,
-                            }
-                          };
-                          _payment.openCheckout(options);
-                        },
-                      ),
                     ),
                   ],
                 );

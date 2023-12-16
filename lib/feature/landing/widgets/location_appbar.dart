@@ -41,12 +41,12 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ).paddingS(v: 16.h)
             : BlocBuilder<UserCubit, UserState>(
-                bloc: userCubit..getCurrentUserInfo(),
+                bloc: userCubit,
                 builder: (context, user) {
-                  if (user is UserInfoLoading) {
+                  if (user == UserState.loading) {
                     return const DefaultAddressShimmer();
-                  } else if (user is CurrentUserState) {
-                    final address = user.user.defaultAddress;
+                  } else if (user == UserState.success) {
+                    final address = userCubit.currentUser?.defaultAddress;
                     return address != null
                         ? InkWell(
                             onTap: onTap,
@@ -94,7 +94,7 @@ class LocationAppBar extends StatelessWidget implements PreferredSizeWidget {
                               ),
                             ),
                           )
-                        : const SizedBox.shrink();
+                        : const SizedBox.shrink().gapTop(48.h);
                   }
                   return const SizedBox.shrink();
                 },

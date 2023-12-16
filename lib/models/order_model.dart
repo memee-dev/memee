@@ -19,6 +19,7 @@ class OrderModel {
     required this.paymentStatus,
     this.id,
     this.userId,
+    this.timeSlot,
   });
 
   String totalAmount;
@@ -31,6 +32,7 @@ class OrderModel {
   String paymentStatus;
   String? id;
   String? userId;
+  String? timeSlot;
 
   factory OrderModel.fromJson(Map<dynamic, dynamic> json) => OrderModel(
         totalAmount: json['totalAmount'],
@@ -44,6 +46,7 @@ class OrderModel {
         paymentStatus: json['paymentStatus'],
         id: json['id'],
         userId: json['userId'],
+        timeSlot: json['timeSlot'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +60,6 @@ class OrderModel {
         'paymentStatus': paymentStatus,
         'id': id,
         'userId': userId,
+        'timeSlot': timeSlot,
       };
 }

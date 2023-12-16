@@ -129,51 +129,48 @@ class AddressEditScreen extends StatelessWidget {
                 );
               },
             ),
-            BlocConsumer<UserCubit, UserState>(
+            BlocListener<UserCubit, UserState>(
               bloc: userCubit,
-              builder: (context, state) {
-                return AppButton.primary(
-                  text: 'Submit Address',
-                  onPressed: () {
-                    if (street.text.isEmpty) {
-                      _formValidation.validateStreet(street.text);
-                    } else if (houseNo.text.isEmpty) {
-                      _formValidation.validateHouseNo(houseNo.text);
-                    } else if (area.text.isEmpty) {
-                      _formValidation.validateArea(area.text);
-                    } else if (city.text.isEmpty) {
-                      _formValidation.validateCity(city.text);
-                    } else if (pinCode.text.isEmpty) {
-                      _formValidation.validatePinCode(pinCode.text);
+              child: AppButton.primary(
+                text: 'Submit Address',
+                onPressed: () {
+                  if (street.text.isEmpty) {
+                    _formValidation.validateStreet(street.text);
+                  } else if (houseNo.text.isEmpty) {
+                    _formValidation.validateHouseNo(houseNo.text);
+                  } else if (area.text.isEmpty) {
+                    _formValidation.validateArea(area.text);
+                  } else if (city.text.isEmpty) {
+                    _formValidation.validateCity(city.text);
+                  } else if (pinCode.text.isEmpty) {
+                    _formValidation.validatePinCode(pinCode.text);
+                  } else {
+                    if (map['edit'] == true) {
+                      userCubit.updateUserAddress(
+                        street: street.text,
+                        houseNo: houseNo.text,
+                        area: area.text,
+                        pinCode: pinCode.text,
+                        city: city.text,
+                        landmark: landmark.text,
+                        setAsDefault: address?.defaultValue ?? false,
+                      );
                     } else {
-                      if (map['edit'] == true) {
-                        userCubit.updateUserAddress(
-                          street: street.text,
-                          houseNo: houseNo.text,
-                          area: area.text,
-                          pinCode: pinCode.text,
-                          city: city.text,
-                          landmark: landmark.text,
-                          setAsDefault: address?.defaultValue ?? false,
-                        );
-                      } else {
-                        userCubit.addNewAddress(
-                          street: street.text,
-                          houseNo: houseNo.text,
-                          area: area.text,
-                          pinCode: pinCode.text,
-                          city: city.text,
-                          landmark: landmark.text,
-                          setAsDefault:
-                              address?.defaultValue ?? hideCubit.state,
-                        );
-                      }
+                      userCubit.addNewAddress(
+                        street: street.text,
+                        houseNo: houseNo.text,
+                        area: area.text,
+                        pinCode: pinCode.text,
+                        city: city.text,
+                        landmark: landmark.text,
+                        setAsDefault: address?.defaultValue ?? hideCubit.state,
+                      );
                     }
-                  },
-                );
-              },
+                  }
+                },
+              ),
               listener: (BuildContext context, UserState state) {
-                if (state is UserUpdateSuccess) {
+                if (state == UserState.userDataUpdate && map['edit'] == false) {
                   Routes.pop(context);
                   userCubit.getSavedAddress();
                 }

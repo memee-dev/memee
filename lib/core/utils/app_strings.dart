@@ -115,7 +115,7 @@ Reducing the risk of diabetes. ''';
 
   static const addPersonalInfo = 'Add Personal Info';
 
-  static const rupee = '₹';
+  static const rupee = '\u{20B9}';
 
   static const totalAmount = 'Total Amount';
 
@@ -155,9 +155,9 @@ Reducing the risk of diabetes. ''';
 
   static const orderDetails = 'Order Details';
 
-  static const orderCompleted = 'Order Completed';
-  static const orderCancelled = 'Order cancelled';
-  static const orderPending = 'Order Pending';
+  static const orderCompleted = 'Completed';
+  static const orderCancelled = 'cancelled';
+  static const orderPending = 'Pending';
 
   static const success = 'Success';
   static const orderPlaceSuccess = 'Order has been placed successfully';

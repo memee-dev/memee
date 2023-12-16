@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
+import 'package:memee/blocs/time_slot_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
@@ -12,6 +13,7 @@ import 'package:memee/feature/favourites/favourite_widget.dart';
 import 'package:memee/feature/home/home_widget.dart';
 import 'package:memee/feature/landing/widgets/bottom_navigation_bar.dart';
 import 'package:memee/feature/landing/widgets/location_appbar.dart';
+import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 import 'package:memee/feature/profile/profile_widget.dart';
 
 class LandingPage extends StatelessWidget {
@@ -24,7 +26,7 @@ class LandingPage extends StatelessWidget {
   final List<Widget> screens = [
     const HomeWidget(),
     const FavouriteWidget(),
-    CartWidget(),
+    const CartWidget(),
     const ProfileWidget()
   ];
 
@@ -35,43 +37,53 @@ class LandingPage extends StatelessWidget {
         indexCubit: indexCubit,
         onTap: () => Routes.push(context, Routes.savedAddress),
       ),
-      body: BlocListener<UserCubit, UserState>(
-        bloc: _userCubit,
-        listener: (context, state) {
-          if (state is CurrentUserState) {
-            if (state.user.email.isEmpty && state.user.userName.isEmpty) {
-              showCupertinoDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return ConfirmationDialog(
-                    title: AppStrings.attention,
-                    description: AppStrings.additionalInformation,
-                    buttonLabel1: AppStrings.addPersonalInfo,
-                    positiveBtn: () {},
-                    negativeBtn: () {
-                      Routes.pop(context);
-                      Routes.push(
-                        context,
-                        Routes.addUserInfo,
-                        extra: {
-                          'userName': _userCubit.currentUser.userName,
-                          'userEmail': _userCubit.currentUser.email,
-                          'phoneNo': _userCubit.currentUser.phoneNumber,
-                        },
-                      );
-                    },
-                  );
+      body: BlocProvider<TimeSlotCubit>.value(
+        value: locator.get<TimeSlotCubit>()..getTimeSlots(),
+        child: BlocProvider<UserCubit>.value(
+          value: locator.get<UserCubit>()..getCurrentUserInfo(),
+          child: BlocProvider<ProductCubit>.value(
+            value: locator.get<ProductCubit>()..fetchProducts(),
+            child: BlocListener<UserCubit, UserState>(
+              bloc: _userCubit,
+              listener: (context, state) {
+                if (state == UserState.success) {
+                  if (_userCubit.currentUser!.email.isEmpty &&
+                      _userCubit.currentUser!.userName.isEmpty) {
+                    showCupertinoDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return ConfirmationDialog(
+                          title: AppStrings.attention,
+                          description: AppStrings.additionalInformation,
+                          buttonLabel1: AppStrings.addPersonalInfo,
+                          positiveBtn: () {},
+                          negativeBtn: () {
+                            Routes.pop(context);
+                            Routes.push(
+                              context,
+                              Routes.addUserInfo,
+                              extra: {
+                                'userName': _userCubit.currentUser?.userName,
+                                'userEmail': _userCubit.currentUser?.email,
+                                'phoneNo': _userCubit.currentUser?.phoneNumber,
+                              },
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+                }
+              },
+              child: BlocBuilder<IndexCubit, int>(
+                bloc: indexCubit,
+                builder: (context, state) {
+                  return screens[state];
                 },
-              );
-            }
-          }
-        },
-        child: BlocBuilder<IndexCubit, int>(
-          bloc: indexCubit,
-          builder: (context, state) {
-            return screens[state];
-          },
+              ),
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: BlocBuilder<IndexCubit, int>(

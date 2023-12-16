@@ -38,11 +38,8 @@ class OrderItem extends StatelessWidget {
                 child: _rowText(context, 'Order ID: ', '${order.id}'),
               ),
               Text(
-                order.orderedTime,
-                style: Theme.of(context)
-                    .textTheme
-                    .textSMSemibold
-                    .copyWith(color: AppColors.textRegularColor),
+                order.timeSlot ?? order.orderedTime,
+                style: Theme.of(context).textTheme.textSMMedium,
               ),
             ],
           ).gapBottom(12.h),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/utils/app_strings.dart';
+import 'package:memee/feature/product/bloc/product_cubit/product_cubit.dart';
 
 import '../core/blocs/theme_cubit.dart';
 import '../core/utils/app_di.dart';
@@ -31,7 +32,10 @@ class MyApp extends StatelessWidget {
             create: (_) => locator.get<LoginCubit>(),
           ),
           BlocProvider<UserCubit>(
-            create: (_) => locator.get<UserCubit>()..getCurrentUserInfo(),
+            create: (_) => locator.get<UserCubit>(),
+          ),
+          BlocProvider<ProductCubit>(
+            create: (_) => locator.get<ProductCubit>(),
           ),
         ],
         child: BlocBuilder<ThemeCubit, ThemeData>(

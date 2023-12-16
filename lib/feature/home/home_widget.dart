@@ -19,111 +19,110 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
     final _categoryCubit = locator.get<CategoriesCubit>();
     final _product = locator.get<ProductCubit>();
-    return BlocProvider<ProductCubit>(
-      create: (_) => _product..fetchProducts(''),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.zero,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppSearchField(
-              controller: controller,
-              productCubit: _product,
-            ).paddingS(v: 16.h),
-            Text(
-              AppStrings.categories,
-              style: Theme.of(context).textTheme.textXLMedium,
-            ).paddingS(v: 4.h),
-            BlocBuilder<CategoriesCubit, CategoriesState>(
-              bloc: _categoryCubit..fetchCategories(),
-              builder: (context, state) {
-                if (state is CategoriesResponseState) {
-                  return Row(
+    return SingleChildScrollView(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () => Routes.push(context, Routes.search),
+            child: AbsorbPointer(
+              absorbing: true,
+              child: const AppSearchField().paddingS(v: 16.h),
+            ),
+          ),
+          Text(
+            AppStrings.categories,
+            style: Theme.of(context).textTheme.textXLMedium,
+          ).paddingS(v: 4.h),
+          BlocBuilder<CategoriesCubit, CategoriesState>(
+            bloc: _categoryCubit..fetchCategories(),
+            builder: (context, state) {
+              if (state is CategoriesResponseState) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
                     children: state.categories
                         .map(
-                          (e) => Expanded(
-                            child: CategoryItem(
-                              imageUrl: e.image,
-                              title: e.name,
-                              onTap: () {
-                                Routes.push(context, Routes.allProducts,
-                                    extra: {
-                                      'title': e.name,
-                                      'categoryId': e.id,
-                                    });
-                              },
-                            ).gapRight(
-                              8.w,
-                            ),
+                          (e) => CategoryItem(
+                            imageUrl: e.image,
+                            title: e.name,
+                            onTap: () {
+                              Routes.push(context, Routes.allProducts, extra: {
+                                'title': e.name,
+                                'categoryId': e.id,
+                              });
+                            },
+                          ).gapRight(
+                            8.w,
                           ),
                         )
                         .toList(),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ).paddingS(v: 8.h),
-            SizedBox(height: 16.h),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    AppStrings.products,
-                    style: Theme.of(context).textTheme.textXLMedium,
                   ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ).paddingS(v: 8.h),
+          SizedBox(height: 16.h),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  AppStrings.products,
+                  style: Theme.of(context).textTheme.textXLMedium,
                 ),
-                InkWell(
-                  onTap: () {
-                    Routes.push(context, Routes.allProducts, extra: {
-                      'title': null,
-                      'categoryId': null,
-                    });
+              ),
+              InkWell(
+                onTap: () {
+                  Routes.push(context, Routes.allProducts, extra: {
+                    'title': null,
+                    'categoryId': null,
+                  });
+                },
+                child: Text(
+                  AppStrings.viewMore,
+                  style: Theme.of(context).textTheme.textMDMedium,
+                ),
+              ),
+            ],
+          ).paddingH(),
+          BlocBuilder<ProductCubit, ProductState>(
+            builder: (context, state) {
+              if (state == ProductState.loading) {
+                return const ProductItemShimmer().paddingH();
+              } else if (state == ProductState.error) {
+                return Text(_product.error);
+              } else if (state == ProductState.success) {
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount: _product.products.length >= 4
+                      ? 4
+                      : _product.products.length,
+                  itemBuilder: (_, i) {
+                    final e = _product.products[i];
+                    return HomeProductItem(
+                      product: _product.products[i],
+                      width: MediaQuery.of(context).size.width.w,
+                      onTap: () {
+                        Routes.push(
+                          context,
+                          Routes.productDetails,
+                          extra: e,
+                        );
+                      },
+                    ).paddingS();
                   },
-                  child: Text(
-                    AppStrings.viewMore,
-                    style: Theme.of(context).textTheme.textMDMedium,
-                  ),
-                ),
-              ],
-            ).paddingH(),
-            BlocConsumer<ProductCubit, ProductState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is ProductLoading) {
-                  return const ProductItemShimmer().paddingH();
-                } else if (state is ProductFailure) {
-                  return Text(state.message);
-                } else if (state is ProductSuccess) {
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    itemCount:
-                        state.products.length >= 4 ? 4 : state.products.length,
-                    itemBuilder: (_, i) {
-                      final e = state.products[i];
-                      return HomeProductItem(
-                        product: state.products[i],
-                        width: MediaQuery.of(context).size.width.w,
-                        onTap: () {
-                          Routes.push(
-                            context,
-                            Routes.productDetails,
-                            extra: e,
-                          );
-                        },
-                      ).paddingS();
-                    },
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-        ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
       ),
     );
   }

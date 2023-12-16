@@ -17,14 +17,11 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserCubit>.value(
-      value: locator.get<UserCubit>(),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(
-          16.w,
-        ),
-        child: _Profile(),
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(
+        16.w,
       ),
+      child: _Profile(),
     );
   }
 }
@@ -32,16 +29,18 @@ class ProfileWidget extends StatelessWidget {
 class _Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _user = locator.get<UserCubit>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const UserInformationWidget(),
         SizedBox(height: 24.h),
         BlocBuilder<UserCubit, UserState>(
-          bloc: locator.get<UserCubit>(),
+          bloc: _user,
           builder: (context, state) {
-            if (state is CurrentUserState) {
-              var address = state.user.defaultAddress;
+            if (state == UserState.success) {
+              var address = _user.currentUser?.defaultAddress;
               return address != null
                   ? ProfileItem(
                       title: AppStrings.savedAddress,

@@ -1,26 +1,32 @@
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/models/product_model.dart';
 
-part 'product_state.dart';
+enum ProductState {
+  initial,
+  loading,
+  success,
+  error,
+}
 
 class ProductCubit extends Cubit<ProductState> {
   final FirebaseFirestore db;
   final FirebaseAuth auth;
 
-  ProductCubit(this.db, this.auth) : super(ProductInitial());
+  ProductCubit(this.db, this.auth) : super(ProductState.initial);
 
   List<ProductModel> products = [];
+  List<ProductModel> filteredProducts = [];
+  String error = '';
 
-  Future<void> fetchProducts(String categoryId) async {
-    emit(ProductLoading());
+  Future<void> fetchProducts() async {
+    products = [];
+    emit(ProductState.loading);
     try {
       final prodDoc =
           await db.collection(AppFireStoreCollection.products).get();
@@ -31,25 +37,16 @@ class ProductCubit extends Cubit<ProductState> {
 
         data['id'] = doc.id;
 
-        if (categoryId.isNotEmpty) {
-          if (data['category']['id'].toString().equals(categoryId)) {
-            products.add(
-              ProductModel.fromMap(data),
-            );
-          }
-        } else {
-          products.add(
-            ProductModel.fromMap(data),
-          );
-        }
+        products.add(
+          ProductModel.fromMap(data),
+        );
       }
 
-      emit(ProductSuccess(products: products));
+      emit(ProductState.success);
     } catch (e) {
-      emit(ProductFailure(
-        message: e.toString(),
-        products,
-      ));
+      error = e.toString();
+      products = [];
+      emit(ProductState.error);
       console.e('FETCH Products', error: e);
     }
   }
@@ -61,7 +58,7 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       searchQuery = searchQuery.trim();
       if (searchQuery.trim().length > 3) {
-        emit(ProductLoading());
+        emit(ProductState.loading);
         searching = true;
         final query = locator
             .get<Algolia>()
@@ -77,18 +74,18 @@ class ProductCubit extends Cubit<ProductState> {
               products.firstWhere((element) => element.id == hit.objectID));
         }
 
-        emit(ProductSuccess(products: _searchedProducts));
+        filteredProducts = _searchedProducts;
+        emit(ProductState.success);
       } else {
         if (searching) {
-          emit(ProductLoading());
-          emit(ProductSuccess(products: products));
+          emit(ProductState.loading);
+          emit(ProductState.success);
         }
       }
     } catch (e) {
-      emit(ProductFailure(
-        products,
-        message: e.toString(),
-      ));
+      error = e.toString();
+      products = [];
+      emit(ProductState.error);
       console.e('SEARCH Products', error: e);
     }
   }
@@ -113,10 +110,25 @@ class ProductCubit extends Cubit<ProductState> {
             ProductModel.fromMap(data),
           );
         }
-        emit(ProductSuccess(products: products));
+        emit(ProductState.success);
       }
     } catch (e) {
       console.e(e);
+    }
+  }
+
+  fetchProductsBasedCategories(String categoryId) {
+    emit(ProductState.loading);
+    List<ProductModel> _catProducts = [];
+    if (products.isNotEmpty) {
+      for (var item in products) {
+        if (item.category.id == categoryId) {
+          _catProducts.add(item);
+        }
+      }
+
+      filteredProducts = _catProducts;
+      emit(ProductState.success);
     }
   }
 }

@@ -147,7 +147,7 @@ class ProductDetailScreen extends StatelessWidget {
                             },
                           ),
                         ],
-                      ),
+                      ).gapTop(8.h),
                     )
                     .toList(),
               ),

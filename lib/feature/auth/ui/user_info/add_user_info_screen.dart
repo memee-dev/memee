@@ -117,7 +117,7 @@ class AddUserInfoScreen extends StatelessWidget {
               );
             },
             listener: (BuildContext context, UserState state) {
-              if (state is UserUpdateSuccess) {
+              if (state == UserState.success) {
                 Routes.pop(context);
               }
             },

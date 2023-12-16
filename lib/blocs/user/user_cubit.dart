@@ -1,24 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_firestore.dart';
 import 'package:memee/core/utils/app_logger.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/models/product_model.dart';
 import 'package:memee/models/user_model.dart';
 
-import '../../core/utils/app_di.dart';
-
-part 'user_state.dart';
+enum UserState {
+  initial,
+  infoLoading,
+  loading,
+  success,
+  delete,
+  error,
+  userDataUpdate,
+  updateAddress
+}
 
 class UserCubit extends Cubit<UserState> {
   final FirebaseAuth auth;
   final FirebaseFirestore db;
 
-  UserCubit(this.auth, this.db) : super(UserInitial());
+  UserCubit(this.auth, this.db) : super(UserState.initial);
 
-  late UserModel currentUser;
+  UserModel? currentUser;
 
   Future<void> updateUserAddress({
     String landmark = '',
@@ -32,7 +39,7 @@ class UserCubit extends Cubit<UserState> {
     String? city,
     String? pinCode,
   }) async {
-    emit(UserLoading());
+    emit(UserState.loading);
     try {
       User? user = auth.currentUser;
       CollectionReference reference =
@@ -69,12 +76,13 @@ class UserCubit extends Cubit<UserState> {
 
           await reference.doc(user.uid).update({
             'address': address,
+            'phoneNumber': phone ?? data['phoneNumber'],
+            'active': data['active'] ?? false,
+            'userName': name ?? data['userName'],
+            'email': email ?? data['email'],
           });
 
-          emit(UserUpdateSuccess(message: 'Success'));
-        } else {
-          emit(UserUpdateFailure(
-              message: 'Failed to update user Data, please try again later'));
+          emit(UserState.userDataUpdate);
         }
       }
     } catch (e) {
@@ -91,7 +99,7 @@ class UserCubit extends Cubit<UserState> {
     String? city,
     String? pinCode,
   }) async {
-    emit(UserLoading());
+    emit(UserState.loading);
     try {
       User? user = auth.currentUser;
       CollectionReference reference =
@@ -127,10 +135,7 @@ class UserCubit extends Cubit<UserState> {
             'address': address,
           });
 
-          emit(UserUpdateSuccess(message: 'Success'));
-        } else {
-          emit(UserUpdateFailure(
-              message: 'Failed to update user Data, please try again later'));
+          emit(UserState.userDataUpdate);
         }
       }
     } catch (e) {
@@ -139,7 +144,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> getCurrentUserInfo() async {
-    emit(UserInfoLoading());
+    emit(UserState.infoLoading);
     try {
       User? user = auth.currentUser;
       locator.get<CartCubit>().fetchCartItems();
@@ -179,7 +184,6 @@ class UserCubit extends Cubit<UserState> {
             email: data['email'],
             favourites: products,
           );
-          emit(CurrentUserState(user: currentUser));
         } else {
           currentUser = UserModel(
             id: user.uid,
@@ -191,8 +195,9 @@ class UserCubit extends Cubit<UserState> {
             email: data['email'] ?? '',
             favourites: products,
           );
-          emit(CurrentUserState(user: currentUser));
         }
+
+        emit(UserState.success);
       }
     } catch (e) {
       console.e(e.toString());
@@ -200,7 +205,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> deleteAddress(AddressModel address) async {
-    emit(UserLoading());
+    emit(UserState.loading);
     try {
       User? user = auth.currentUser;
       CollectionReference reference =
@@ -245,16 +250,16 @@ class UserCubit extends Cubit<UserState> {
           email: data['email'],
         );
 
-        emit(CurrentUserState(user: currentUser));
+        emit(UserState.success);
       }
     } catch (e) {
       console.e(e.toString());
-      emit(UserUpdateFailure(message: 'Unable to delete address'));
+      UserState.error;
     }
   }
 
   Future<void> getSavedAddress() async {
-    emit(UserLoading());
+    emit(UserState.loading);
 
     try {
       User? user = auth.currentUser;
@@ -284,11 +289,8 @@ class UserCubit extends Cubit<UserState> {
             active: data['active'],
             email: data['email'],
           );
-
-          emit(CurrentUserState(user: currentUser));
         } else {
-          emit(CurrentUserState(
-              user: UserModel(
+          currentUser = UserModel(
             id: user.uid,
             address: [],
             phoneNumber: data['phoneNumber'] ?? '',
@@ -296,17 +298,19 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'] ?? '',
             active: data['active'] ?? true,
             email: data['email'] ?? '',
-          )));
+          );
         }
+
+        emit(UserState.success);
       }
     } catch (e) {
       console.e(e);
-      emit(UserUpdateFailure(message: 'No address found'));
+      emit(UserState.error);
     }
   }
 
   Future<void> setAsDefault(bool value, AddressModel address) async {
-    emit(UserLoading());
+    emit(UserState.loading);
     try {
       User? user = auth.currentUser;
       CollectionReference reference =
@@ -337,8 +341,7 @@ class UserCubit extends Cubit<UserState> {
             'address': addressList,
           });
 
-          emit(CurrentUserState(
-              user: UserModel(
+          currentUser = UserModel(
             id: user.uid,
             address: newList,
             defaultAddress: address,
@@ -347,17 +350,18 @@ class UserCubit extends Cubit<UserState> {
             userName: data['userName'] ?? '',
             active: data['active'] ?? true,
             email: data['email'] ?? '',
-          )));
+          );
+          emit(UserState.success);
         }
       }
     } catch (e) {
       console.e(e.toString());
-      emit(UserUpdateFailure(message: 'Unable to fetch address'));
+      emit(UserState.error);
     }
   }
 
   addRemoveFavourites(ProductModel product) async {
-    emit(UserInfoLoading());
+    emit(UserState.loading);
     List<ProductModel> products = [];
 
     try {
@@ -400,7 +404,7 @@ class UserCubit extends Cubit<UserState> {
         currentUser = UserModel.fromJson(newData);
 
         await reference.doc(user.uid).update(newData);
-        emit(CurrentUserState(user: currentUser));
+        emit(UserState.success);
       }
     } catch (e) {
       console.e(e.toString());

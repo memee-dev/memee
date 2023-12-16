@@ -6,9 +6,14 @@ extension StringExtension on String {
   bool equals(String s) => toLowerCase() == s.toLowerCase();
 
   String toCapitalize() =>
-      toBeginningOfSentenceCase(this) ?? '${this[0].toUpperCase()}${substring(1)}';
+      toBeginningOfSentenceCase(this) ??
+      '${this[0].toUpperCase()}${substring(1)}';
 }
 
 extension DateFormatExtension on DateTime {
   String format() => DateFormat('MMMM d, y hh:mm a').format(this);
+
+  String formatHour() => DateFormat('hh:mm a').format(this);
+
+  String formatDateOnly() => DateFormat('MMMM d, y').format(this);
 }

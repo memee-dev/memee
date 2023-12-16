@@ -22,7 +22,7 @@ class OrderConfirmation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          success ? AppColors.accentLightColor : AppColors.errorColor,
+          success ? AppColors.bgColor : AppColors.errorColor,
       body: Stack(
         children: [
           if (success) ...[
@@ -58,9 +58,9 @@ class OrderConfirmation extends StatelessWidget {
                                 : AppStrings.orderCannotBePlaced,
                             textAlign: TextAlign.center,
                             style:
-                                Theme.of(context).textTheme.textXLBold.copyWith(
+                                Theme.of(context).textTheme.textXLMedium.copyWith(
                                       color: success
-                                          ? AppColors.accentPinkColor
+                                          ? AppColors.textAccentDarkColor
                                           : AppColors.bgColor,
                                     ),
                           ).paddingV(16.h),
@@ -85,10 +85,10 @@ class OrderConfirmation extends StatelessWidget {
                               AppStrings.viewOrders,
                               style: Theme.of(context)
                                   .textTheme
-                                  .textMDBold
+                                  .textMDSemibold
                                   .copyWith(
                                     color: success
-                                        ? AppColors.bgColor
+                                        ? AppColors.displayColor
                                         : AppColors.errorColor,
                                   ),
                             ),

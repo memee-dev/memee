@@ -6,6 +6,7 @@ import 'package:memee/blocs/form/form_validation_cubit.dart';
 import 'package:memee/blocs/hide/bool_cubit.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
 import 'package:memee/blocs/map_cubit/map_cubit.dart';
+import 'package:memee/blocs/time_slot_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/blocs/refresh_cubit.dart';
@@ -75,7 +76,11 @@ void blocConfig(GetIt locator) {
     () => FormValidationCubit(),
   );
 
-  locator.registerFactory<ProductCubit>(
+  locator.registerLazySingleton<TimeSlotCubit>(
+    () => TimeSlotCubit(locator()),
+  );
+
+  locator.registerLazySingleton<ProductCubit>(
     () => ProductCubit(locator(), locator()),
   );
   locator.registerFactory<CategoriesCubit>(
