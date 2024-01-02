@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memee/blocs/index/index_cubit.dart';
-import 'package:memee/blocs/time_slot_cubit.dart';
+import 'package:memee/blocs/utility/utility_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
@@ -37,8 +37,8 @@ class LandingPage extends StatelessWidget {
         indexCubit: indexCubit,
         onTap: () => Routes.push(context, Routes.savedAddress),
       ),
-      body: BlocProvider<TimeSlotCubit>.value(
-        value: locator.get<TimeSlotCubit>()..getTimeSlots(),
+      body: BlocProvider<UtilityCubit>.value(
+        value: locator.get<UtilityCubit>()..getTimeSlots(),
         child: BlocProvider<UserCubit>.value(
           value: locator.get<UserCubit>()..getCurrentUserInfo(),
           child: BlocProvider<ProductCubit>.value(

@@ -63,24 +63,24 @@ class PhoneWidget extends StatelessWidget {
           },
         ),
         SizedBox(height: 12.h),
-        Center(
-          child: RichText(
-            text: TextSpan(
-              text: AppStrings.dontHaveAccount,
-              style: Theme.of(context).textTheme.textMDMedium.copyWith(
-                    color: AppColors.textLightColor,
-                  ),
-              children: [
-                TextSpan(
-                  text: AppStrings.clickHere,
-                  style: Theme.of(context).textTheme.textMDMedium.copyWith(
-                        color: AppColors.linkColor,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        )
+        // Center(
+        //   child: RichText(
+        //     text: TextSpan(
+        //       text: AppStrings.dontHaveAccount,
+        //       style: Theme.of(context).textTheme.textMDMedium.copyWith(
+        //             color: AppColors.textLightColor,
+        //           ),
+        //       children: [
+        //         TextSpan(
+        //           text: AppStrings.clickHere,
+        //           style: Theme.of(context).textTheme.textMDMedium.copyWith(
+        //                 color: AppColors.linkColor,
+        //               ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

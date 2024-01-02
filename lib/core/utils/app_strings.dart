@@ -178,4 +178,6 @@ Reducing the risk of diabetes. ''';
   static const viewDetail = 'View Detail';
 
   static const addUserInfo = 'Add User Info';
+
+  static const String instantDelivery = 'Instant Delivery';
 }

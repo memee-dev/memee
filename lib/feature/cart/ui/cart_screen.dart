@@ -1,21 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:memee/blocs/time_slot_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
+import 'package:memee/blocs/utility/utility_cubit.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_assets.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/utils/app_di.dart';
 import 'package:memee/core/utils/app_router.dart';
 import 'package:memee/core/utils/app_strings.dart';
-import 'package:memee/core/widgets/app_button.dart';
 import 'package:memee/core/widgets/confirmation_dialog.dart';
 import 'package:memee/core/widgets/empty_widget.dart';
 import 'package:memee/feature/cart/bloc/cart_bloc/cart_cubit.dart';
 import 'package:memee/feature/cart/bloc/payment/payment_cubit.dart';
-import 'package:memee/feature/cart/ui/widgets/cart_address_widget.dart';
 import 'package:memee/feature/cart/ui/widgets/cart_item.dart';
+import 'package:memee/feature/cart/ui/widgets/pay_now_widget.dart';
 import 'package:memee/feature/cart/ui/widgets/selected_time_slots.dart';
 
 class CartWidget extends StatelessWidget {
@@ -26,7 +25,7 @@ class CartWidget extends StatelessWidget {
     final _cart = locator.get<CartCubit>();
     final _payment = locator.get<PaymentCubit>();
     final _user = locator.get<UserCubit>();
-    final _slots = locator.get<TimeSlotCubit>();
+    final _slots = locator.get<UtilityCubit>();
 
     return Column(
       children: [
@@ -84,11 +83,6 @@ class CartWidget extends StatelessWidget {
                           return Column(
                             children: [
                               const SelectedTimeSlots(),
-                              CartAddressWidget(
-                                address: _user.currentUser?.defaultAddress,
-                                isEmpty:
-                                    (_user.currentUser?.address ?? []).isEmpty,
-                              ),
                               if (_user.currentUser?.defaultAddress != null)
                                 BlocListener<PaymentCubit, PaymentState>(
                                   bloc: _payment..init(),
@@ -106,13 +100,22 @@ class CartWidget extends StatelessWidget {
                                     }
                                   },
                                   child:
-                                      BlocBuilder<TimeSlotCubit, TimeSlotState>(
+                                      BlocBuilder<UtilityCubit, UtilityState>(
                                     bloc: _slots,
                                     builder: (context, state) {
-                                      return _slots.selectedTime.isNotEmpty
-                                          ? AppButton.primary(
-                                              text:
-                                                  'Pay now ${_cart.getTotalAmount('')}',
+                                      return ((_slots.selectedTime ?? '')
+                                                  .isNotEmpty ||
+                                              _slots.instantDelivery)
+                                          ? PayNowWidget(
+                                              totalAmount:
+                                                  _cart.getTotalAmount(''),
+                                              address: _user
+                                                  .currentUser?.defaultAddress,
+                                              isEmpty:
+                                                  (_user.currentUser?.address ??
+                                                          [])
+                                                      .isEmpty,
+                                              slotAvailableToday: true,
                                               onPressed: () {
                                                 final user = locator
                                                     .get<UserCubit>()

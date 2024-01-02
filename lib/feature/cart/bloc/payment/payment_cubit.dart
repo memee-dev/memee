@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memee/blocs/time_slot_cubit.dart';
+import 'package:memee/blocs/utility/utility_cubit.dart';
 import 'package:memee/blocs/user/user_cubit.dart';
 import 'package:memee/core/extensions/string_extension.dart';
 import 'package:memee/core/utils/app_di.dart';
@@ -26,7 +26,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   final _cart = locator.get<CartCubit>();
   final _user = locator.get<UserCubit>();
   final _order = locator.get<OrderCubit>();
-  final _slot = locator.get<TimeSlotCubit>();
+  final _slot = locator.get<UtilityCubit>();
 
   init() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
