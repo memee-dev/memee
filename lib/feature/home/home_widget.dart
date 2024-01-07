@@ -55,9 +55,7 @@ class HomeWidget extends StatelessWidget {
                                 'categoryId': e.id,
                               });
                             },
-                          ).gapRight(
-                            8.w,
-                          ),
+                          ).gapRight(26.h),
                         )
                         .toList(),
                   ),

@@ -50,26 +50,22 @@ class CartItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${cart.name}'.toCapitalize(),
-                              style: Theme.of(context).textTheme.textMDMedium,
-                            ),
-                            Text(
-                              ',\t${e.productDetails.qty} ${e.productDetails.type.name}',
-                              style: Theme.of(context).textTheme.textMDMedium,
-                            ),
-                          ],
-                        ).paddingS(h: 16.w, v: 4.h),
+                        Text(
+                          '${cart.name}'.toCapitalize(),
+                          style: Theme.of(context).textTheme.textMDMedium,
+                        ),
+                        Text(
+                          '${e.productDetails.qty} ${e.productDetails.type.name}',
+                          style: Theme.of(context).textTheme.textMDMedium,
+                        ),
                         ActualDiscountPrice(
                           units: e.units,
                           discountedPrice: e.productDetails.discountedPrice,
                           price: e.productDetails.price,
-                        ).paddingH(),
+                        ),
                         SizedBox(height: 8.h),
                       ],
-                    ),
+                    ).paddingS(),
                   ),
                   BlocBuilder<CartCubit, CartState>(
                     bloc: _cartCubit,

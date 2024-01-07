@@ -66,12 +66,6 @@ class ProductItemFooter extends StatelessWidget {
             ),
           ],
         ),
-        Text(
-          description,
-          style: Theme.of(context).textTheme.textMDMedium.copyWith(
-                color: AppColors.textLightColor,
-              ),
-        ).paddingV(2.h),
       ],
     ).paddingS(
       v: 4.h,

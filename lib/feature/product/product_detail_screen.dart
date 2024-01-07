@@ -72,7 +72,7 @@ class ProductDetailScreen extends StatelessWidget {
                 ],
               ),
               child: CacheImageWidget(
-                imageUrl: (product.images ?? []).isNotEmpty
+                imageUrl: (product.images ??[] ).isNotEmpty
                     ? (product.images ?? []).first
                     : '',
                 fit: BoxFit.cover,
@@ -80,12 +80,14 @@ class ProductDetailScreen extends StatelessWidget {
             ).gapBottom(16.h),
             Text(
               product.description,
-              style: Theme.of(context).textTheme.textMDMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .textSMMedium
+                  .copyWith(color: AppColors.textHintColor),
             ).gapBottom(8.h),
             SizedBox(height: 8.h),
             Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: ListView(
                 children: product.productDetails
                     .map(
                       (e) => Row(

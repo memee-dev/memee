@@ -74,9 +74,9 @@ class ProductDetailsModel {
 
   factory ProductDetailsModel.fromMap(Map<String, dynamic> map) {
     return ProductDetailsModel(
-      price: map['price'],
-      discountedPrice: map['discountedPrice'],
-      qty: map['qty'],
+      price: map['price'].toDouble(),
+      discountedPrice: map['discountedPrice'].toDouble(),
+      qty: map['qty'].toDouble(),
       type: _parseProductType(map['type']),
     );
   }

@@ -23,6 +23,7 @@ class ProductCubit extends Cubit<ProductState> {
   List<ProductModel> products = [];
   List<ProductModel> filteredProducts = [];
   String error = '';
+  ProductModel? product;
 
   Future<void> fetchProducts() async {
     products = [];

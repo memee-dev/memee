@@ -42,8 +42,8 @@ class HomeProductItem extends StatelessWidget {
         child: Column(
           children: [
             CacheImageWidget(
-              imageUrl: (product.images ?? []).isNotEmpty
-                  ? (product.images ?? []).first
+              imageUrl: (product.images ).isNotEmpty
+                  ? (product.images ).first
                   : '',
               fit: BoxFit.cover,
             ),
@@ -51,11 +51,11 @@ class HomeProductItem extends StatelessWidget {
               name: product.name,
               description: product.description,
               type:
-                  'Per ${product.productDetails.first.type.name.toUpperCase()}',
-              normalPrice:
-                  product.productDetails.first.price.toStringAsFixed(2),
-              discountPrice: product.productDetails.first.discountedPrice
+                  'For ${product.productDetails.first.qty} ${product.productDetails.first.type.name.toUpperCase()}',
+              normalPrice: product.productDetails.first.discountedPrice
                   .toStringAsFixed(2),
+              discountPrice:
+                  product.productDetails.first.price.toStringAsFixed(2),
             ),
           ],
         ).paddingH(4),
