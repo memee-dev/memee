@@ -12,7 +12,8 @@ class PayNowWidget extends StatelessWidget {
   final AddressModel? address;
   final bool isEmpty;
   final bool slotAvailableToday;
-  final Function() onPressed;
+  final Function() onOnlinePayment;
+  final Function()? onCashPayment;
   final String totalAmount;
 
   const PayNowWidget({
@@ -20,7 +21,8 @@ class PayNowWidget extends StatelessWidget {
     this.address,
     required this.isEmpty,
     required this.slotAvailableToday,
-    required this.onPressed,
+    required this.onOnlinePayment,
+     this.onCashPayment,
     required this.totalAmount,
   });
 
@@ -51,32 +53,35 @@ class PayNowWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      12.r,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 16.r,
-                        blurStyle: BlurStyle.outer,
+                child: InkWell(
+                  onTap: onCashPayment,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        12.r,
                       ),
-                    ],
-                    color: AppColors.bgColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 16.r,
+                          blurStyle: BlurStyle.outer,
+                        ),
+                      ],
+                      color: AppColors.bgColor,
+                    ),
+                    child: Text(
+                      'CASH',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.textMDSemibold,
+                    ).paddingS(),
                   ),
-                  child: Text(
-                    'CASH',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.textMDSemibold,
-                  ).paddingS(),
                 ),
               ),
               SizedBox(width: 8.w),
               Expanded(
                 child: AppButton.primary(
                   text: 'Pay ${AppStrings.rupee}$totalAmount',
-                  onPressed: onPressed,
+                  onPressed: onOnlinePayment,
                 ),
               )
             ],

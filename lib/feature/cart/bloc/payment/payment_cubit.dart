@@ -57,6 +57,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         'userId': _user.currentUser?.id,
         'address': _user.currentUser?.defaultAddress?.addressString(),
         'timeSlot': _slot.selectedTime,
+        'paymentType': 'razerPay',
       };
       await _order.updateOrderList(map);
 
@@ -90,6 +91,33 @@ class PaymentCubit extends Cubit<PaymentState> {
         await deleteCartItemOnSuccess();
         emit(PaymentFailure(response: response));
       }
+    } catch (e) {
+      console.e(e);
+    }
+  }
+
+  Future<void> cashOnDelivery() async {
+    emit(PaymentInitial());
+    final List<CartModel> cartItems = await getLocalCartItems();
+    try {
+      Map<String, dynamic> map = {
+        'orders': cartItems.map((e) => e.toJson()).toList(),
+        'orderedTime': DateTime.now().format(),
+        'updatedTime': DateTime.now().format(),
+        'paymentStatus': 'Success',
+        'totalAmount': _cart.getTotalAmount(''),
+        'orderStatus': AppStrings.orderPending,
+        'paymentId': '',
+        'userId': _user.currentUser?.id,
+        'address': _user.currentUser?.defaultAddress?.addressString(),
+        'timeSlot': _slot.selectedTime,
+        'paymentType': 'Cash On Delivery',
+      };
+      await _order.updateOrderList(map);
+
+      console.i(map);
+      await deleteCartItemOnSuccess();
+      emit(PaymentSuccess(paymentId: ''));
     } catch (e) {
       console.e(e);
     }

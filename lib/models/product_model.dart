@@ -1,13 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:memee/models/category_model.dart';
-
 class ProductModel {
   final String id;
   final String name;
-  final CategoryModel category;
+  final String category;
   final String description;
   bool active;
-  final List<String>? images;
+  final List<String> images;
   final List<ProductDetailsModel> productDetails;
   bool favourite;
 
@@ -16,7 +13,7 @@ class ProductModel {
       required this.name,
       required this.category,
       required this.description,
-      this.images,
+      required this.images,
       required this.productDetails,
       this.active = true,
       this.favourite = false});
@@ -25,7 +22,7 @@ class ProductModel {
     return ProductModel(
       id: map['id'],
       name: map['name'],
-      category: CategoryModel.fromMap(map['category']),
+      category: map['category'],
       description: map['description'],
       images: map['images'] != null ? List<String>.from(map['images']) : [],
       productDetails: List<ProductDetailsModel>.from(
@@ -39,12 +36,12 @@ class ProductModel {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['category'] = category.toJson(addId: true);
+    map['category'] = category;
     map['description'] = description;
     map['active'] = active;
     map['favourite'] = favourite;
-    if ((images ?? []).isNotEmpty) {
-      map['images'] = List<String>.from(images!.map((x) => x));
+    if (images.isNotEmpty) {
+      map['images'] = List<String>.from(images.map((x) => x));
     }
     if (productDetails.isNotEmpty) {
       map['productDetails'] = List<Map<String, dynamic>>.from(
@@ -62,10 +59,10 @@ enum ProductType {
   piece,
 }
 
-class ProductDetailsModel extends Equatable {
-  final int price;
-  final int discountedPrice;
-  final int qty;
+class ProductDetailsModel {
+  final double price;
+  final double discountedPrice;
+  final double qty;
   final ProductType type;
 
   const ProductDetailsModel({
@@ -104,5 +101,12 @@ class ProductDetailsModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [price, discountedPrice, qty, type];
+  String toString({bool allowCurly = false}) {
+    String val =
+        'Price:$price, D-Price:$discountedPrice, qty:$qty, type:${type.name}';
+    if (allowCurly) {
+      return '{$val}';
+    }
+    return val;
+  }
 }

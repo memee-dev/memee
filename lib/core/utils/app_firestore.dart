@@ -1,6 +1,6 @@
 mixin AppFireStoreCollection {
   static const String prayerTime = 'prayerTime';
-  static const String products = 'products';
+  static const String products = 'products-dev';
   static const String users = 'users';
   static const String userDev = 'userDev';
   static const String cart = 'cart';

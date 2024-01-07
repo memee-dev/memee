@@ -17,6 +17,7 @@ class OrderModel {
     required this.orders,
     required this.orderStatus,
     required this.paymentStatus,
+    required this.paymentType,
     this.id,
     this.userId,
     this.timeSlot,
@@ -30,6 +31,7 @@ class OrderModel {
   List<CartModel> orders;
   String orderStatus;
   String paymentStatus;
+  String paymentType;
   String? id;
   String? userId;
   String? timeSlot;
@@ -44,6 +46,7 @@ class OrderModel {
             json['orders'].map((x) => CartModel.fromMap(x))),
         orderStatus: json['orderStatus'],
         paymentStatus: json['paymentStatus'],
+        paymentType: json['paymentType'],
         id: json['id'],
         userId: json['userId'],
         timeSlot: json['timeSlot'],
@@ -58,6 +61,7 @@ class OrderModel {
         'orders': List<dynamic>.from(orders.map((x) => x.toJson())),
         'orderStatus': orderStatus,
         'paymentStatus': paymentStatus,
+        'paymentType': paymentType,
         'id': id,
         'userId': userId,
         'timeSlot': timeSlot,

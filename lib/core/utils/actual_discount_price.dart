@@ -5,8 +5,8 @@ import 'package:memee/core/utils/app_strings.dart';
 
 class ActualDiscountPrice extends StatelessWidget {
   final int units;
-  final int? discountedPrice;
-  final int price;
+  final double? discountedPrice;
+  final double price;
 
   const ActualDiscountPrice({
     super.key,

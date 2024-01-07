@@ -169,6 +169,12 @@ class OrderDetailsScreen extends StatelessWidget {
                 ).gapBottom(12.h),
                 _rowText(
                   context,
+                  'Payment Type:\t\t',
+                  order.paymentType.toCapitalize(),
+                  color: getPaymentStatus(order.paymentType),
+                ).gapBottom(12.h),
+                _rowText(
+                  context,
                   'Delivery Address:\t\t',
                   order.address,
                 ),

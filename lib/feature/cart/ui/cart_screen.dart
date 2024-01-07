@@ -109,6 +109,8 @@ class CartWidget extends StatelessWidget {
                                           ? PayNowWidget(
                                               totalAmount:
                                                   _cart.getTotalAmount(''),
+                                              onCashPayment: () =>
+                                                  _payment.cashOnDelivery(),
                                               address: _user
                                                   .currentUser?.defaultAddress,
                                               isEmpty:
@@ -116,7 +118,7 @@ class CartWidget extends StatelessWidget {
                                                           [])
                                                       .isEmpty,
                                               slotAvailableToday: true,
-                                              onPressed: () {
+                                              onOnlinePayment: () {
                                                 final user = locator
                                                     .get<UserCubit>()
                                                     .currentUser;

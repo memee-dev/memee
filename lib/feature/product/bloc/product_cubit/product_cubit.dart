@@ -122,7 +122,7 @@ class ProductCubit extends Cubit<ProductState> {
     List<ProductModel> _catProducts = [];
     if (products.isNotEmpty) {
       for (var item in products) {
-        if (item.category.id == categoryId) {
+        if (item.category == categoryId) {
           _catProducts.add(item);
         }
       }
