@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:memee/core/extensions/theme_extension.dart';
 import 'package:memee/core/extensions/widget_extensions.dart';
 import 'package:memee/core/utils/app_colors.dart';
 import 'package:memee/core/widgets/cache_image_widget.dart';
@@ -42,21 +43,25 @@ class HomeProductItem extends StatelessWidget {
         child: Column(
           children: [
             CacheImageWidget(
-              imageUrl: (product.images ).isNotEmpty
-                  ? (product.images ).first
-                  : '',
+              imageUrl:
+                  (product.images).isNotEmpty ? (product.images).first : '',
               fit: BoxFit.cover,
             ),
-            ProductItemFooter(
-              name: product.name,
-              description: product.description,
-              type:
-                  'For ${product.productDetails.first.qty} ${product.productDetails.first.type.name.toUpperCase()}',
-              normalPrice: product.productDetails.first.discountedPrice
-                  .toStringAsFixed(2),
-              discountPrice:
-                  product.productDetails.first.price.toStringAsFixed(2),
-            ),
+            product.active
+                ? ProductItemFooter(
+                    name: product.name,
+                    description: product.description,
+                    type:
+                        'For ${product.productDetails.first.qty} ${product.productDetails.first.type.name.toUpperCase()}',
+                    normalPrice: product.productDetails.first.discountedPrice
+                        .toStringAsFixed(2),
+                    discountPrice:
+                        product.productDetails.first.price.toStringAsFixed(2),
+                  )
+                : Text(
+                    "OUT OF STOCK",
+                    style: Theme.of(context).textTheme.textMDSemibold,
+                  ).paddingV(),
           ],
         ).paddingH(4),
       ),
